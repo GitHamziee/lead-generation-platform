@@ -7,7 +7,8 @@ import { useSidebar } from "@/components/portal/SidebarContext";
 
 const PAGE_TITLES: Record<string, string> = {
   "/admin": "Admin Dashboard",
-  "/admin/users": "User Management",
+  "/admin/users": "Client Management",
+  "/admin/agents": "QA Management",
   "/admin/leads": "Lead Management",
   "/admin/packages": "Package Management",
   "/admin/subscriptions": "Subscriptions",
@@ -22,7 +23,7 @@ export default function AdminTopBar() {
   // Match exact or prefix for dynamic routes like /admin/users/[id]
   const pageTitle =
     PAGE_TITLES[pathname] ||
-    (pathname.startsWith("/admin/users/") ? "User Details" : "Admin");
+    (pathname.startsWith("/admin/users/") ? "Client Details" : "Admin");
 
   const userName = session?.user?.name || "Admin";
   const initials = userName
@@ -52,7 +53,16 @@ export default function AdminTopBar() {
       {/* User info */}
       <div className="flex items-center gap-3">
         <span className="text-sm font-medium text-slate-700 hidden sm:block">{userName}</span>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-white text-sm font-semibold">
+        {/* Mobile: avatar opens sidebar */}
+        <button
+          onClick={toggle}
+          className="md:hidden flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-white text-sm font-semibold"
+          aria-label="Toggle sidebar"
+        >
+          {initials}
+        </button>
+        {/* Desktop: avatar is static */}
+        <div className="hidden md:flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-white text-sm font-semibold">
           {initials}
         </div>
       </div>

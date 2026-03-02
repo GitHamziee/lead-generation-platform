@@ -3,11 +3,12 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { PhoneCall, Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3 } from "lucide-react";
+import { PhoneCall, Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3, Headset } from "lucide-react";
 import { useSidebar } from "@/components/portal/SidebarContext";
 
 const NAV_ITEMS = [
-  { label: "Users", href: "/admin/users", icon: Users },
+  { label: "Clients", href: "/admin/users", icon: Users },
+  { label: "QA", href: "/admin/agents", icon: Headset },
   { label: "Leads", href: "/admin/leads", icon: FileText },
   { label: "Packages", href: "/admin/packages", icon: Package },
   { label: "Subscriptions", href: "/admin/subscriptions", icon: CreditCard },
@@ -52,13 +53,13 @@ export default function AdminSidebar() {
               key={item.href}
               href={item.href}
               onClick={close}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-colors ${
+              className={`flex items-center gap-2.5 sm:gap-3 rounded-lg px-2.5 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-medium transition-colors ${
                 isActive
                   ? "bg-slate-700/60 text-white"
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
               }`}
             >
-              <Icon className="h-5 w-5" />
+              <Icon className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
               {item.label}
             </Link>
           );
@@ -69,16 +70,16 @@ export default function AdminSidebar() {
       <div className="px-3 py-4 border-t border-slate-700/50 space-y-1">
         <Link
           href="/dashboard?portal"
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
+          className="flex w-full items-center gap-2.5 sm:gap-3 rounded-lg px-2.5 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-slate-300 hover:bg-slate-800 hover:text-white transition-colors"
         >
-          <ArrowLeft className="h-5 w-5" />
+          <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
           Back to Portal
         </Link>
         <button
           onClick={() => signOut({ callbackUrl: "/" })}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-300 hover:bg-red-500/20 hover:text-red-400 transition-colors"
+          className="flex w-full items-center gap-2.5 sm:gap-3 rounded-lg px-2.5 sm:px-3 py-2 sm:py-2.5 text-xs sm:text-sm font-medium text-slate-300 hover:bg-red-500/20 hover:text-red-400 transition-colors"
         >
-          <LogOut className="h-5 w-5" />
+          <LogOut className="h-4 w-4 sm:h-5 sm:w-5 shrink-0" />
           Log Out
         </button>
       </div>

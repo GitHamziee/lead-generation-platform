@@ -138,7 +138,7 @@ export default function AdminUserDetailPage({
                 <Headset className="h-3.5 w-3.5 text-blue-500" />
               ) : null}
               <span className="text-xs sm:text-sm font-semibold text-slate-900">
-                {user.role === "ADMIN" ? "Admin" : user.role === "AGENT" ? "Agent" : "User"}
+                {user.role === "ADMIN" ? "Admin" : user.role === "AGENT" ? "QA" : "Client"}
               </span>
             </div>
           </div>
@@ -187,8 +187,8 @@ export default function AdminUserDetailPage({
             <span className="text-xs text-slate-400 mr-1">Role:</span>
             <div className="flex items-center gap-1 rounded-lg border border-slate-200 bg-slate-50 p-1">
               {[
-                { label: "User", value: "USER" },
-                { label: "Agent", value: "AGENT" },
+                { label: "Client", value: "USER" },
+                { label: "QA", value: "AGENT" },
                 { label: "Admin", value: "ADMIN" },
               ].map((opt) => (
                 <button
@@ -335,8 +335,8 @@ export default function AdminUserDetailPage({
                 {pendingRole === "ADMIN"
                   ? "Admin"
                   : pendingRole === "AGENT"
-                  ? "Agent"
-                  : "User"}
+                  ? "QA"
+                  : "Client"}
               </span>
               ? This will take effect immediately.
             </AlertDialogDescription>

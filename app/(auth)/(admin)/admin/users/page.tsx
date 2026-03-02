@@ -41,7 +41,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <p className="text-xl sm:text-2xl font-semibold text-slate-900">{totalUsers}</p>
-            <p className="text-[10px] sm:text-xs text-slate-500">Total Users</p>
+            <p className="text-[10px] sm:text-xs text-slate-500">Total Clients</p>
           </div>
         </div>
         <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:p-4">
@@ -59,7 +59,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <p className="text-xl sm:text-2xl font-semibold text-slate-900">{agents}</p>
-            <p className="text-[10px] sm:text-xs text-slate-500">Agents</p>
+            <p className="text-[10px] sm:text-xs text-slate-500">QA</p>
           </div>
         </div>
         <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:p-4">
@@ -88,8 +88,8 @@ export default function AdminUsersPage() {
         <div className="flex items-center gap-1 rounded-xl border border-slate-200 bg-white p-1 self-start">
           {[
             { label: "All", value: "" },
-            { label: "Users", value: "USER" },
-            { label: "Agents", value: "AGENT" },
+            { label: "Clients", value: "USER" },
+            { label: "QA", value: "AGENT" },
             { label: "Admins", value: "ADMIN" },
           ].map((opt) => (
             <button
@@ -165,7 +165,7 @@ export default function AdminUsersPage() {
                     {user.role === "AGENT" && (
                       <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 shrink-0">
                         <Headset className="h-2.5 w-2.5" />
-                        Agent
+                        QA
                       </span>
                     )}
                   </div>

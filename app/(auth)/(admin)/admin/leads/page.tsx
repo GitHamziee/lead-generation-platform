@@ -180,7 +180,7 @@ export default function AdminLeadsPage() {
                 ? (agents.find((a) => a.id === agentFilter)?.name ||
                    agents.find((a) => a.id === agentFilter)?.email ||
                    "Agent")
-                : "All Agents"}
+                : "All QA"}
               <ChevronDown className={`h-3 w-3 transition-transform ${agentOpen ? "rotate-180" : ""}`} />
             </button>
             {agentOpen && (
@@ -191,7 +191,7 @@ export default function AdminLeadsPage() {
                     !agentFilter ? "bg-slate-50 text-slate-900" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
                   }`}
                 >
-                  All Agents
+                  All QA
                   {!agentFilter && <span className="float-right text-brand-600">&#10003;</span>}
                 </button>
                 {agents.map((agent) => (
@@ -300,7 +300,7 @@ export default function AdminLeadsPage() {
                     Phone
                   </th>
                   <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-2.5 sm:px-5 sm:py-3 hidden lg:table-cell">
-                    Agent
+                    QA
                   </th>
                   <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-2.5 sm:px-5 sm:py-3">
                     Status
@@ -602,7 +602,7 @@ export default function AdminLeadsPage() {
               <div className="flex items-start gap-3">
                 <Headset className="h-4 w-4 text-slate-400 mt-0.5" />
                 <div>
-                  <p className="text-xs text-slate-500">Agent</p>
+                  <p className="text-xs text-slate-500">QA</p>
                   <p className="text-sm font-medium text-slate-900">
                     {selectedLead.agent.name || selectedLead.agent.email}
                   </p>
