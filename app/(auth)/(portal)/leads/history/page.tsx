@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import {
   Search,
@@ -9,8 +10,16 @@ import {
   CalendarDays,
   Clock,
   Pencil,
+  X,
+  User,
+  Phone,
+  Mail,
+  MapPin,
+  Home,
+  CheckCircle,
+  Calendar,
 } from "lucide-react";
-import { useLeadHistory } from "@/hooks/useLeadHistory";
+import { useLeadHistory, type HistoryLead } from "@/hooks/useLeadHistory";
 import { timeAgo, LEAD_STATUS_BADGES } from "@/lib/format-utils";
 
 export default function LeadHistoryPage() {
@@ -25,6 +34,8 @@ export default function LeadHistoryPage() {
     setPage,
     setSearch,
   } = useLeadHistory();
+
+  const [selectedLead, setSelectedLead] = useState<HistoryLead | null>(null);
 
   return (
     <div className="mx-auto max-w-5xl">
@@ -152,7 +163,8 @@ export default function LeadHistoryPage() {
                 {leads.map((lead) => (
                   <tr
                     key={lead.id}
-                    className="hover:bg-slate-50/70 transition-colors"
+                    onClick={() => setSelectedLead(lead)}
+                    className="hover:bg-slate-50/70 transition-colors cursor-pointer"
                   >
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-2">
@@ -182,6 +194,7 @@ export default function LeadHistoryPage() {
                         {lead.status === "NEW" && (
                           <Link
                             href={`/leads/submit?edit=${lead.id}`}
+                            onClick={(e) => e.stopPropagation()}
                             className="inline-flex items-center gap-1 px-2 py-1 rounded-md text-[10px] font-medium text-brand-600 hover:bg-brand-50 transition-colors"
                           >
                             <Pencil className="h-3 w-3" />
@@ -203,6 +216,7 @@ export default function LeadHistoryPage() {
                           {lead.status === "NEW" && (
                             <Link
                               href={`/leads/submit?edit=${lead.id}`}
+                              onClick={(e) => e.stopPropagation()}
                               className="inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded text-[9px] font-medium text-brand-600 bg-brand-50"
                             >
                               <Pencil className="h-2.5 w-2.5" />
@@ -244,6 +258,166 @@ export default function LeadHistoryPage() {
           </div>
         )}
       </div>
+
+      {/* Lead Detail Modal */}
+      {selectedLead && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4"
+          onClick={() => setSelectedLead(null)}
+        >
+          <div
+            className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+              <h3 className="text-lg font-bold text-slate-900">Lead Details</h3>
+              <button
+                onClick={() => setSelectedLead(null)}
+                className="p-1 rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="px-6 py-5 space-y-4 max-h-[65vh] overflow-y-auto">
+              <div className="flex items-start gap-3">
+                <User className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Name</p>
+                  <div className="flex items-center gap-2">
+                    <p className="text-sm font-medium text-slate-900">{selectedLead.name}</p>
+                    <span className={`inline-flex px-1.5 py-0.5 rounded text-[10px] font-bold uppercase ${selectedLead.leadType === "Buyer" ? "bg-blue-50 text-blue-700" : "bg-purple-50 text-purple-700"}`}>
+                      {selectedLead.leadType}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Phone className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Phone</p>
+                  <p className="text-sm font-medium text-slate-900">{selectedLead.phone}</p>
+                </div>
+              </div>
+
+              {selectedLead.email && (
+                <div className="flex items-start gap-3">
+                  <Mail className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-xs text-slate-500">Email</p>
+                    <p className="text-sm font-medium text-slate-900">{selectedLead.email}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-start gap-3">
+                <MapPin className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Address</p>
+                  <p className="text-sm font-medium text-slate-900">{selectedLead.address}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Home className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Property Type</p>
+                  <p className="text-sm font-medium text-slate-900">{selectedLead.propertyType}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Home className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Beds & Baths / Acreage</p>
+                  <p className="text-sm font-medium text-slate-900">{selectedLead.bedsBaths}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Timeline</p>
+                  <p className="text-sm font-medium text-slate-900">{selectedLead.timeline}</p>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <CheckCircle className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Contract Active</p>
+                  <span className={`inline-flex px-2 py-0.5 rounded-full text-xs font-semibold ${selectedLead.contractStatus === "Yes" ? "bg-emerald-50 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
+                    {selectedLead.contractStatus}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Calendar className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Appointment</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {new Date(selectedLead.appointmentTime).toLocaleDateString()}{" "}
+                    {new Date(selectedLead.appointmentTime).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
+                  </p>
+                </div>
+              </div>
+
+              {selectedLead.notes && (
+                <div className="flex items-start gap-3">
+                  <FileText className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                  <div>
+                    <p className="text-xs text-slate-500">Notes</p>
+                    <p className="text-sm font-medium text-slate-900">{selectedLead.notes}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-start gap-3">
+                <FileText className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Status</p>
+                  <span className={`inline-flex px-2.5 py-1 rounded-full text-xs font-semibold ${LEAD_STATUS_BADGES[selectedLead.status] || "bg-slate-100 text-slate-500"}`}>
+                    {selectedLead.status}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <Clock className="h-4 w-4 text-slate-400 mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-xs text-slate-500">Submitted</p>
+                  <p className="text-sm font-medium text-slate-900">
+                    {new Date(selectedLead.createdAt).toLocaleDateString()} ({timeAgo(selectedLead.createdAt)})
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="px-6 py-4 border-t border-slate-100 flex justify-end gap-2">
+              {selectedLead.status === "NEW" && (
+                <Link
+                  href={`/leads/submit?edit=${selectedLead.id}`}
+                  className="px-4 py-2 rounded-lg text-xs font-semibold bg-brand-50 text-brand-700 hover:bg-brand-100 transition-colors inline-flex items-center gap-1.5"
+                >
+                  <Pencil className="h-3.5 w-3.5" />
+                  Edit Lead
+                </Link>
+              )}
+              <button
+                onClick={() => setSelectedLead(null)}
+                className="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
