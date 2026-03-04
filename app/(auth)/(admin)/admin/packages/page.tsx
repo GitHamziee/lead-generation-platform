@@ -10,12 +10,14 @@ export default function AdminPackagesPage() {
     editingId,
     editPrice,
     saving,
+    savingTypeId,
     inputRef,
     setEditPrice,
     startEdit,
     cancelEdit,
     savePrice,
     handleKeyDown,
+    toggleType,
   } = useAdminPackages();
 
   return (
@@ -57,6 +59,9 @@ export default function AdminPackagesPage() {
                   </th>
                   <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
                     Price
+                  </th>
+                  <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
+                    Type
                   </th>
                   <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider px-6 py-3">
                     Status
@@ -118,6 +123,23 @@ export default function AdminPackagesPage() {
                       )}
                     </td>
                     <td className="px-6 py-4">
+                      <button
+                        onClick={() => toggleType(pkg)}
+                        disabled={savingTypeId === pkg.id}
+                        className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold transition-colors ${
+                          pkg.type === "PAY_PER_LEAD"
+                            ? "bg-amber-100 text-amber-700 hover:bg-amber-200"
+                            : "bg-blue-100 text-blue-700 hover:bg-blue-200"
+                        } disabled:opacity-50`}
+                        title="Click to toggle type"
+                      >
+                        {savingTypeId === pkg.id ? (
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                        ) : null}
+                        {pkg.type === "PAY_PER_LEAD" ? "Pay Per Lead" : "Subscription"}
+                      </button>
+                    </td>
+                    <td className="px-6 py-4">
                       <span
                         className={`inline-flex px-2.5 py-0.5 rounded-full text-xs font-semibold ${
                           pkg.isActive
@@ -144,15 +166,29 @@ export default function AdminPackagesPage() {
                     <p className="text-sm font-medium text-slate-900">
                       {pkg.name}
                     </p>
-                    <span
-                      className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold ${
-                        pkg.isActive
-                          ? "bg-emerald-100 text-emerald-700"
-                          : "bg-slate-100 text-slate-500"
-                      }`}
-                    >
-                      {pkg.isActive ? "Active" : "Inactive"}
-                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <button
+                        onClick={() => toggleType(pkg)}
+                        disabled={savingTypeId === pkg.id}
+                        className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold transition-colors ${
+                          pkg.type === "PAY_PER_LEAD"
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-blue-100 text-blue-700"
+                        } disabled:opacity-50`}
+                      >
+                        {savingTypeId === pkg.id && <Loader2 className="h-2.5 w-2.5 animate-spin" />}
+                        {pkg.type === "PAY_PER_LEAD" ? "Pay Per Lead" : "Subscription"}
+                      </button>
+                      <span
+                        className={`inline-flex px-2 py-0.5 rounded-full text-[10px] font-semibold ${
+                          pkg.isActive
+                            ? "bg-emerald-100 text-emerald-700"
+                            : "bg-slate-100 text-slate-500"
+                        }`}
+                      >
+                        {pkg.isActive ? "Active" : "Inactive"}
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center justify-between">
                     {editingId === pkg.id ? (

@@ -27,6 +27,7 @@ export async function GET(
         state: true,
         accountExecutive: true,
         role: true,
+        leadCost: true,
         createdAt: true,
         updatedAt: true,
         purchases: {
@@ -119,6 +120,19 @@ export async function PATCH(
       });
 
       return NextResponse.json({ message: "Password updated successfully" });
+    }
+
+    // --- Lead cost update ---
+    if ("leadCost" in body) {
+      const cents = parseInt(body.leadCost);
+      if (isNaN(cents) || cents < 0) {
+        return NextResponse.json({ error: "Invalid lead cost" }, { status: 400 });
+      }
+      await prisma.user.update({
+        where: { id },
+        data: { leadCost: cents },
+      });
+      return NextResponse.json({ message: "Lead cost updated successfully" });
     }
 
     // --- Role change ---

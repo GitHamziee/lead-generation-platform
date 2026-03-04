@@ -37,6 +37,38 @@ export async function createInvoice(
   return { invoice };
 }
 
+/** Auto-marks a lead as PAID when user is on a package plan (no Stripe needed). */
+export async function markLeadPaidByPackage(leadId: string, packageName: string) {
+  const lead = await prisma.lead.findUnique({
+    where: { id: leadId },
+    include: { invoice: true },
+  });
+
+  if (!lead) return { error: "Lead not found", status: 404 };
+  if (lead.status !== "ACCEPTED")
+    return { error: "Lead must be accepted", status: 400 };
+  if (lead.invoice)
+    return { error: "Invoice already exists for this lead", status: 400 };
+
+  await prisma.$transaction(async (tx) => {
+    await tx.invoice.create({
+      data: {
+        leadId,
+        amount: 0,
+        description: `Paid via Package: ${packageName}`,
+        status: "PAID",
+        paidAt: new Date(),
+      },
+    });
+    await tx.lead.update({
+      where: { id: leadId },
+      data: { status: "PAID" },
+    });
+  });
+
+  return { success: true };
+}
+
 /** Webhook marks invoice as paid after Stripe checkout completes. */
 export async function markInvoicePaid(
   invoiceId: string,

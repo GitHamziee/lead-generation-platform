@@ -61,7 +61,15 @@ export default function TopBar() {
           </p>
           <p className="text-xs text-slate-500 leading-tight">{userEmail}</p>
         </div>
-        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-sm font-semibold">
+        {/* Mobile: avatar opens sidebar */}
+        <button
+          onClick={toggle}
+          className="md:hidden flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-sm font-semibold"
+        >
+          {initials}
+        </button>
+        {/* Desktop: static avatar */}
+        <div className="hidden md:flex h-9 w-9 items-center justify-center rounded-full bg-brand-100 text-brand-700 text-sm font-semibold">
           {initials}
         </div>
       </div>

@@ -25,7 +25,8 @@ export async function GET() {
       totalAdmins,
       totalAgents,
       activeSubscriptions,
-      subscriptionsThisMonth,
+      newSubscriptionsThisMonth,
+      allTimeRevenue,
       recentUsers,
     ] = await Promise.all([
       prisma.user.count(),
@@ -47,15 +48,11 @@ export async function GET() {
           ],
         },
       }),
+      prisma.purchase.count({
+        where: { createdAt: { gte: monthStart } },
+      }),
       prisma.purchase.findMany({
-        where: {
-          status: "ACTIVE",
-          createdAt: { gte: monthStart },
-          OR: [{ expiresAt: { gt: new Date() } }, { expiresAt: null }],
-        },
-        select: {
-          package: { select: { price: true } },
-        },
+        select: { package: { select: { price: true } } },
       }),
       prisma.user.findMany({
         take: 5,
@@ -70,8 +67,7 @@ export async function GET() {
       }),
     ]);
 
-    // Calculate revenue this month (sum of package prices for new subscriptions)
-    const revenueThisMonth = subscriptionsThisMonth.reduce(
+    const totalRevenue = allTimeRevenue.reduce(
       (sum: number, p: { package: { price: number } }) => sum + p.package.price,
       0
     );
@@ -82,8 +78,8 @@ export async function GET() {
       totalAdmins,
       totalAgents,
       activeSubscriptions,
-      newSubscriptionsThisMonth: subscriptionsThisMonth.length,
-      revenueThisMonth,
+      newSubscriptionsThisMonth,
+      revenueThisMonth: totalRevenue,
       recentUsers,
     });
   } catch (error) {

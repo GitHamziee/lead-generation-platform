@@ -15,6 +15,7 @@ export async function GET() {
         id: true,
         name: true,
         price: true,
+        type: true,
         isActive: true,
         sortOrder: true,
         _count: {
@@ -52,14 +53,10 @@ export async function PATCH(req: NextRequest) {
     const rateLimited = applyRateLimit(`admin:${session.user.id}`, 30, 60 * 1000);
     if (rateLimited) return rateLimited;
 
-    const { id, price } = await req.json();
+    const { id, price, type } = await req.json();
 
     if (!id || typeof id !== "string") {
       return NextResponse.json({ error: "Package ID is required" }, { status: 400 });
-    }
-
-    if (typeof price !== "number" || !Number.isInteger(price) || price < 1) {
-      return NextResponse.json({ error: "Price must be a positive integer (cents)" }, { status: 400 });
     }
 
     const existing = await prisma.package.findUnique({ where: { id } });
@@ -67,10 +64,31 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "Package not found" }, { status: 404 });
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const updateData: Record<string, any> = {};
+
+    if (price !== undefined) {
+      if (typeof price !== "number" || !Number.isInteger(price) || price < 1) {
+        return NextResponse.json({ error: "Price must be a positive integer (cents)" }, { status: 400 });
+      }
+      updateData.price = price;
+    }
+
+    if (type !== undefined) {
+      if (type !== "SUBSCRIPTION" && type !== "PAY_PER_LEAD") {
+        return NextResponse.json({ error: "Invalid package type" }, { status: 400 });
+      }
+      updateData.type = type;
+    }
+
+    if (Object.keys(updateData).length === 0) {
+      return NextResponse.json({ error: "Nothing to update" }, { status: 400 });
+    }
+
     const updated = await prisma.package.update({
       where: { id },
-      data: { price },
-      select: { id: true, name: true, price: true },
+      data: updateData,
+      select: { id: true, name: true, price: true, type: true },
     });
 
     return NextResponse.json({ package: updated });

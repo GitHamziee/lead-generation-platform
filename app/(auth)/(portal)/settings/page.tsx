@@ -29,6 +29,8 @@ export default function SettingsPage() {
     stateRef,
   } = useSettings();
 
+  const isAdmin = session?.user?.role === "ADMIN";
+
   const [stateSearch, setStateSearch] = useState("");
   const filteredStates = stateSearch
     ? US_STATES.filter((s) => s.label.toLowerCase().includes(stateSearch.toLowerCase()))
@@ -195,155 +197,159 @@ export default function SettingsPage() {
                     </p>
                   </div>
 
-                  {/* Phone */}
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
-                    >
-                      Phone
-                    </label>
-                    <input
-                      id="phone"
-                      type="tel"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleProfileChange}
-                      className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
-                      placeholder="+1 (555) 000-0000"
-                    />
-                  </div>
-
-                  {/* License No + Brokerage */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                      <label
-                        htmlFor="licenseNo"
-                        className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
-                      >
-                        License No <span className="text-slate-400 text-xs font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        id="licenseNo"
-                        type="text"
-                        name="licenseNo"
-                        value={formData.licenseNo}
-                        onChange={handleProfileChange}
-                        className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
-                        placeholder="e.g. SL12345678"
-                      />
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="brokerage"
-                        className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
-                      >
-                        Brokerage <span className="text-slate-400 text-xs font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        id="brokerage"
-                        type="text"
-                        name="brokerage"
-                        value={formData.brokerage}
-                        onChange={handleProfileChange}
-                        className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
-                        placeholder="e.g. Keller Williams"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Target Areas */}
-                  <div>
-                    <label
-                      htmlFor="targetAreas"
-                      className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
-                    >
-                      Target Areas
-                    </label>
-                    <textarea
-                      id="targetAreas"
-                      name="targetAreas"
-                      value={formData.targetAreas}
-                      onChange={handleProfileChange}
-                      rows={2}
-                      className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all resize-none"
-                      placeholder="Miami, Fort Lauderdale, Palm Beach"
-                    />
-                  </div>
-
-                  {/* State + Account Executive */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
-                    <div>
-                      <label className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2">
-                        State
-                      </label>
-                      <div className="relative" ref={stateRef}>
-                        <button
-                          type="button"
-                          onClick={() => { setStateOpen((o) => !o); setStateSearch(""); }}
-                          className={`flex items-center justify-between w-full px-3 py-2.5 md:px-4 md:py-3 rounded-lg border border-slate-300 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
-                            formData.state ? "text-slate-900" : "text-slate-400"
-                          }`}
+                  {!isAdmin && (
+                    <>
+                      {/* Phone */}
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
                         >
-                          {selectedStateLabel || "Select state..."}
-                          <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${stateOpen ? "rotate-180" : ""}`} />
-                        </button>
-                        {stateOpen && (
-                          <div className="absolute top-full left-0 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg z-30 overflow-hidden">
-                            <div className="p-2 border-b border-slate-100">
-                              <div className="relative">
-                                <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
-                                <input
-                                  type="text"
-                                  value={stateSearch}
-                                  onChange={(e) => setStateSearch(e.target.value)}
-                                  placeholder="Search states..."
-                                  className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
-                                  autoFocus
-                                />
-                              </div>
-                            </div>
-                            <div className="max-h-48 overflow-y-auto py-1">
-                              {filteredStates.length === 0 ? (
-                                <p className="px-3 py-2 text-xs text-slate-400">No states found</p>
-                              ) : (
-                                filteredStates.map((opt) => (
-                                  <button
-                                    type="button"
-                                    key={opt.value}
-                                    onClick={() => { setFormField("state", opt.value); setStateOpen(false); }}
-                                    className={`w-full text-left px-3 py-2 text-sm font-medium transition-colors ${
-                                      formData.state === opt.value ? "bg-slate-50 text-slate-900" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
-                                    }`}
-                                  >
-                                    {opt.label}
-                                    {formData.state === opt.value && <span className="float-right text-brand-600">&#10003;</span>}
-                                  </button>
-                                ))
-                              )}
-                            </div>
-                          </div>
-                        )}
+                          Phone
+                        </label>
+                        <input
+                          id="phone"
+                          type="tel"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleProfileChange}
+                          className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
+                          placeholder="+1 (555) 000-0000"
+                        />
                       </div>
-                    </div>
-                    <div>
-                      <label
-                        htmlFor="accountExecutive"
-                        className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
-                      >
-                        Account Executive <span className="text-slate-400 text-xs font-normal">(Optional)</span>
-                      </label>
-                      <input
-                        id="accountExecutive"
-                        type="text"
-                        name="accountExecutive"
-                        value={formData.accountExecutive}
-                        onChange={handleProfileChange}
-                        className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
-                        placeholder="Name of your AE"
-                      />
-                    </div>
-                  </div>
+
+                      {/* License No + Brokerage */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                        <div>
+                          <label
+                            htmlFor="licenseNo"
+                            className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
+                          >
+                            License No <span className="text-slate-400 text-xs font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            id="licenseNo"
+                            type="text"
+                            name="licenseNo"
+                            value={formData.licenseNo}
+                            onChange={handleProfileChange}
+                            className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
+                            placeholder="e.g. SL12345678"
+                          />
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="brokerage"
+                            className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
+                          >
+                            Brokerage <span className="text-slate-400 text-xs font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            id="brokerage"
+                            type="text"
+                            name="brokerage"
+                            value={formData.brokerage}
+                            onChange={handleProfileChange}
+                            className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
+                            placeholder="e.g. Keller Williams"
+                          />
+                        </div>
+                      </div>
+
+                      {/* Target Areas */}
+                      <div>
+                        <label
+                          htmlFor="targetAreas"
+                          className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
+                        >
+                          Target Areas
+                        </label>
+                        <textarea
+                          id="targetAreas"
+                          name="targetAreas"
+                          value={formData.targetAreas}
+                          onChange={handleProfileChange}
+                          rows={2}
+                          className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all resize-none"
+                          placeholder="Miami, Fort Lauderdale, Palm Beach"
+                        />
+                      </div>
+
+                      {/* State + Account Executive */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-6">
+                        <div>
+                          <label className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2">
+                            State
+                          </label>
+                          <div className="relative" ref={stateRef}>
+                            <button
+                              type="button"
+                              onClick={() => { setStateOpen((o) => !o); setStateSearch(""); }}
+                              className={`flex items-center justify-between w-full px-3 py-2.5 md:px-4 md:py-3 rounded-lg border border-slate-300 text-sm transition-all focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent ${
+                                formData.state ? "text-slate-900" : "text-slate-400"
+                              }`}
+                            >
+                              {selectedStateLabel || "Select state..."}
+                              <ChevronDown className={`h-4 w-4 text-slate-400 transition-transform ${stateOpen ? "rotate-180" : ""}`} />
+                            </button>
+                            {stateOpen && (
+                              <div className="absolute top-full left-0 mt-1 w-full rounded-xl border border-slate-200 bg-white shadow-lg z-30 overflow-hidden">
+                                <div className="p-2 border-b border-slate-100">
+                                  <div className="relative">
+                                    <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-slate-400" />
+                                    <input
+                                      type="text"
+                                      value={stateSearch}
+                                      onChange={(e) => setStateSearch(e.target.value)}
+                                      placeholder="Search states..."
+                                      className="w-full pl-8 pr-3 py-1.5 text-xs border border-slate-200 rounded-lg focus:outline-none focus:border-brand-500"
+                                      autoFocus
+                                    />
+                                  </div>
+                                </div>
+                                <div className="max-h-48 overflow-y-auto py-1">
+                                  {filteredStates.length === 0 ? (
+                                    <p className="px-3 py-2 text-xs text-slate-400">No states found</p>
+                                  ) : (
+                                    filteredStates.map((opt) => (
+                                      <button
+                                        type="button"
+                                        key={opt.value}
+                                        onClick={() => { setFormField("state", opt.value); setStateOpen(false); }}
+                                        className={`w-full text-left px-3 py-2 text-sm font-medium transition-colors ${
+                                          formData.state === opt.value ? "bg-slate-50 text-slate-900" : "text-slate-500 hover:bg-slate-50 hover:text-slate-900"
+                                        }`}
+                                      >
+                                        {opt.label}
+                                        {formData.state === opt.value && <span className="float-right text-brand-600">&#10003;</span>}
+                                      </button>
+                                    ))
+                                  )}
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                        <div>
+                          <label
+                            htmlFor="accountExecutive"
+                            className="block text-sm font-semibold text-slate-900 mb-1.5 md:mb-2"
+                          >
+                            Account Executive <span className="text-slate-400 text-xs font-normal">(Optional)</span>
+                          </label>
+                          <input
+                            id="accountExecutive"
+                            type="text"
+                            name="accountExecutive"
+                            value={formData.accountExecutive}
+                            onChange={handleProfileChange}
+                            className="w-full px-3 py-2.5 md:px-4 md:py-3 text-sm border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-600 focus:border-transparent transition-all"
+                            placeholder="Name of your AE"
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
 
                   <button
                     type="submit"

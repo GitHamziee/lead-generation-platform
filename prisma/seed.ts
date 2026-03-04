@@ -46,6 +46,7 @@ async function main() {
       description:
         "Only pay for the leads you receive. $375 one-time setup, then $100 per lead. Lifetime access.",
       price: 37500, // $375.00 setup fee
+      type: "PAY_PER_LEAD" as const,
       durationDays: null, // lifetime — no expiry
       features: [
         "$375 one-time setup fee",

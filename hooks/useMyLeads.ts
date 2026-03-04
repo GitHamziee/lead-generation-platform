@@ -125,11 +125,16 @@ export function useMyLeads() {
 
       const data = await res.json();
 
-      if (res.ok) {
-        await fetchLeads();
-      } else {
-        setError(data.error || `Failed to ${action} lead`);
+      if (!res.ok) {
+        const msg = data.error || `Failed to ${action} lead`;
+        // "Lead is not pending" means stale UI — just refresh silently, no error shown
+        if (msg !== "Lead is not pending") {
+          setError(msg);
+        }
       }
+
+      // Always re-fetch so the list reflects the real DB state
+      await fetchLeads();
     } catch {
       setError("Network error");
     } finally {

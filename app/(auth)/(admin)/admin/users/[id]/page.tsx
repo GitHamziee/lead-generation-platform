@@ -16,6 +16,7 @@ import {
   FileText,
   Target,
   UserCheck,
+  DollarSign,
 } from "lucide-react";
 import { US_STATE_MAP } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -65,6 +66,10 @@ export default function AdminUserDetailPage({
     confirmRoleChange,
     handlePasswordChange,
     confirmCancelSubscription,
+    leadCostInput,
+    setLeadCostInput,
+    savingLeadCost,
+    saveLeadCost,
   } = useAdminUserDetail(id);
 
   if (loading) {
@@ -319,6 +324,42 @@ export default function AdminUserDetailPage({
           </p>
         </div>
       </div>
+
+      {/* Lead Cost — only for USER role */}
+      {user.role === "USER" && (
+        <div className="bg-white rounded-xl border border-slate-200 overflow-hidden mb-5">
+          <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 flex items-center gap-2">
+            <DollarSign className="h-4 w-4 text-slate-400" />
+            <h3 className="text-sm font-semibold text-slate-900">Lead Cost</h3>
+          </div>
+          <div className="px-4 py-3 sm:px-6 sm:py-4">
+            <div className="flex flex-col sm:flex-row gap-3">
+              <div className="relative flex-1">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">$</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  placeholder="0.00"
+                  value={leadCostInput}
+                  onChange={(e) => setLeadCostInput(e.target.value)}
+                  className="w-full pl-7 pr-4 py-2.5 border border-slate-200 rounded-lg text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                />
+              </div>
+              <Button
+                onClick={saveLeadCost}
+                disabled={savingLeadCost}
+                className="bg-brand-600 hover:bg-brand-700 text-white text-xs h-10 px-5 w-full sm:w-auto"
+              >
+                {savingLeadCost ? "Saving..." : "Save"}
+              </Button>
+            </div>
+            <p className="text-xs text-slate-400 mt-2">
+              Invoice is automatically sent when this client accepts a lead. Set to $0.00 for manual invoicing.
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Role change confirmation */}
       <AlertDialog open={!!pendingRole} onOpenChange={() => setPendingRole(null)}>

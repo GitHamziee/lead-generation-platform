@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { requireUser, applyRateLimit } from "@/lib/api-utils";
 import { acceptLead, declineLead } from "@/lib/lead-utils";
+import { createInvoice, markLeadPaidByPackage } from "@/lib/invoice-utils";
 
 function maskString(str: string): string {
   if (str.length <= 2) return "••••";
@@ -40,7 +41,7 @@ export async function GET(req: NextRequest) {
       where.status = { in: ["PENDING", "ACCEPTED", "INVOICED", "PAID"] };
     }
 
-    const [leads, total, statusCounts, activePurchase] = await Promise.all([
+    const [leads, total, statusCounts] = await Promise.all([
       prisma.lead.findMany({
         where,
         include: {
@@ -57,17 +58,7 @@ export async function GET(req: NextRequest) {
         where: { assignedToId: session.user.id },
         _count: { _all: true },
       }),
-      prisma.purchase.findFirst({
-        where: {
-          userId: session.user.id,
-          status: "ACTIVE",
-          OR: [{ expiresAt: { gt: new Date() } }, { expiresAt: null }],
-        },
-        select: { id: true },
-      }),
     ]);
-
-    const hasActiveSubscription = !!activePurchase;
     const countByStatus: Record<string, number> = {};
     for (const row of statusCounts) {
       countByStatus[row.status] = row._count._all;
@@ -77,10 +68,10 @@ export async function GET(req: NextRequest) {
     const invoicedCount = countByStatus["INVOICED"] || 0;
     const paidCount = countByStatus["PAID"] || 0;
 
-    // Mask contact details if no active subscription
+    // Mask contact details for PENDING leads — user hasn't accepted yet
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sanitizedLeads = leads.map((lead: any) => {
-      const shouldMask = lead.status !== "PAID" && !hasActiveSubscription;
+      const shouldMask = lead.status === "PENDING";
       return {
         ...lead,
         email: shouldMask && lead.email ? maskEmail(lead.email) : lead.email,
@@ -134,6 +125,39 @@ export async function PATCH(req: NextRequest) {
           { status: result.status }
         );
       }
+
+      // Determine billing mode from active package type
+      const userData = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        select: {
+          leadCost: true,
+          purchases: {
+            where: {
+              status: "ACTIVE",
+              OR: [{ expiresAt: { gt: new Date() } }, { expiresAt: null }],
+            },
+            take: 1,
+            select: { package: { select: { name: true, type: true } } },
+          },
+        },
+      });
+
+      const activePkg = userData?.purchases?.[0]?.package;
+      if (activePkg?.type === "PAY_PER_LEAD") {
+        // Only auto-invoice if admin has set a per-lead cost for this user
+        if (userData?.leadCost && userData.leadCost > 0) {
+          const invoiceResult = await createInvoice(leadId, userData.leadCost);
+          if ("error" in invoiceResult) {
+            console.error("Auto-invoice failed:", invoiceResult.error);
+          }
+        }
+      } else if (activePkg?.type === "SUBSCRIPTION") {
+        const payResult = await markLeadPaidByPackage(leadId, activePkg.name);
+        if ("error" in payResult) {
+          console.error("Auto-pay by package failed:", payResult.error);
+        }
+      }
+
       return NextResponse.json({ lead: result.lead, message: "Lead accepted" });
     }
 

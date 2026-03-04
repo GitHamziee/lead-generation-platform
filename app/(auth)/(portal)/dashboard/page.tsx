@@ -91,7 +91,7 @@ function UserDashboard({
               <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-brand-600" />
             </div>
             <p className="text-[10px] md:text-sm font-medium text-slate-500">
-              Monthly Cost
+              Package Cost
             </p>
           </div>
           <p className="text-base md:text-2xl font-bold text-slate-900">
@@ -100,7 +100,7 @@ function UserDashboard({
               : "$0"}
           </p>
           <p className="text-[10px] md:text-xs text-slate-400 mt-1 hidden sm:block">
-            {purchase ? "Billed monthly" : "Subscribe to a plan"}
+            {purchase ? purchase.package.name : "Subscribe to a plan"}
           </p>
         </div>
 
@@ -259,7 +259,7 @@ function AdminDashboard({
                 ${((stats?.revenueThisMonth ?? 0) / 100).toLocaleString()}
               </p>
               <p className="text-[10px] md:text-xs text-slate-400 mt-1 hidden sm:block">
-                From new subscriptions
+                All time
               </p>
             </>
           )}

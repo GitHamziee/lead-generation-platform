@@ -60,27 +60,31 @@ export async function POST(req: Request) {
     const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
     const requestMetadata = { userId, packageId: pkg.id };
 
-    const checkoutSession = await getStripe().checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `R4Referral ${pkg.name} Plan`,
-              description: pkg.description || undefined,
+    const idempotencyKey = `checkout-${userId}-${pkg.id}-${Math.floor(Date.now() / 60000)}`;
+    const checkoutSession = await getStripe().checkout.sessions.create(
+      {
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: `R4Referral ${pkg.name} Plan`,
+                description: pkg.description || undefined,
+              },
+              unit_amount: pkg.price,
             },
-            unit_amount: pkg.price,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      metadata: requestMetadata,
-      customer_email: session.user.email || undefined,
-      success_url: `${baseUrl}/dashboard?payment=success`,
-      cancel_url: `${baseUrl}/packages?payment=cancelled`,
-    });
+        ],
+        metadata: requestMetadata,
+        customer_email: session.user.email || undefined,
+        success_url: `${baseUrl}/dashboard?payment=success`,
+        cancel_url: `${baseUrl}/packages?payment=cancelled`,
+      },
+      { idempotencyKey }
+    );
 
     await logStripeEvent({
       event: "checkout.create",

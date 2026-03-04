@@ -33,6 +33,11 @@ enum PurchaseStatus {
   EXPIRED
 }
 
+enum PackageType {
+  SUBSCRIPTION
+  PAY_PER_LEAD
+}
+
 model User {
   id            String    @id @default(cuid())
   name          String?
@@ -47,6 +52,7 @@ model User {
   state            String?
   accountExecutive String?
   role             Role      @default(USER)
+  leadCost         Int       @default(0)   // per-lead invoice amount in cents; 0 = manual invoicing
   tokenVersion  Int       @default(0)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
@@ -116,6 +122,7 @@ model Package {
   price         Int      // cents (e.g., 149900 = $1,499.00)
   features      String[]
   durationDays  Int?     // null = no expiry (lifetime/lead-based)
+  type          PackageType @default(SUBSCRIPTION)
   isActive      Boolean  @default(true)
   sortOrder     Int      @default(0)
   stripePriceId String?  @unique

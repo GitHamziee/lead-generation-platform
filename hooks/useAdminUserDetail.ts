@@ -14,6 +14,7 @@ export interface UserDetail {
   state: string | null;
   accountExecutive: string | null;
   role: string;
+  leadCost: number;
   createdAt: string;
   updatedAt: string;
   purchases: {
@@ -34,13 +35,22 @@ export function useAdminUserDetail(id: string) {
   const [pendingRole, setPendingRole] = useState<string | null>(null);
   const [pendingCancel, setPendingCancel] = useState<string | null>(null);
   const [cancelling, setCancelling] = useState(false);
+  const [leadCostInput, setLeadCostInput] = useState("");
+  const [savingLeadCost, setSavingLeadCost] = useState(false);
 
   useEffect(() => {
     async function fetchUser() {
       try {
         const res = await fetch(`/api/admin/users/${id}`);
         const data = await res.json();
-        if (res.ok) setUser(data.user);
+        if (res.ok) {
+          setUser(data.user);
+          setLeadCostInput(
+            data.user.leadCost > 0
+              ? (data.user.leadCost / 100).toFixed(2)
+              : ""
+          );
+        }
       } catch {
         // silently fail
       } finally {
@@ -145,6 +155,32 @@ export function useAdminUserDetail(id: string) {
     }
   };
 
+  const saveLeadCost = async () => {
+    const dollars = parseFloat(leadCostInput);
+    const cents = isNaN(dollars) ? 0 : Math.round(dollars * 100);
+
+    setSavingLeadCost(true);
+    try {
+      const res = await fetch(`/api/admin/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ leadCost: cents }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setUser((prev) => (prev ? { ...prev, leadCost: cents } : prev));
+        setLeadCostInput(cents > 0 ? (cents / 100).toFixed(2) : "");
+        toast.success("Lead cost updated");
+      } else {
+        toast.error(data.error || "Failed to update lead cost");
+      }
+    } catch {
+      toast.error("An error occurred");
+    } finally {
+      setSavingLeadCost(false);
+    }
+  };
+
   const activePurchase = user?.purchases.find((p) => {
     if (p.status !== "ACTIVE") return false;
     if (p.expiresAt && new Date(p.expiresAt) < new Date()) return false;
@@ -167,5 +203,9 @@ export function useAdminUserDetail(id: string) {
     confirmRoleChange,
     handlePasswordChange,
     confirmCancelSubscription,
+    leadCostInput,
+    setLeadCostInput,
+    savingLeadCost,
+    saveLeadCost,
   };
 }

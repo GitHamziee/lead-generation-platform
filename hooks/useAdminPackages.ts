@@ -6,6 +6,7 @@ export interface PackageRow {
   id: string;
   name: string;
   price: number;
+  type: "SUBSCRIPTION" | "PAY_PER_LEAD";
   isActive: boolean;
   sortOrder: number;
   _count: { purchases: number };
@@ -17,6 +18,7 @@ export function useAdminPackages() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editPrice, setEditPrice] = useState("");
   const [saving, setSaving] = useState(false);
+  const [savingTypeId, setSavingTypeId] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -87,17 +89,40 @@ export function useAdminPackages() {
     [savePrice, cancelEdit]
   );
 
+  const toggleType = useCallback(async (pkg: PackageRow) => {
+    const newType = pkg.type === "SUBSCRIPTION" ? "PAY_PER_LEAD" : "SUBSCRIPTION";
+    setSavingTypeId(pkg.id);
+    try {
+      const res = await fetch("/api/admin/packages", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: pkg.id, type: newType }),
+      });
+      if (res.ok) {
+        setPackages((prev) =>
+          prev.map((p) => (p.id === pkg.id ? { ...p, type: newType } : p))
+        );
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setSavingTypeId(null);
+    }
+  }, []);
+
   return {
     packages,
     loading,
     editingId,
     editPrice,
     saving,
+    savingTypeId,
     inputRef,
     setEditPrice,
     startEdit,
     cancelEdit,
     savePrice,
     handleKeyDown,
+    toggleType,
   };
 }

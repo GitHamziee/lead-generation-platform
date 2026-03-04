@@ -71,27 +71,31 @@ export async function POST(req: NextRequest) {
       userId,
     };
 
-    const checkoutSession = await getStripe().checkout.sessions.create({
-      mode: "payment",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: "usd",
-            product_data: {
-              name: `Invoice for Lead: ${invoice.lead.name}`,
-              description: invoice.description || undefined,
+    const idempotencyKey = `invoice-checkout-${userId}-${invoice.id}-${Math.floor(Date.now() / 60000)}`;
+    const checkoutSession = await getStripe().checkout.sessions.create(
+      {
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: `Invoice for Lead: ${invoice.lead.name}`,
+                description: invoice.description || undefined,
+              },
+              unit_amount: invoice.amount,
             },
-            unit_amount: invoice.amount,
+            quantity: 1,
           },
-          quantity: 1,
-        },
-      ],
-      metadata: requestMetadata,
-      customer_email: session.user.email || undefined,
-      success_url: `${baseUrl}/my-leads?payment=success`,
-      cancel_url: `${baseUrl}/my-leads?payment=cancelled`,
-    });
+        ],
+        metadata: requestMetadata,
+        customer_email: session.user.email || undefined,
+        success_url: `${baseUrl}/my-leads?payment=success`,
+        cancel_url: `${baseUrl}/my-leads?payment=cancelled`,
+      },
+      { idempotencyKey }
+    );
 
     await logStripeEvent({
       event: "invoice-checkout.create",

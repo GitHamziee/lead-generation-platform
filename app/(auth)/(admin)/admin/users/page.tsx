@@ -41,7 +41,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <p className="text-xl sm:text-2xl font-semibold text-slate-900">{totalUsers}</p>
-            <p className="text-[10px] sm:text-xs text-slate-500">Total Clients</p>
+            <p className="text-[10px] sm:text-xs text-slate-500">Total Users</p>
           </div>
         </div>
         <div className="flex items-center gap-2.5 sm:gap-3 rounded-xl border border-slate-200 bg-white p-3 sm:p-4">
@@ -68,7 +68,7 @@ export default function AdminUsersPage() {
           </div>
           <div>
             <p className="text-xl sm:text-2xl font-semibold text-slate-900">{withSubs}</p>
-            <p className="text-[10px] sm:text-xs text-slate-500">Active Subs</p>
+            <p className="text-[10px] sm:text-xs text-slate-500">Active Clients</p>
           </div>
         </div>
       </div>
