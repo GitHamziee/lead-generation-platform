@@ -1,22 +1,37 @@
 import type { Metadata } from "next";
-import PageHeader from "@/components/shared/PageHeader";
+import Badge from "@/components/shared/Badge";
 import MissionSection from "@/components/about/MissionSection";
 import TeamSection from "@/components/about/TeamSection";
 
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about R4Referral — our mission, values, and the team behind your outbound success.",
+    "Learn about R4Referral — a digital real estate referral network delivering verified leads to agents nationwide.",
 };
 
 export default function AboutPage() {
   return (
     <>
-      <PageHeader
-        badge="About R4Referral"
-        title="Built by Sales Leaders, For Sales Leaders"
-        subtitle="We started R4Referral because we were frustrated with the inconsistency of outbound. We built the team and systems we always wished existed."
-      />
+      <div className="relative overflow-hidden bg-white py-24 text-center">
+        <div className="grid-pattern absolute inset-0" />
+        <div className="absolute left-1/2 top-0 -translate-x-1/2 h-72 w-72 rounded-full bg-brand-100/60 blur-3xl" />
+        <div className="absolute top-1/2 -right-24 h-48 w-48 rounded-full bg-accent-100/40 blur-3xl" />
+
+        <div className="relative mx-auto max-w-4xl px-4">
+          <div className="flex justify-center mb-4">
+            <Badge>About R4Referral</Badge>
+          </div>
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+            The Team Behind Your{" "}
+            <span className="gradient-text">Next Deal</span>
+          </h1>
+          <p className="mt-4 text-lg text-slate-600 max-w-2xl mx-auto">
+            R4Referral is a digital real estate referral network built to
+            connect agents with verified, high-intent buyers and sellers
+            across all 50 states.
+          </p>
+        </div>
+      </div>
       <MissionSection />
       <TeamSection />
     </>

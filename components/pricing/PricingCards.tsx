@@ -47,7 +47,7 @@ export default function PricingCards() {
       <div className="absolute top-1/3 -left-32 h-[28rem] w-[28rem] rounded-full bg-brand-100/60 blur-3xl" />
       <div className="absolute bottom-1/4 -right-32 h-[24rem] w-[24rem] rounded-full bg-accent-100/40 blur-3xl" />
 
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Plan cards */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
           {PRICING_PLANS.map((plan, i) => {

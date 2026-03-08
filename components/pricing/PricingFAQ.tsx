@@ -14,7 +14,7 @@ export default function PricingFAQ() {
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
       <div className="absolute bottom-1/3 -right-24 h-[20rem] w-[20rem] rounded-full bg-brand-100/40 blur-3xl" />
 
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-16">
           {/* Left heading — sticky on desktop */}
           <AnimatedSection className="lg:col-span-2 lg:sticky lg:top-32 lg:self-start">

@@ -5,51 +5,51 @@ import Badge from "@/components/shared/Badge";
 const VALUES = [
   {
     icon: Target,
-    title: "Results First",
+    title: "Verified Leads Only",
     description:
-      "We measure success in booked meetings and pipeline built — not just calls dialed.",
+      "Every lead goes through AI filtering and ISA validation before it reaches you. No fakes, no duplicates.",
   },
   {
     icon: Users,
-    title: "Human-Led",
+    title: "Agent-First",
     description:
-      "Every call is made by a trained human agent. No auto-dialers. No robocalls.",
+      "Built by people who understand real estate. Our tools and services are designed around how agents actually work.",
   },
   {
     icon: TrendingUp,
-    title: "Continuous Improvement",
+    title: "Data-Driven",
     description:
-      "We A/B test scripts, track every metric, and optimize relentlessly.",
+      "We track every metric, optimize lead sources, and continuously improve conversion rates for our network.",
   },
   {
     icon: Shield,
     title: "Full Transparency",
     description:
-      "You get call recordings, live dashboards, and weekly reports. No black boxes.",
+      "Real-time dashboards, lead tracking, and clear reporting. You always know exactly where your leads stand.",
   },
 ];
 
 export default function MissionSection() {
   return (
     <section className="py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-16 lg:grid-cols-2 lg:items-center mb-24">
           <AnimatedSection>
             <Badge className="mb-4">Our Mission</Badge>
             <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl leading-tight">
-              We exist to make{" "}
-              <span className="gradient-text">outbound predictable</span>
+              Delivering the ultimate{" "}
+              <span className="gradient-text">real estate experience</span>
             </h2>
             <p className="mt-5 text-slate-600 leading-relaxed">
-              Too many B2B companies treat outbound as a gamble. They hire
-              reps, hand them a list, and hope for the best. We built R4Referral
-              to change that — a fully managed outbound engine with proven
-              systems, trained agents, and complete accountability.
+              Too many agents waste time chasing unqualified leads from outdated
+              sources. We built R4Referral to change that — a referral network
+              powered by AI verification and human validation that delivers
+              leads who are genuinely ready to buy or sell.
             </p>
             <p className="mt-4 text-slate-600 leading-relaxed">
-              Our clients don&apos;t wonder if outbound works. They see the
-              calendar fills, the pipeline growing, and the revenue coming in.
-              That&apos;s the standard we hold ourselves to every day.
+              Our agents don&apos;t wonder if leads are real. They get verified
+              contact info, intent signals, and property details — so they can
+              focus on what they do best: closing deals.
             </p>
           </AnimatedSection>
 
@@ -57,10 +57,10 @@ export default function MissionSection() {
             <div className="glass-card rounded-2xl p-8">
               <div className="grid grid-cols-2 gap-6">
                 {[
-                  { value: "4.9/5", label: "Client Rating" },
-                  { value: "< 7 days", label: "Campaign Launch" },
-                  { value: "100%", label: "Call Recording" },
-                  { value: "30-day", label: "Cancel Anytime" },
+                  { value: "2,500+", label: "Agents Onboard" },
+                  { value: "50", label: "States Covered" },
+                  { value: "98%", label: "Satisfaction Rate" },
+                  { value: "24hr", label: "Lead Delivery" },
                 ].map((item) => (
                   <div
                     key={item.label}

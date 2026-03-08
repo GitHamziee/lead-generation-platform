@@ -6,33 +6,33 @@ const STEPS = [
   {
     icon: Compass,
     step: "01",
-    title: "Onboarding & Discovery",
+    title: "Set Your Preferences",
     description:
-      "We deep-dive into your product, ICP, and growth goals. Our strategists map the exact campaign architecture before a single call is made.",
-    duration: "Days 1–2",
+      "Tell us your target areas, property types, and lead preferences. We customize everything to match your farm area.",
+    duration: "Day 1",
   },
   {
     icon: FileText,
     step: "02",
-    title: "Script & Strategy Build",
+    title: "We Source & Verify",
     description:
-      "Custom scripts, objection handlers, and qualifying questions are crafted — aligned with your voice, value proposition, and target market.",
-    duration: "Days 3–5",
+      "Our AI filters and ISA team validate every lead for genuine buyer or seller intent. No fakes, no duplicates, no tire-kickers.",
+    duration: "Days 2–3",
   },
   {
     icon: Rocket,
     step: "03",
-    title: "Campaign Launch",
+    title: "Leads Delivered",
     description:
-      "Your dedicated agent team goes live. Every call is monitored in real-time and optimised daily for maximum conversion rate.",
-    duration: "Day 7",
+      "Verified leads are sent to your dashboard in real-time with full contact info, intent signals, and property details.",
+    duration: "Day 3+",
   },
   {
     icon: BarChart3,
     step: "04",
-    title: "Reporting & Scale",
+    title: "Close & Scale",
     description:
-      "Weekly strategy sessions, transparent reporting, and ongoing A/B testing ensure your pipeline keeps growing month over month.",
+      "Focus on closing deals while we keep the leads flowing. Track your ROI and scale your volume when you're ready.",
     duration: "Ongoing",
   },
 ];
@@ -44,19 +44,19 @@ export default function ServiceProcess() {
       <div className="absolute top-1/3 -left-24 h-[20rem] w-[20rem] rounded-full bg-brand-600/10 blur-3xl" />
       <div className="absolute bottom-1/4 -right-24 h-[16rem] w-[16rem] rounded-full bg-accent-600/10 blur-3xl" />
 
-      <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <AnimatedSection className="text-center mb-16">
           <Badge className="mb-4 border-white/20 bg-white/10 text-white/70">
             Our Process
           </Badge>
           <h2 className="text-3xl font-bold text-white sm:text-4xl">
-            From onboarding to pipeline{" "}
-            <span className="gradient-text">in 7 days</span>
+            From sign-up to verified leads{" "}
+            <span className="gradient-text">in 3 days</span>
           </h2>
           <p className="mt-4 text-white/60 max-w-xl mx-auto leading-relaxed">
-            A battle-tested process that gets campaigns live fast and optimised
-            even faster — with full transparency at every step.
+            A streamlined process that gets verified leads into your hands
+            fast — with full transparency at every step.
           </p>
         </AnimatedSection>
 

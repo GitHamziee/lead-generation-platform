@@ -1,4 +1,4 @@
-import { Home, Headphones, Target, Globe, MessageSquare } from "lucide-react";
+import { Home, Headphones, Target, Globe, Image } from "lucide-react";
 
 export const NAV_LINKS = [
   { label: "Home", href: "/" },
@@ -9,49 +9,62 @@ export const NAV_LINKS = [
 ];
 
 export const STATS = [
-  { value: "10M+", label: "Calls Made" },
-  { value: "500+", label: "Clients Served" },
-  { value: "38%", label: "Avg. Conversion Lift" },
-  { value: "99.2%", label: "Client Retention Rate" },
+  { value: "2,500+", label: "Agents Onboard" },
+  { value: "50K+", label: "Leads Delivered" },
+  { value: "98%", label: "Satisfaction Rate" },
+  { value: "50", label: "States Covered" },
 ];
 
 export const SERVICES = [
   {
     icon: Home,
-    title: "Real Estate Services",
+    title: "Real Estate Lead Generation",
     description:
-      "Dedicated lead generation and appointment setting built specifically for real estate professionals looking to scale.",
-    metric: "47 avg. booked appointments/month",
+      "AI-powered, verified buyer and seller leads delivered directly to your inbox — pre-screened for genuine intent.",
+    metric: "Multi-stage verification process",
     bullets: [
-      "Buyer & seller lead generation tailored to your market",
-      "Pre-qualified prospects matched to your target areas",
-      "Appointment setting with instant calendar confirmations",
+      "Hyper-local targeting by zip code, city, or county",
+      "AI filtering eliminates fake and duplicate leads",
+      "ISA-validated leads with confirmed contact info",
     ],
     href: "/services",
   },
   {
     icon: Headphones,
-    title: "VA Services",
+    title: "Virtual Assistant",
     description:
-      "Trained virtual assistants who handle outbound calling, follow-ups, and admin tasks so your team can focus on closing.",
-    metric: "500+ calls/day per VA",
+      "Dedicated virtual assistants who handle admin, follow-ups, and lead nurturing so you can focus on closing deals.",
+    metric: "Save 20+ hrs/week on admin tasks",
     bullets: [
-      "Dedicated VAs trained on your brand and scripts",
-      "Real-time call monitoring with live coaching",
-      "Daily outcome tracking with conversion metrics",
+      "Trained VAs familiar with real estate workflows",
+      "Lead follow-up and appointment scheduling",
+      "CRM updates, transaction coordination, and more",
     ],
     href: "/services",
   },
   {
     icon: Target,
-    title: "CRM Management",
+    title: "CRM Platform",
     description:
-      "We keep your CRM clean, accurate, and up-to-date so your pipeline data is always reliable.",
-    metric: "100% data accuracy SLA",
+      "A purpose-built CRM to manage your leads, track deals, and streamline your entire sales process in one place.",
+    metric: "100% lead tracking accuracy",
     bullets: [
-      "Real-time CRM updates after every call outcome",
-      "Custom field mapping to your CRM structure",
-      "Duplicate removal and ongoing data hygiene",
+      "Automated lead routing and status tracking",
+      "Built-in follow-up reminders and task management",
+      "Pipeline analytics and conversion reporting",
+    ],
+    href: "/services",
+  },
+  {
+    icon: Image,
+    title: "Virtual Staging",
+    description:
+      "Transform empty listings into beautifully staged properties with photorealistic virtual staging.",
+    metric: "Listings sell 73% faster when staged",
+    bullets: [
+      "Photorealistic staging for any room type",
+      "Multiple design styles to match buyer demographics",
+      "Fast turnaround — staged photos in 24–48 hours",
     ],
     href: "/services",
   },
@@ -59,25 +72,12 @@ export const SERVICES = [
     icon: Globe,
     title: "Website Development",
     description:
-      "Custom-built, conversion-optimized websites designed to capture leads and showcase your brand online.",
+      "Custom IDX-ready websites designed to capture leads and showcase your listings with a professional online presence.",
     metric: "3× higher lead capture rate",
     bullets: [
       "Mobile-responsive designs optimized for conversions",
+      "IDX integration and property search functionality",
       "SEO-ready pages with integrated lead capture forms",
-      "Ongoing maintenance, hosting, and performance updates",
-    ],
-    href: "/services",
-  },
-  {
-    icon: MessageSquare,
-    title: "Follow-Up Campaigns",
-    description:
-      "Multi-touch follow-up sequences that nurture cold and warm prospects until they're ready to buy.",
-    metric: "5-touch avg. follow-up sequence",
-    bullets: [
-      "Multi-channel follow-up coordinated across phone & email",
-      "Automated scheduling with human touch points",
-      "Warm lead reactivation from your existing database",
     ],
     href: "/services",
   },
@@ -86,54 +86,54 @@ export const SERVICES = [
 export const HOW_IT_WORKS = [
   {
     step: "01",
-    title: "Onboarding & Discovery",
+    title: "Sign Up & Set Preferences",
     description:
-      "We deep-dive into your product, target market, and goals to build a campaign tailored precisely to your needs.",
+      "Tell us your target areas, property types, and lead preferences. We'll tailor everything to your market.",
   },
   {
     step: "02",
-    title: "Script Development",
+    title: "We Source & Verify Leads",
     description:
-      "Our copywriters craft proven, conversion-tested scripts aligned with your voice, value prop, and objection handling.",
+      "Our AI filters and ISA team validate every lead for genuine intent — no fakes, no duplicates, no tire-kickers.",
   },
   {
     step: "03",
-    title: "Campaign Launch",
+    title: "Leads Delivered to You",
     description:
-      "Your dedicated agent team hits the phones. We monitor every call for quality and continuously optimize performance.",
+      "Verified leads are sent directly to your dashboard in real-time. Contact info, intent signals, and property details included.",
   },
   {
     step: "04",
-    title: "Results & Reporting",
+    title: "Close & Grow",
     description:
-      "Weekly performance reports with full transparency. Meetings booked, pipelines built, revenue driven.",
+      "Focus on what you do best — closing deals. Track your ROI with transparent reporting and scale when you're ready.",
   },
 ];
 
 export const TESTIMONIALS = [
   {
     quote:
-      "Within 90 days they booked us 47 qualified appointments. Our close rate jumped 22%. Absolute game-changer for our sales team.",
+      "I closed 3 deals in my first month using R4Referral leads. The quality is unmatched — every lead was pre-verified and ready to talk.",
     name: "Marcus T.",
-    title: "VP of Sales",
-    company: "ProGrowth Solutions",
-    result: "47 appointments · 22% close rate lift",
+    title: "Licensed Realtor",
+    company: "eXp Realty",
+    result: "3 closings in first 30 days",
   },
   {
     quote:
-      "We'd tried two other call centers before. This team is different — they actually understand our product and sound like they work for us.",
+      "I've tried Zillow, Realtor.com, and others. R4Referral leads actually pick up the phone and are genuinely looking to buy or sell.",
     name: "Sarah K.",
-    title: "Founder & CEO",
-    company: "Apex Realty Group",
-    result: "Pipeline filled in under 45 days",
+    title: "Broker Associate",
+    company: "Keller Williams",
+    result: "12 verified leads in 60 days",
   },
   {
     quote:
-      "The reporting is crystal clear and the agents are professional. Our pipeline went from dry to full in under 60 days.",
+      "The virtual assistant and CRM combo saved me 20+ hours a week. I can finally focus on showings and closings instead of admin work.",
     name: "David R.",
-    title: "Director of Business Development",
-    company: "Meridian Financial",
-    result: "$280K pipeline built in 60 days",
+    title: "Real Estate Agent",
+    company: "Coldwell Banker",
+    result: "20+ hours saved per week",
   },
 ];
 
@@ -212,14 +212,14 @@ export const PRICING_FAQ = [
       "Yes. You can upgrade or switch plans at any time. Contact our team and we'll help you transition to the plan that fits your needs.",
   },
   {
-    question: "How quickly can you get started?",
+    question: "How quickly will I start receiving leads?",
     answer:
-      "Most campaigns launch within 5–7 business days of signing. Onboarding and setup are included with every plan.",
+      "Most agents start receiving verified leads within 3–5 business days of signing up and setting their targeting preferences.",
   },
   {
-    question: "What industries do you specialize in?",
+    question: "What areas do you cover?",
     answer:
-      "We serve B2B businesses across real estate, financial services, SaaS, insurance, and professional services. Our agents are trained in your vertical.",
+      "We deliver leads across all 50 US states with hyper-local targeting. You can specify zip codes, cities, or counties to match your farm area.",
   },
 ];
 
@@ -248,11 +248,11 @@ export const TEAM_MEMBERS = [
 
 export const FOOTER_LINKS = {
   services: [
-    { label: "Real Estate Services", href: "/services" },
-    { label: "VA Services", href: "/services" },
-    { label: "CRM Management", href: "/services" },
+    { label: "Lead Generation", href: "/services" },
+    { label: "Virtual Assistant", href: "/services" },
+    { label: "CRM Platform", href: "/services" },
+    { label: "Virtual Staging", href: "/services" },
     { label: "Website Development", href: "/services" },
-    { label: "Follow-Up Campaigns", href: "/services" },
   ],
   company: [
     { label: "About Us", href: "/about" },

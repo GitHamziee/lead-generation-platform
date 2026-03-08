@@ -3,11 +3,11 @@ import { SERVICES } from "@/lib/constants";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
 const ALL_INCLUDE = [
-  "Dedicated team",
-  "Weekly reports",
-  "Live dashboard",
-  "CRM integration",
-  "Quality monitoring",
+  "Dedicated account manager",
+  "Real-time lead dashboard",
+  "Verified contact info",
+  "Nationwide coverage",
+  "Lead tracking & reporting",
   "Priority support",
 ];
 
@@ -179,12 +179,12 @@ export default function ServiceCards() {
   return (
     <div>
       {/* Connected staggered service cards */}
-      <section className="relative py-24 overflow-hidden">
+      <section className="relative pt-12 pb-24 overflow-hidden">
         <div className="grid-pattern absolute inset-0" />
         <div className="absolute top-1/4 -left-32 h-[28rem] w-[28rem] rounded-full bg-brand-100/50 blur-3xl" />
         <div className="absolute bottom-1/3 -right-32 h-[24rem] w-[24rem] rounded-full bg-accent-100/30 blur-3xl" />
 
-        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <div>
             {pairs.map((pair, rowIdx) => {
               const left = pair[0];
@@ -243,7 +243,7 @@ export default function ServiceCards() {
 
       {/* "Every service includes" strip */}
       <section className="pb-16">
-        <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
           <AnimatedSection>
             <div className="rounded-2xl bg-slate-50 border border-slate-200 px-8 py-8">
               <p className="text-center text-xs font-semibold text-slate-400 uppercase tracking-widest mb-6">

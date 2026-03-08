@@ -9,16 +9,16 @@ export default function ServicesOverview() {
 
   return (
     <section className="py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-16">
           <Badge className="mb-4">What We Do</Badge>
           <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl">
             Everything You Need to{" "}
-            <span className="gradient-text">Fill Your Pipeline</span>
+            <span className="gradient-text">Grow Your Business</span>
           </h2>
           <p className="mt-4 text-slate-600 max-w-xl mx-auto">
-            End-to-end outbound solutions run by trained professionals. No
-            freelancers, no offshore chaos — just results.
+            Verified leads, virtual assistants, CRM tools, and more — built
+            specifically for real estate professionals.
           </p>
         </AnimatedSection>
 

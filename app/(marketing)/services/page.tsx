@@ -10,14 +10,14 @@ import ServiceProcess from "@/components/services/ServiceProcess";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Explore our full suite of services: real estate lead generation, VA services, CRM management, website development, and follow-up campaigns.",
+    "Explore our full suite of services: real estate lead generation, virtual assistant, CRM platform, virtual staging, and website development.",
 };
 
 export default function ServicesPage() {
   return (
     <>
       {/* Header */}
-      <div className="relative overflow-hidden bg-white py-24 text-center">
+      <div className="relative overflow-hidden bg-white pt-24 pb-12 text-center">
         <div className="grid-pattern absolute inset-0" />
         <div className="absolute left-1/2 top-0 -translate-x-1/2 h-72 w-72 rounded-full bg-brand-100/60 blur-3xl" />
         <div className="absolute top-1/2 -left-24 h-48 w-48 rounded-full bg-accent-100/40 blur-3xl" />
@@ -52,11 +52,11 @@ export default function ServicesPage() {
           <AnimatedSection>
             <Badge className="mb-4">Get Started</Badge>
             <h2 className="text-3xl font-bold text-slate-900 sm:text-4xl leading-tight">
-              Ready to <span className="gradient-text">Scale Your Pipeline</span>?
+              Ready to <span className="gradient-text">Grow Your Business</span>?
             </h2>
             <p className="mt-5 text-lg text-slate-600 max-w-xl mx-auto">
-              Book a free 30-minute strategy call. We&apos;ll audit your current
-              process and show you exactly how we can help.
+              Get started with verified leads tailored to your market.
+              Sign up today and start receiving leads within days.
             </p>
             <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
               <div className="btn-gradient-wrap rounded-md">

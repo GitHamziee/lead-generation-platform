@@ -1,11 +1,11 @@
 import Link from "next/link";
-import { PhoneCall, Linkedin, Twitter, Facebook, Mail, Phone } from "lucide-react";
+import { PhoneCall, Linkedin, Twitter, Facebook, Mail, Phone, Heart } from "lucide-react";
 import { FOOTER_LINKS } from "@/lib/constants";
 
 export default function Footer() {
   return (
     <footer className="border-t border-white/10 bg-section-dark">
-      <div className="mx-auto max-w-5xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-5">
           {/* Brand col */}
           <div className="lg:col-span-2">
@@ -18,8 +18,8 @@ export default function Footer() {
               </span>
             </Link>
             <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0">
-              We turn cold lists into warm pipelines. Outbound sales solutions
-              built for B2B teams who demand results.
+              A digital real estate referral network delivering verified,
+              high-intent leads to agents across all 50 states.
             </p>
             <div className="mt-6 flex gap-3 justify-center md:justify-start">
               {[
@@ -118,8 +118,16 @@ export default function Footer() {
           <p className="text-xs text-white/40">
             © {new Date().getFullYear()} R4Referral. All rights reserved.
           </p>
-          <p className="text-xs text-white/30">
-            Built with precision for outbound excellence.
+          <p className="text-xs text-white/30 flex items-center gap-1">
+            Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by{" "}
+            <a
+              href="https://www.linkedin.com/in/hamziee/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/50 hover:text-brand-400 transition-colors"
+            >
+              Hamza
+            </a>
           </p>
         </div>
       </div>

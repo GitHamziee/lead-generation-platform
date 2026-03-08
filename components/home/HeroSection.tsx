@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, useMotionValue, useSpring, useTransform, useInView } from "framer-motion";
-import { ArrowRight, PhoneCall, TrendingUp } from "lucide-react";
+import { ArrowRight, Home, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Badge from "@/components/shared/Badge";
 import MagneticButton from "@/components/shared/MagneticButton";
@@ -78,7 +78,7 @@ function AnimatedCounter({
   );
 }
 
-const COMPANIES = ["SaaS Corp", "Apex Realty", "Meridian Financial", "ProGrowth"];
+const PARTNERS = ["eXp Realty", "Keller Williams", "Coldwell Banker", "Berkshire Hathaway"];
 
 export default function HeroSection() {
   return (
@@ -89,7 +89,7 @@ export default function HeroSection() {
       <div className="absolute top-1/4 -left-48 h-[32rem] w-[32rem] rounded-full bg-brand-100/80 blur-3xl blob-drift-1" />
       <div className="absolute bottom-1/4 -right-48 h-[28rem] w-[28rem] rounded-full bg-cyan-100/70 blur-3xl blob-drift-2" />
 
-      <div className="relative mx-auto max-w-5xl w-full px-4 py-20 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-6xl w-full px-4 py-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:items-center">
 
           {/* Left: text content */}
@@ -102,10 +102,10 @@ export default function HeroSection() {
             >
               <Badge>
                 <span className="h-1.5 w-1.5 rounded-full bg-brand-600 animate-pulse" />
-                Outbound Sales — Results Guaranteed
+                Verified Real Estate Leads
               </Badge>
               <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">
-                ★★★★★&nbsp; Rated 4.9/5 by 500+ clients
+                ★★★★★&nbsp; Trusted by 2,500+ agents
               </span>
             </motion.div>
 
@@ -117,7 +117,7 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.6, delay: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                Conversations
+                Leads
               </motion.span>
               {" "}
               <span className="whitespace-nowrap"><CharReveal text="Into " className="text-slate-900" delay={0.7} /></span>
@@ -127,7 +127,7 @@ export default function HeroSection() {
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 transition={{ duration: 0.6, delay: 1.0, ease: [0.25, 0.46, 0.45, 0.94] }}
               >
-                Conversions
+                Closings
               </motion.span>
             </h1>
 
@@ -137,9 +137,9 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-6 max-w-xl text-lg text-slate-600 leading-relaxed"
             >
-              We build and run elite outbound sales campaigns for B2B companies.
-              Outbound calling, appointment setting, and lead qualification — done by
-              trained professionals who actually know how to sell.
+              R4Referral is a digital real estate referral network that delivers
+              verified, high-intent buyer and seller leads directly to agents
+              across all 50 states.
             </motion.p>
 
             <motion.div
@@ -156,7 +156,7 @@ export default function HeroSection() {
                     className="btn-gradient text-white text-base px-8 border-0"
                   >
                     <Link href="/contact">
-                      Book Free Consultation
+                      Get Started
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </Button>
@@ -174,7 +174,7 @@ export default function HeroSection() {
               </MagneticButton>
             </motion.div>
 
-            {/* Trust strip — logo pills */}
+            {/* Trust strip — partner pills */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -182,10 +182,10 @@ export default function HeroSection() {
               className="mt-12"
             >
               <p className="mb-4 text-xs font-medium uppercase tracking-widest text-slate-400">
-                Trusted by growing B2B teams
+                Agents from top brokerages trust us
               </p>
               <div className="flex flex-wrap items-center gap-3">
-                {COMPANIES.map((company) => (
+                {PARTNERS.map((company) => (
                   <span
                     key={company}
                     className="rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5 text-xs font-semibold text-slate-500"
@@ -197,7 +197,7 @@ export default function HeroSection() {
             </motion.div>
           </div>
 
-          {/* Right: Live campaign card — dark for contrast */}
+          {/* Right: Live lead dashboard card */}
           <motion.div
             initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
@@ -208,11 +208,11 @@ export default function HeroSection() {
               {/* Card header */}
               <div className="flex items-center gap-3 mb-5">
                 <div className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-600/20 border border-brand-500/30">
-                  <PhoneCall className="h-5 w-5 text-brand-400" />
+                  <Home className="h-5 w-5 text-brand-400" />
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-white">Live Campaign</p>
-                  <p className="text-xs text-white/50">Apex Realty Group</p>
+                  <p className="text-sm font-semibold text-white">Lead Dashboard</p>
+                  <p className="text-xs text-white/50">R4Referral Network</p>
                 </div>
                 <div className="ml-auto flex items-center gap-1.5">
                   <span className="relative flex h-2 w-2">
@@ -226,9 +226,9 @@ export default function HeroSection() {
               {/* Stats */}
               <div className="space-y-3">
                 {[
-                  { label: "Calls today", target: 247, decimals: 0, suffix: "", color: "text-white", delay: 1.1 },
-                  { label: "Appointments set", target: 18, decimals: 0, suffix: "", color: "text-green-400", delay: 1.2 },
-                  { label: "Conversion rate", target: 7.3, decimals: 1, suffix: "%", color: "text-brand-400", delay: 1.3 },
+                  { label: "Leads delivered today", target: 34, decimals: 0, suffix: "", color: "text-white", delay: 1.1 },
+                  { label: "Verified this week", target: 187, decimals: 0, suffix: "", color: "text-green-400", delay: 1.2 },
+                  { label: "Avg. contact rate", target: 92.4, decimals: 1, suffix: "%", color: "text-brand-400", delay: 1.3 },
                 ].map((row) => (
                   <div key={row.label} className="flex justify-between items-center text-sm">
                     <span className="text-white/60">{row.label}</span>
@@ -242,7 +242,7 @@ export default function HeroSection() {
                     <motion.div
                       className="h-2 rounded-full bg-gradient-to-r from-white/80 to-white/40"
                       initial={{ width: "0%" }}
-                      animate={{ width: "73%" }}
+                      animate={{ width: "92%" }}
                       transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
                     />
                   </div>
@@ -252,12 +252,12 @@ export default function HeroSection() {
                     transition={{ duration: 0.4, delay: 2.4 }}
                     className="mt-1.5 text-xs text-white/40 text-right"
                   >
-                    73% to daily goal
+                    92% verification rate
                   </motion.p>
                 </div>
               </div>
 
-              {/* Mini agent feed */}
+              {/* Recent leads feed */}
               <motion.div
                 className="mt-5 space-y-2"
                 initial="hidden"
@@ -268,12 +268,12 @@ export default function HeroSection() {
                 }}
               >
                 {[
-                  { agent: "Agent A", status: "On call", dot: "bg-green-500" },
-                  { agent: "Agent B", status: "Follow-up", dot: "bg-brand-500" },
-                  { agent: "Agent C", status: "Dialing", dot: "bg-amber-500" },
+                  { name: "New Buyer Lead", detail: "Miami, FL", dot: "bg-green-500" },
+                  { name: "New Seller Lead", detail: "Austin, TX", dot: "bg-brand-500" },
+                  { name: "New Buyer Lead", detail: "Denver, CO", dot: "bg-amber-500" },
                 ].map((a) => (
                   <motion.div
-                    key={a.agent}
+                    key={a.detail}
                     variants={{
                       hidden: { opacity: 0, x: -12 },
                       visible: { opacity: 1, x: 0 },
@@ -281,10 +281,10 @@ export default function HeroSection() {
                     transition={{ duration: 0.4, ease: "easeOut" }}
                     className="flex items-center justify-between rounded-lg bg-white/10 backdrop-blur-sm px-3 py-2"
                   >
-                    <span className="text-xs font-medium text-white/80">{a.agent}</span>
+                    <span className="text-xs font-medium text-white/80">{a.name}</span>
                     <span className="flex items-center gap-1.5 text-xs text-white/50">
                       <span className={`h-1.5 w-1.5 rounded-full ${a.dot}`} />
-                      {a.status}
+                      {a.detail}
                     </span>
                   </motion.div>
                 ))}
@@ -297,10 +297,10 @@ export default function HeroSection() {
                 transition={{ duration: 0.4, delay: 1.7, ease: "easeOut" }}
                 className="mt-5 flex items-center justify-between rounded-xl bg-white/10 border border-white/15 px-4 py-3"
               >
-                <span className="text-xs text-white/50">Weekly trend</span>
+                <span className="text-xs text-white/50">Monthly trend</span>
                 <span className="flex items-center gap-1.5 text-xs font-semibold text-green-400">
                   <TrendingUp className="h-3.5 w-3.5" />
-                  +38% vs last week
+                  +24% more leads
                 </span>
               </motion.div>
             </div>

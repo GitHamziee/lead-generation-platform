@@ -12,7 +12,7 @@ const AVATAR_COLORS = [
 export default function TeamSection() {
   return (
     <section className="py-24 bg-slate-50">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <AnimatedSection className="text-center mb-16">
           <Badge className="mb-4">The Team</Badge>
           <h2 className="text-3xl font-bold text-slate-900">
@@ -20,8 +20,8 @@ export default function TeamSection() {
             <span className="gradient-text">Your Results</span>
           </h2>
           <p className="mt-4 text-slate-600 max-w-xl mx-auto">
-            Former sales leaders, trainers, and operators who&apos;ve built and
-            run outbound teams at scale.
+            Real estate professionals and tech experts building the future
+            of agent lead generation.
           </p>
         </AnimatedSection>
 

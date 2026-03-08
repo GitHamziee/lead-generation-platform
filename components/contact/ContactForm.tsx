@@ -48,51 +48,60 @@ export default function ContactForm() {
   };
 
   return (
-    <section className="py-24">
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 gap-16 lg:grid-cols-2">
-          {/* Contact info */}
-          <AnimatedSection>
-            <h2 className="text-2xl font-bold text-slate-900 mb-3">
-              Let&apos;s Talk
-            </h2>
-            <p className="text-slate-600 leading-relaxed mb-10">
-              Ready to build a pipeline that doesn&apos;t depend on luck? Book
-              a free 30-minute strategy call. No sales pressure — just an honest
-              look at whether we&apos;re the right fit.
-            </p>
+    <section className="relative pt-12 pb-24 overflow-hidden">
+      <div className="grid-pattern absolute inset-0" />
+      <div className="absolute top-1/4 -left-32 h-[28rem] w-[28rem] rounded-full bg-brand-100/50 blur-3xl" />
+      <div className="absolute bottom-1/3 -right-32 h-[24rem] w-[24rem] rounded-full bg-accent-100/30 blur-3xl" />
 
-            <div className="space-y-6">
-              {CONTACT_INFO.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <a
-                    key={item.label}
-                    href={item.href}
-                    className="flex items-start gap-4 group"
-                  >
-                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-50 border border-brand-100 group-hover:bg-brand-100 transition-colors">
-                      <Icon className="h-5 w-5 text-brand-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-400 uppercase tracking-wider">
-                        {item.label}
-                      </p>
-                      <p className="mt-0.5 text-sm text-slate-700 group-hover:text-slate-900 transition-colors">
-                        {item.value}
-                      </p>
-                    </div>
-                  </a>
-                );
-              })}
+      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-5">
+          {/* Left — dark contact info card */}
+          <AnimatedSection className="lg:col-span-2">
+            <div className="relative h-full">
+              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-brand-500/20 via-accent-500/10 to-brand-600/20 blur-xl" />
+              <div className="aurora-card relative rounded-2xl p-8 h-full ring-1 ring-white/10">
+                <h2 className="text-xl font-bold text-white mb-2">
+                  Get in Touch
+                </h2>
+                <p className="text-sm text-white/70 leading-relaxed mb-8">
+                  Ready to start receiving verified real estate leads?
+                  Reach out — we&apos;ll get back within 1 business day.
+                </p>
+
+                <div className="space-y-5">
+                  {CONTACT_INFO.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                      <a
+                        key={item.label}
+                        href={item.href}
+                        className="flex items-center gap-4 group rounded-xl p-3 -mx-3 hover:bg-white/5 transition-colors"
+                      >
+                        <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl bg-brand-500/20 border border-brand-400/30">
+                          <Icon className="h-4 w-4 text-brand-400" />
+                        </div>
+                        <div>
+                          <p className="text-[11px] font-medium text-white/70 uppercase tracking-wider">
+                            {item.label}
+                          </p>
+                          <p className="text-sm text-white group-hover:text-white transition-colors">
+                            {item.value}
+                          </p>
+                        </div>
+                      </a>
+                    );
+                  })}
+                </div>
+
+              </div>
             </div>
           </AnimatedSection>
 
-          {/* Form */}
-          <AnimatedSection delay={0.15}>
-            <div className="glass-card rounded-2xl p-8">
+          {/* Right — form */}
+          <AnimatedSection delay={0.15} className="lg:col-span-3">
+            <div className="glass-card rounded-2xl p-8 h-full">
               {submitted ? (
-                <div className="flex flex-col items-center justify-center text-center py-12">
+                <div className="flex flex-col items-center justify-center text-center py-16">
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-50 border border-green-200">
                     <Send className="h-7 w-7 text-green-600" />
                   </div>
@@ -106,9 +115,14 @@ export default function ContactForm() {
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
-                  <h3 className="text-lg font-semibold text-slate-900 mb-6">
-                    Send Us a Message
-                  </h3>
+                  <div className="mb-6">
+                    <h3 className="text-lg font-semibold text-slate-900">
+                      Send Us a Message
+                    </h3>
+                    <p className="text-sm text-slate-500 mt-1">
+                      Fill out the form and we&apos;ll get back to you shortly.
+                    </p>
+                  </div>
 
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
@@ -180,24 +194,28 @@ export default function ContactForm() {
                     </label>
                     <textarea
                       required
-                      rows={4}
+                      rows={5}
                       value={formData.message}
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      placeholder="Tell us about your sales goals and current challenges..."
+                      placeholder="Tell us about your target areas and what you're looking for..."
                       className="w-full rounded-lg border border-slate-300 bg-white px-4 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20 transition-colors resize-none"
                     />
                   </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    className="w-full bg-brand-600 hover:bg-brand-700 text-white btn-glow"
-                  >
-                    Send Message
-                    <Send className="ml-2 h-4 w-4" />
-                  </Button>
+                  <div className="flex justify-center">
+                    <div className="btn-gradient-wrap rounded-md">
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="btn-gradient text-white border-0 px-12"
+                      >
+                        Send Message
+                        <Send className="ml-2 h-4 w-4" />
+                      </Button>
+                    </div>
+                  </div>
 
                   <p className="text-xs text-center text-slate-400">
                     We typically respond within 1 business day.
