@@ -61,6 +61,7 @@ export function useMyLeads() {
         page: page.toString(),
         limit: "10",
         ...(statusFilter && { status: statusFilter }),
+        ...(silent && { skipStats: "1" }),
       });
 
       const res = await fetch(`/api/my-leads?${params}`);
@@ -70,7 +71,7 @@ export function useMyLeads() {
         setLeads(data.leads);
         setTotal(data.total);
         setTotalPages(data.totalPages);
-        setStats(data.stats);
+        if (data.stats) setStats(data.stats);
       } else if (!silent) {
         setError(data.error || "Failed to load leads");
       }

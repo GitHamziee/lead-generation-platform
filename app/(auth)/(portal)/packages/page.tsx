@@ -1,6 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { Check, Loader2, Sparkles } from "lucide-react";
 import { usePackages, PackageData } from "@/hooks/usePackages";
 import { formatDateMST } from "@/lib/format-utils";
@@ -97,7 +96,6 @@ function CustomPackageCard({
 }
 
 export default function PackagesPage() {
-  const { data: session } = useSession();
   const { packages, customPackage, activePurchase, loading, subscribing, handleSubscribe } =
     usePackages();
 
@@ -243,7 +241,6 @@ export default function PackagesPage() {
       <p className="text-center text-xs text-slate-400 dark:text-slate-500 mt-8">
         Choose the plan that fits your needs. Contact us if you have any
         questions.
-        {!session?.user && " Sign in to subscribe."}
       </p>
     </div>
   );

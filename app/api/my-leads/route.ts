@@ -9,10 +9,14 @@ export async function GET(req: NextRequest) {
     const [session, authError] = await requireUser();
     if (authError) return authError;
 
+    const rateLimited = applyRateLimit(`my-leads:${session.user.id}`, 60, 60 * 1000);
+    if (rateLimited) return rateLimited;
+
     const { searchParams } = new URL(req.url);
     const page = Math.max(1, parseInt(searchParams.get("page") || "1") || 1);
     const limit = Math.min(50, Math.max(1, parseInt(searchParams.get("limit") || "10") || 10));
     const status = searchParams.get("status") || "";
+    const skipStats = searchParams.get("skipStats") === "1";
 
     const where: Record<string, unknown> = {
       assignedToId: session.user.id,
@@ -24,39 +28,71 @@ export async function GET(req: NextRequest) {
       where.status = { in: ["PENDING", "ACCEPTED", "INVOICED", "PAID"] };
     }
 
-    const [leads, total, statusCounts] = await Promise.all([
+    // Explicit select — only fetch fields the UI needs, prevents leaking new schema fields
+    const leadSelect = {
+      id: true,
+      leadType: true,
+      name: true,
+      phone: true,
+      email: true,
+      address: true,
+      propertyType: true,
+      bedsBaths: true,
+      timeline: true,
+      contractStatus: true,
+      appointmentTime: true,
+      notes: true,
+      status: true,
+      createdAt: true,
+      agent: { select: { id: true, name: true, email: true } },
+      invoice: { select: { id: true, amount: true, status: true, description: true } },
+    };
+
+    // Skip stats on silent polls — saves a groupBy query every 30s
+    const queries: [unknown, unknown, unknown?] = [
       prisma.lead.findMany({
         where,
-        include: {
-          agent: { select: { id: true, name: true, email: true } },
-          invoice: { select: { id: true, amount: true, status: true, description: true } },
-        },
+        select: leadSelect,
         orderBy: { createdAt: "desc" },
         skip: (page - 1) * limit,
         take: limit,
       }),
       prisma.lead.count({ where }),
-      prisma.lead.groupBy({
-        by: ["status"],
-        where: { assignedToId: session.user.id },
-        _count: { _all: true },
-      }),
-    ]);
-    const countByStatus: Record<string, number> = {};
-    for (const row of statusCounts) {
-      countByStatus[row.status] = row._count._all;
+      !skipStats
+        ? prisma.lead.groupBy({
+            by: ["status"],
+            where: { assignedToId: session.user.id },
+            _count: { _all: true },
+          })
+        : undefined,
+    ];
+
+    const [leads, total, statusCounts] = await Promise.all(queries) as [
+      unknown[],
+      number,
+      { status: string; _count: { _all: number } }[] | undefined,
+    ];
+
+    let stats;
+    if (statusCounts) {
+      const countByStatus: Record<string, number> = {};
+      for (const row of statusCounts) {
+        countByStatus[row.status] = row._count._all;
+      }
+      stats = {
+        pendingCount: countByStatus["PENDING"] || 0,
+        acceptedCount: countByStatus["ACCEPTED"] || 0,
+        invoicedCount: countByStatus["INVOICED"] || 0,
+        paidCount: countByStatus["PAID"] || 0,
+      };
     }
-    const pendingCount = countByStatus["PENDING"] || 0;
-    const acceptedCount = countByStatus["ACCEPTED"] || 0;
-    const invoicedCount = countByStatus["INVOICED"] || 0;
-    const paidCount = countByStatus["PAID"] || 0;
 
     return NextResponse.json({
       leads,
       total,
       page,
       totalPages: Math.ceil(total / limit),
-      stats: { pendingCount, acceptedCount, invoicedCount, paidCount },
+      ...(stats && { stats }),
     });
   } catch (error) {
     console.error("My leads error:", error);
