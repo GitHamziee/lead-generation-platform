@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { PhoneCall } from "lucide-react";
+import Image from "next/image";
 
 export default function PageLoader() {
   const [show, setShow] = useState(false);
@@ -35,13 +35,8 @@ export default function PageLoader() {
       }`}
     >
       {/* Logo */}
-      <div className="flex items-center gap-3 mb-10 animate-[fadeUp_0.5s_ease_forwards]">
-        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-600 shadow-lg shadow-brand-600/30">
-          <PhoneCall className="h-6 w-6 text-white" />
-        </div>
-        <span className="text-2xl font-bold text-slate-900 dark:text-white">
-          R4<span className="text-brand-600">Referral</span>
-        </span>
+      <div className="mb-10 animate-[fadeUp_0.5s_ease_forwards]">
+        <Image src="/logo.png" alt="R4Referral" width={100} height={75} className="h-[75px] w-[100px] dark:brightness-0 dark:invert" />
       </div>
 
       {/* Progress bar track */}

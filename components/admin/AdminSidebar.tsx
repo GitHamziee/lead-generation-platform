@@ -3,7 +3,8 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { PhoneCall, Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3, Headset } from "lucide-react";
+import Image from "next/image";
+import { Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3, Headset } from "lucide-react";
 import { useSidebar } from "@/components/portal/SidebarContext";
 
 const NAV_ITEMS = [
@@ -22,18 +23,8 @@ export default function AdminSidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col bg-slate-900">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 px-6 border-b border-slate-700/50">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 shadow-sm">
-          <PhoneCall className="h-4 w-4 text-white" />
-        </div>
-        <div className="flex flex-col">
-          <span className="text-lg font-bold text-white leading-tight">
-            R4<span className="text-brand-400">Referral</span>
-          </span>
-          <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-            Admin
-          </span>
-        </div>
+      <div className="flex h-16 items-center px-6 border-b border-slate-700/50">
+        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[50px] w-[66px] brightness-0 invert" />
         <button
           onClick={close}
           className="ml-auto md:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"

@@ -3,7 +3,8 @@
 import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { PhoneCall, ArrowLeft, ArrowRight, Eye, EyeOff, CheckCircle } from "lucide-react";
+import Image from "next/image";
+import { ArrowLeft, ArrowRight, Eye, EyeOff, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function ResetPasswordPage() {
@@ -61,13 +62,8 @@ function ResetPasswordContent() {
   if (!token) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 py-12">
-        <Link href="/" className="flex items-center gap-2.5 mb-8">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 shadow-md shadow-brand-600/30">
-            <PhoneCall className="h-4.5 w-4.5 text-white" />
-          </div>
-          <span className="text-xl font-bold text-slate-900 dark:text-white">
-            R4<span className="text-brand-600">Referral</span>
-          </span>
+        <Link href="/" className="mb-8">
+          <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[60px] w-[75px] dark:brightness-0 dark:invert" />
         </Link>
 
         <div className="w-full max-w-[400px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-8 py-8 shadow-sm text-center">
@@ -101,13 +97,8 @@ function ResetPasswordContent() {
       </Link>
 
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-2.5 mb-8">
-        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-brand-600 shadow-md shadow-brand-600/30">
-          <PhoneCall className="h-4.5 w-4.5 text-white" />
-        </div>
-        <span className="text-xl font-bold text-slate-900 dark:text-white">
-          R4<span className="text-brand-600">Referral</span>
-        </span>
+      <Link href="/" className="mb-8">
+        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[60px] w-[75px] dark:brightness-0 dark:invert" />
       </Link>
 
       {/* Card */}

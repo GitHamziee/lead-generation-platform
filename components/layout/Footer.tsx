@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { PhoneCall, Linkedin, Twitter, Facebook, Mail, Phone, Heart } from "lucide-react";
+import Image from "next/image";
+import { Linkedin, Twitter, Facebook, Mail, Phone, MapPin, Heart } from "lucide-react";
 import { FOOTER_LINKS } from "@/lib/constants";
 
 export default function Footer() {
@@ -10,12 +11,13 @@ export default function Footer() {
           {/* Brand col */}
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4 justify-center md:justify-start">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600">
-                <PhoneCall className="h-4 w-4 text-white" />
-              </div>
-              <span className="text-lg font-bold text-white">
-                R4<span className="text-brand-400">Referral</span>
-              </span>
+              <Image
+                src="/logo.png"
+                alt="R4Referral"
+                width={80}
+                height={60}
+                className="h-[60px] w-[75px] brightness-0 invert"
+              />
             </Link>
             <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0">
               A digital real estate referral network delivering verified,
@@ -39,19 +41,23 @@ export default function Footer() {
             </div>
             <div className="mt-6 flex flex-col gap-2 text-sm text-white/60 items-center md:items-start">
               <a
-                href="tel:+18005551234"
+                href="tel:+15126780096"
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <Phone className="h-3.5 w-3.5" />
-                +1 (800) 555-1234
+                <Phone className="h-3.5 w-3.5 shrink-0" />
+                +1 (512) 678-0096
               </a>
               <a
                 href="mailto:hello@r4referral.com"
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
-                <Mail className="h-3.5 w-3.5" />
+                <Mail className="h-3.5 w-3.5 shrink-0" />
                 hello@r4referral.com
               </a>
+              <div className="flex items-start gap-2">
+                <MapPin className="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                5900 Balcones Dr, Ste 100, Austin, TX 78731
+              </div>
             </div>
           </div>
 

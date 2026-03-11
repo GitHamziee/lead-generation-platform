@@ -91,7 +91,7 @@ export default function RefundPolicyPage() {
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">7. Contact</h2>
                 <p>
                   Questions about billing or refunds? Reach us at billing@r4referral.com or call
-                  +1 (800) 555-1234 Monday through Friday, 9am–6pm EST.
+                  +1 (512) 678-0096 Monday through Friday, 9am–6pm EST.
                 </p>
               </div>
             </div>

@@ -3,7 +3,8 @@
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";
-import { PhoneCall, LayoutDashboard, Package, Settings, LogOut, X, Send, FileText, Inbox } from "lucide-react";
+import Image from "next/image";
+import { LayoutDashboard, Package, Settings, LogOut, X, Send, FileText, Inbox } from "lucide-react";
 import { useSidebar } from "./SidebarContext";
 
 const NAV_ITEMS = [
@@ -31,12 +32,7 @@ export default function Sidebar() {
     <div className="flex h-full flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700">
       {/* Logo */}
       <div className="flex h-16 items-center gap-2.5 px-6 border-b border-slate-100 dark:border-slate-800">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 shadow-sm">
-          <PhoneCall className="h-4 w-4 text-white" />
-        </div>
-        <span className="text-lg font-bold text-slate-900 dark:text-white">
-          R4<span className="text-brand-600 dark:text-brand-400">Referral</span>
-        </span>
+        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[50px] w-[66px] dark:brightness-0 dark:invert" />
         {/* Close button -- mobile only */}
         <button
           onClick={close}

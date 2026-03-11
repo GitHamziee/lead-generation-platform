@@ -9,8 +9,8 @@ const CONTACT_INFO = [
   {
     icon: Phone,
     label: "Phone",
-    value: "+1 (800) 555-1234",
-    href: "tel:+18005551234",
+    value: "+1 (512) 678-0096",
+    href: "tel:+15126780096",
   },
   {
     icon: Mail,
@@ -21,7 +21,7 @@ const CONTACT_INFO = [
   {
     icon: MapPin,
     label: "Office",
-    value: "123 Business Ave, New York, NY 10001",
+    value: "5900 Balcones Dr, Ste 100, Austin, TX 78731",
     href: "#",
   },
   {

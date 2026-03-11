@@ -4,7 +4,8 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
-import { Menu, X, PhoneCall, User, ChevronDown, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Menu, X, User, ChevronDown, ArrowRight } from "lucide-react";
 import { NAV_LINKS } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import ThemeToggle from "@/components/shared/ThemeToggle";
@@ -47,15 +48,17 @@ export default function Navbar() {
           : "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800"
       }`}
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href={session?.user ? "/dashboard" : "/"} className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 shadow-md shadow-brand-600/25">
-            <PhoneCall className="h-4 w-4 text-white" />
-          </div>
-          <span className="text-lg font-bold text-slate-900 dark:text-white">
-            R4<span className="text-brand-600 dark:text-brand-400">Referral</span>
-          </span>
+          <Image
+            src="/logo.png"
+            alt="R4Referral"
+            width={80}
+            height={60}
+            className="h-[60px] w-[75px] dark:brightness-0 dark:invert"
+            priority
+          />
         </Link>
 
         {/* Desktop links */}
@@ -188,15 +191,17 @@ export default function Navbar() {
           )}
         </div>
 
-        {/* Mobile hamburger */}
-        <ThemeToggle className="md:hidden" />
-        <button
-          className="md:hidden text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
-          onClick={() => setIsOpen(!isOpen)}
-          aria-label="Toggle menu"
-        >
-          {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {/* Mobile: theme toggle + hamburger grouped on the right */}
+        <div className="flex md:hidden items-center gap-3">
+          <ThemeToggle />
+          <button
+            className="text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+            onClick={() => setIsOpen(!isOpen)}
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
