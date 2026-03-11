@@ -44,7 +44,7 @@ export async function GET(req: NextRequest) {
       where.status = "CANCELLED";
     }
 
-    const [purchases, total, activeCount, expiredCount, cancelledCount] =
+    const [purchases, total, statusCounts, staleActiveCount] =
       await Promise.all([
         prisma.purchase.findMany({
           where,
@@ -70,23 +70,23 @@ export async function GET(req: NextRequest) {
           take: limit,
         }),
         prisma.purchase.count({ where }),
-        prisma.purchase.count({
-          where: {
-            status: "ACTIVE",
-            OR: [{ expiresAt: { gt: now } }, { expiresAt: null }],
-          },
+        // Single groupBy instead of 3 separate counts
+        prisma.purchase.groupBy({
+          by: ["status"],
+          _count: { _all: true },
         }),
+        // Stale active = DB says ACTIVE but actually expired (lazy expiry)
         prisma.purchase.count({
-          where: {
-            OR: [
-              { status: "EXPIRED" },
-              { status: "ACTIVE", expiresAt: { lte: now } },
-            ],
-          },
+          where: { status: "ACTIVE", expiresAt: { lte: now } },
         }),
-        prisma.purchase.count({ where: { status: "CANCELLED" } }),
       ]);
 
+    const rawCounts = Object.fromEntries(
+      statusCounts.map((s) => [s.status, s._count._all])
+    );
+    const activeCount = (rawCounts["ACTIVE"] ?? 0) - staleActiveCount;
+    const expiredCount = (rawCounts["EXPIRED"] ?? 0) + staleActiveCount;
+    const cancelledCount = rawCounts["CANCELLED"] ?? 0;
     const totalAll = activeCount + expiredCount + cancelledCount;
 
     return NextResponse.json({

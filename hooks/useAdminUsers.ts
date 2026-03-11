@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface UserRow {
   id: string;
@@ -25,7 +25,9 @@ export function useAdminUsers() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<Stats>({ totalUsers: 0, admins: 0, agents: 0, activeSubs: 0 });
 
@@ -35,7 +37,7 @@ export function useAdminUsers() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: "10",
-        ...(search && { search }),
+        ...(debouncedSearch && { search: debouncedSearch }),
         ...(roleFilter && { role: roleFilter }),
         sortBy: "createdAt",
         sortOrder: "desc",
@@ -55,15 +57,25 @@ export function useAdminUsers() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, roleFilter]);
+  }, [page, debouncedSearch, roleFilter]);
 
   useEffect(() => {
     fetchUsers();
   }, [fetchUsers]);
 
-  useEffect(() => {
+  function changeSearch(value: string) {
+    setSearch(value);
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 300);
+  }
+
+  function changeRoleFilter(value: string) {
+    setRoleFilter(value);
     setPage(1);
-  }, [search, roleFilter]);
+  }
 
   return {
     users,
@@ -78,7 +90,7 @@ export function useAdminUsers() {
     agents: stats.agents,
     withSubs: stats.activeSubs,
     setPage,
-    setSearch,
-    setRoleFilter,
+    setSearch: changeSearch,
+    setRoleFilter: changeRoleFilter,
   };
 }

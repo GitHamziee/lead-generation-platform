@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface LeadInvoice {
   id: string;
@@ -51,7 +51,9 @@ export function useAdminLeads() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [agentFilter, setAgentFilter] = useState("");
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [statusFilter, setStatusFilter] = useState("");
   const [loading, setLoading] = useState(true);
   const [agents, setAgents] = useState<AgentOption[]>([]);
@@ -87,7 +89,7 @@ export function useAdminLeads() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: "10",
-        ...(search && { search }),
+        ...(debouncedSearch && { search: debouncedSearch }),
         ...(agentFilter && { agentId: agentFilter }),
         ...(statusFilter && { status: statusFilter }),
       });
@@ -106,7 +108,7 @@ export function useAdminLeads() {
     } finally {
       if (!silent) setLoading(false);
     }
-  }, [page, search, agentFilter, statusFilter]);
+  }, [page, debouncedSearch, agentFilter, statusFilter]);
 
   useEffect(() => {
     fetchLeads();
@@ -131,9 +133,25 @@ export function useAdminLeads() {
     return () => { stop(); document.removeEventListener("visibilitychange", onVisibility); };
   }, [fetchLeads]);
 
-  useEffect(() => {
+  // Batch filter + page reset — React 18 batches these into a single render
+  function changeSearch(value: string) {
+    setSearch(value);
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 300);
+  }
+
+  function changeAgentFilter(value: string) {
+    setAgentFilter(value);
     setPage(1);
-  }, [search, agentFilter, statusFilter]);
+  }
+
+  function changeStatusFilter(value: string) {
+    setStatusFilter(value);
+    setPage(1);
+  }
 
   return {
     leads,
@@ -149,9 +167,9 @@ export function useAdminLeads() {
     assignLeadId,
     invoiceLeadId,
     setPage,
-    setSearch,
-    setAgentFilter,
-    setStatusFilter,
+    setSearch: changeSearch,
+    setAgentFilter: changeAgentFilter,
+    setStatusFilter: changeStatusFilter,
     setAssignLeadId,
     setInvoiceLeadId,
     fetchLeads,

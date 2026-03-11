@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface SubscriptionRow {
   id: string;
@@ -29,7 +29,9 @@ export function useAdminSubscriptions() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<Stats>({ total: 0, active: 0, expired: 0, cancelled: 0 });
 
@@ -39,7 +41,7 @@ export function useAdminSubscriptions() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: "10",
-        ...(search && { search }),
+        ...(debouncedSearch && { search: debouncedSearch }),
         ...(statusFilter && { status: statusFilter }),
       });
 
@@ -57,15 +59,25 @@ export function useAdminSubscriptions() {
     } finally {
       setLoading(false);
     }
-  }, [page, search, statusFilter]);
+  }, [page, debouncedSearch, statusFilter]);
 
   useEffect(() => {
     fetchSubscriptions();
   }, [fetchSubscriptions]);
 
-  useEffect(() => {
+  function changeSearch(value: string) {
+    setSearch(value);
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 300);
+  }
+
+  function changeStatusFilter(value: string) {
+    setStatusFilter(value);
     setPage(1);
-  }, [search, statusFilter]);
+  }
 
   return {
     subscriptions,
@@ -77,7 +89,7 @@ export function useAdminSubscriptions() {
     loading,
     stats,
     setPage,
-    setSearch,
-    setStatusFilter,
+    setSearch: changeSearch,
+    setStatusFilter: changeStatusFilter,
   };
 }

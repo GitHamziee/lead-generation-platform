@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface LeadAgent {
   id: string;
@@ -53,8 +53,6 @@ export function useMyLeads() {
   const [error, setError] = useState("");
   const [selectedLead, setSelectedLead] = useState<MyLead | null>(null);
 
-  const hasFetched = useRef(false);
-
   const fetchLeads = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
     setError("");
@@ -80,7 +78,6 @@ export function useMyLeads() {
       if (!silent) setError("Network error");
     } finally {
       if (!silent) setLoading(false);
-      hasFetched.current = true;
     }
   }, [page, statusFilter]);
 
@@ -107,9 +104,11 @@ export function useMyLeads() {
     return () => { stop(); document.removeEventListener("visibilitychange", onVisibility); };
   }, [fetchLeads]);
 
-  useEffect(() => {
+  // Batch filter + page reset in one call — React 18 batches these into a single render
+  function changeStatusFilter(value: string) {
+    setStatusFilter(value);
     setPage(1);
-  }, [statusFilter]);
+  }
 
   async function handleAction(leadId: string, action: "accept" | "decline") {
     setActing(leadId);
@@ -179,7 +178,7 @@ export function useMyLeads() {
     selectedLead,
     setSelectedLead,
     setPage,
-    setStatusFilter,
+    setStatusFilter: changeStatusFilter,
     handleAction,
     handlePayInvoice,
   };

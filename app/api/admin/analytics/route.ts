@@ -29,81 +29,92 @@ export async function GET(req: NextRequest) {
     const monthEnd = new Date(Date.UTC(year, month + 1, 1));
     const trendStart = new Date(Date.UTC(year, month - 11, 1));
 
-    // All purchases = paid (created after Stripe checkout)
-    const [totalRevenueData, monthPurchases, allPackages, trendData, totalLeadInvoices, monthLeadInvoices, leadTrendData] =
-      await Promise.all([
-        // All-time revenue
-        prisma.purchase.findMany({
-          select: { package: { select: { price: true } } },
-        }),
-        // Selected month purchases with package info
-        prisma.purchase.findMany({
-          where: { createdAt: { gte: monthStart, lt: monthEnd } },
-          select: { package: { select: { name: true, price: true } } },
-        }),
-        // All packages for breakdown (include inactive so historical sales still show)
-        prisma.package.findMany({
-          where: { isCustom: false },
-          select: { name: true, price: true },
-          orderBy: { sortOrder: "asc" },
-        }),
-        // Last 12 months for trend
-        prisma.purchase.findMany({
-          where: { createdAt: { gte: trendStart, lt: monthEnd } },
-          select: {
-            createdAt: true,
-            package: { select: { price: true } },
-          },
-        }),
-        // All-time lead invoice revenue (PAID only)
-        prisma.invoice.findMany({
-          where: { status: "PAID" },
-          select: { amount: true },
-        }),
-        // Selected month lead invoices (PAID only)
-        prisma.invoice.findMany({
-          where: { status: "PAID", paidAt: { gte: monthStart, lt: monthEnd } },
-          select: { amount: true },
-        }),
-        // Last 12 months lead invoice trend
-        prisma.invoice.findMany({
-          where: { status: "PAID", paidAt: { gte: trendStart, lt: monthEnd } },
-          select: { amount: true, paidAt: true },
-        }),
-      ]);
+    const [
+      allPackages,
+      allTimeCounts,
+      monthCounts,
+      trendData,
+      totalLeadAgg,
+      monthLeadAgg,
+      leadTrendData,
+    ] = await Promise.all([
+      // All packages (for price map + breakdown display)
+      prisma.package.findMany({
+        select: { id: true, name: true, price: true, isCustom: true, sortOrder: true },
+      }),
+      // All-time: count per package (instead of fetching every purchase)
+      prisma.purchase.groupBy({
+        by: ["packageId"],
+        _count: { _all: true },
+      }),
+      // Selected month: count per package
+      prisma.purchase.groupBy({
+        by: ["packageId"],
+        where: { createdAt: { gte: monthStart, lt: monthEnd } },
+        _count: { _all: true },
+      }),
+      // 12-month trend (bounded, no join needed — use priceMap)
+      prisma.purchase.findMany({
+        where: { createdAt: { gte: trendStart, lt: monthEnd } },
+        select: { createdAt: true, packageId: true },
+      }),
+      // All-time lead invoice revenue (aggregate instead of fetching all)
+      prisma.invoice.aggregate({
+        where: { status: "PAID" },
+        _sum: { amount: true },
+      }),
+      // Selected month lead invoices (aggregate + count)
+      prisma.invoice.aggregate({
+        where: { status: "PAID", paidAt: { gte: monthStart, lt: monthEnd } },
+        _sum: { amount: true },
+        _count: { _all: true },
+      }),
+      // 12-month lead invoice trend (bounded)
+      prisma.invoice.findMany({
+        where: { status: "PAID", paidAt: { gte: trendStart, lt: monthEnd } },
+        select: { amount: true, paidAt: true },
+      }),
+    ]);
 
-    // Total all-time revenue (packages)
-    const totalRevenue = totalRevenueData.reduce(
-      (sum, p) => sum + p.package.price,
+    // Price + name maps for lookups
+    const priceMap = new Map(allPackages.map((p) => [p.id, p.price]));
+    const nameMap = new Map(allPackages.map((p) => [p.id, p.name]));
+
+    // All-time revenue: sum(count * price) per package — O(packages) not O(purchases)
+    const totalRevenue = allTimeCounts.reduce(
+      (sum, g) => sum + (priceMap.get(g.packageId) ?? 0) * g._count._all,
       0
     );
 
-    // Lead invoice revenue
-    const totalLeadRevenue = totalLeadInvoices.reduce((sum, inv) => sum + inv.amount, 0);
-    const monthLeadRevenue = monthLeadInvoices.reduce((sum, inv) => sum + inv.amount, 0);
+    // Lead invoice revenue (from aggregates — single number, no iteration)
+    const totalLeadRevenue = totalLeadAgg._sum.amount ?? 0;
+    const monthLeadRevenue = monthLeadAgg._sum.amount ?? 0;
+    const monthLeadCount = monthLeadAgg._count._all;
 
     // Month revenue + per-package breakdown
-    const packageMap = new Map<string, { count: number; revenue: number }>();
+    const packageBreakdown = new Map<string, { count: number; revenue: number }>();
     let monthRevenue = 0;
+    let monthSales = 0;
 
-    for (const p of monthPurchases) {
-      monthRevenue += p.package.price;
-      const entry = packageMap.get(p.package.name);
-      if (entry) {
-        entry.count++;
-        entry.revenue += p.package.price;
-      } else {
-        packageMap.set(p.package.name, { count: 1, revenue: p.package.price });
-      }
+    for (const g of monthCounts) {
+      const price = priceMap.get(g.packageId) ?? 0;
+      const count = g._count._all;
+      monthRevenue += price * count;
+      monthSales += count;
+      const name = nameMap.get(g.packageId) ?? "Unknown";
+      packageBreakdown.set(name, { count, revenue: price * count });
     }
 
-    // Include all active packages (even with 0 sales that month)
-    const packages = allPackages.map((pkg) => ({
-      name: pkg.name,
-      price: pkg.price,
-      count: packageMap.get(pkg.name)?.count ?? 0,
-      revenue: packageMap.get(pkg.name)?.revenue ?? 0,
-    }));
+    // Include all non-custom packages (even with 0 sales that month)
+    const packages = allPackages
+      .filter((p) => !p.isCustom)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((pkg) => ({
+        name: pkg.name,
+        price: pkg.price,
+        count: packageBreakdown.get(pkg.name)?.count ?? 0,
+        revenue: packageBreakdown.get(pkg.name)?.revenue ?? 0,
+      }));
 
     // Build 12-month trend
     const trendMap = new Map<string, { revenue: number; sales: number; leadRevenue: number; leadCount: number }>();
@@ -118,7 +129,7 @@ export async function GET(req: NextRequest) {
       const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
       const entry = trendMap.get(key);
       if (entry) {
-        entry.revenue += p.package.price;
+        entry.revenue += priceMap.get(p.packageId) ?? 0;
         entry.sales++;
       }
     }
@@ -142,10 +153,10 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({
       totalRevenue,
       monthRevenue,
-      monthSales: monthPurchases.length,
+      monthSales,
       totalLeadRevenue,
       monthLeadRevenue,
-      monthLeadCount: monthLeadInvoices.length,
+      monthLeadCount,
       selectedMonth: `${year}-${String(month + 1).padStart(2, "0")}`,
       packages,
       trend,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 export interface HistoryLead {
   id: string;
@@ -31,7 +31,9 @@ export function useLeadHistory() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [loading, setLoading] = useState(true);
+  const debounceRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const [stats, setStats] = useState<HistoryStats | null>(null);
 
   const fetchLeads = useCallback(async () => {
@@ -40,7 +42,7 @@ export function useLeadHistory() {
       const params = new URLSearchParams({
         page: page.toString(),
         limit: "10",
-        ...(search && { search }),
+        ...(debouncedSearch && { search: debouncedSearch }),
       });
 
       const res = await fetch(`/api/leads?${params}`);
@@ -57,15 +59,20 @@ export function useLeadHistory() {
     } finally {
       setLoading(false);
     }
-  }, [page, search]);
+  }, [page, debouncedSearch]);
 
   useEffect(() => {
     fetchLeads();
   }, [fetchLeads]);
 
-  useEffect(() => {
-    setPage(1);
-  }, [search]);
+  function changeSearch(value: string) {
+    setSearch(value);
+    clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setDebouncedSearch(value);
+      setPage(1);
+    }, 300);
+  }
 
   return {
     leads,
@@ -76,6 +83,6 @@ export function useLeadHistory() {
     loading,
     stats,
     setPage,
-    setSearch,
+    setSearch: changeSearch,
   };
 }

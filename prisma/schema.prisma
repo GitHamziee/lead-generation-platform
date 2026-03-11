@@ -150,6 +150,9 @@ model Purchase {
   package Package @relation(fields: [packageId], references: [id])
 
   @@index([userId, status])
+  @@index([status])
+  @@index([packageId])
+  @@index([createdAt])
   @@index([expiresAt])
 }
 
@@ -195,6 +198,8 @@ model Invoice {
   lead Lead @relation(fields: [leadId], references: [id], onDelete: Cascade)
 
   @@index([status])
+  @@index([paidAt])
+  @@index([createdAt])
 }
 
 model StripeLog {
