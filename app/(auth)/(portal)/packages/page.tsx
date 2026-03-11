@@ -1,13 +1,104 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { Check, Loader2 } from "lucide-react";
-import { usePackages } from "@/hooks/usePackages";
+import { Check, Loader2, Sparkles } from "lucide-react";
+import { usePackages, PackageData } from "@/hooks/usePackages";
 import { formatDateMST } from "@/lib/format-utils";
+
+function CustomPackageCard({
+  pkg,
+  isCurrentPlan,
+  subscribing,
+  onSubscribe,
+}: {
+  pkg: PackageData;
+  isCurrentPlan: boolean;
+  subscribing: string | null;
+  onSubscribe: (id: string) => void;
+}) {
+  return (
+    <div className="mb-8">
+      <div
+        className={`relative rounded-xl border-2 p-5 md:p-6 transition-all ${
+          isCurrentPlan
+            ? "border-brand-600 bg-brand-50/30 dark:bg-brand-900/30 shadow-md shadow-brand-600/10"
+            : "border-purple-300 dark:border-purple-700 bg-gradient-to-br from-purple-50 to-brand-50 dark:from-purple-900/20 dark:to-brand-900/20 shadow-sm"
+        }`}
+      >
+        {isCurrentPlan && (
+          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-brand-600 text-white px-4 py-1 rounded-full text-xs font-semibold">
+            Current Plan
+          </div>
+        )}
+
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="flex-1">
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles className="h-4 w-4 text-purple-500" />
+              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400">
+                Your Custom Plan
+              </span>
+            </div>
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 dark:text-white">
+              {pkg.name}
+            </h3>
+            {pkg.description && (
+              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400 mt-1">
+                {pkg.description}
+              </p>
+            )}
+            {pkg.features.length > 0 && (
+              <ul className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1.5">
+                {pkg.features.map((feature, idx) => (
+                  <li
+                    key={idx}
+                    className="flex items-start gap-2 text-xs md:text-sm text-slate-600 dark:text-slate-400"
+                  >
+                    <Check className="h-3.5 w-3.5 text-purple-500 mt-0.5 flex-shrink-0" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="flex flex-col items-end gap-3 shrink-0">
+            <span className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white">
+              ${(pkg.price / 100).toLocaleString()}
+            </span>
+            {isCurrentPlan ? (
+              <button
+                disabled
+                className="px-6 py-2.5 border-2 border-brand-600 text-brand-600 font-semibold rounded-lg cursor-default text-xs md:text-sm"
+              >
+                Current Plan
+              </button>
+            ) : (
+              <button
+                onClick={() => onSubscribe(pkg.id)}
+                disabled={subscribing === pkg.id}
+                className="px-6 py-2.5 bg-brand-600 hover:bg-brand-700 disabled:bg-brand-400 text-white font-semibold rounded-lg transition-colors text-xs md:text-sm flex items-center gap-2"
+              >
+                {subscribing === pkg.id ? (
+                  <>
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Processing...
+                  </>
+                ) : (
+                  "Subscribe"
+                )}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PackagesPage() {
   const { data: session } = useSession();
-  const { packages, activePurchase, loading, subscribing, handleSubscribe } =
+  const { packages, customPackage, activePurchase, loading, subscribing, handleSubscribe } =
     usePackages();
 
   return (
@@ -35,6 +126,16 @@ export default function PackagesPage() {
             )}
           </p>
         </div>
+      )}
+
+      {/* Custom package card */}
+      {customPackage && !loading && (
+        <CustomPackageCard
+          pkg={customPackage}
+          isCurrentPlan={activePurchase?.packageId === customPackage.id}
+          subscribing={subscribing}
+          onSubscribe={handleSubscribe}
+        />
       )}
 
       {/* Package cards */}

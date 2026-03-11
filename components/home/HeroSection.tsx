@@ -78,7 +78,24 @@ function AnimatedCounter({
   );
 }
 
+function rand(min: number, max: number, decimals = 0) {
+  const val = Math.random() * (max - min) + min;
+  return decimals > 0 ? parseFloat(val.toFixed(decimals)) : Math.round(val);
+}
+
+const DEFAULT_STATS = { today: 34, week: 187, rate: 92.4 };
+
 export default function HeroSection() {
+  const [stats, setStats] = useState(DEFAULT_STATS);
+
+  useEffect(() => {
+    setStats({
+      today: rand(18, 52),
+      week: rand(120, 310),
+      rate: rand(88, 97, 1),
+    });
+  }, []);
+
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-white dark:bg-slate-950">
       {/* Background elements */}
@@ -203,9 +220,9 @@ export default function HeroSection() {
               {/* Stats */}
               <div className="space-y-3">
                 {[
-                  { label: "Leads delivered today", target: 34, decimals: 0, suffix: "", color: "text-white", delay: 1.1 },
-                  { label: "Verified this week", target: 187, decimals: 0, suffix: "", color: "text-green-400", delay: 1.2 },
-                  { label: "Avg. contact rate", target: 92.4, decimals: 1, suffix: "%", color: "text-brand-400", delay: 1.3 },
+                  { label: "Leads delivered today", target: stats.today, decimals: 0, suffix: "", color: "text-white", delay: 1.1 },
+                  { label: "Verified this week", target: stats.week, decimals: 0, suffix: "", color: "text-green-400", delay: 1.2 },
+                  { label: "Avg. contact rate", target: stats.rate, decimals: 1, suffix: "%", color: "text-brand-400", delay: 1.3 },
                 ].map((row) => (
                   <div key={row.label} className="flex justify-between items-center text-sm">
                     <span className="text-white/60">{row.label}</span>
@@ -219,7 +236,7 @@ export default function HeroSection() {
                     <motion.div
                       className="h-2 rounded-full bg-gradient-to-r from-white/80 to-white/40"
                       initial={{ width: "0%" }}
-                      animate={{ width: "92%" }}
+                      animate={{ width: `${stats.rate}%` }}
                       transition={{ duration: 1.2, delay: 1.2, ease: "easeOut" }}
                     />
                   </div>
@@ -229,7 +246,7 @@ export default function HeroSection() {
                     transition={{ duration: 0.4, delay: 2.4 }}
                     className="mt-1.5 text-xs text-white/40 text-right"
                   >
-                    92% verification rate
+                    {stats.rate}% verification rate
                   </motion.p>
                 </div>
               </div>

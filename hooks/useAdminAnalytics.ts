@@ -13,12 +13,17 @@ interface TrendPoint {
   month: string;
   revenue: number;
   sales: number;
+  leadRevenue: number;
+  leadCount: number;
 }
 
 export interface AnalyticsData {
   totalRevenue: number;
   monthRevenue: number;
   monthSales: number;
+  totalLeadRevenue: number;
+  monthLeadRevenue: number;
+  monthLeadCount: number;
   selectedMonth: string;
   packages: PackageBreakdown[];
   trend: TrendPoint[];

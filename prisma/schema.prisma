@@ -63,6 +63,7 @@ model User {
   passwordResetTokens PasswordResetToken[]
   agentLeads         Lead[] @relation("AgentLeads")
   assignedLeads      Lead[] @relation("AssignedLeads")
+  customPackage      Package? @relation("CustomPackage")
 
   @@index([createdAt])
   @@index([role])
@@ -116,20 +117,23 @@ model PasswordResetToken {
 }
 
 model Package {
-  id            String   @id @default(cuid())
-  name          String   @unique
-  description   String?
-  price         Int      // cents (e.g., 149900 = $1,499.00)
-  features      String[]
-  durationDays  Int?     // null = no expiry (lifetime/lead-based)
-  type          PackageType @default(SUBSCRIPTION)
-  isActive      Boolean  @default(true)
-  sortOrder     Int      @default(0)
-  stripePriceId String?  @unique
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             String      @id @default(cuid())
+  name           String      @unique
+  description    String?
+  price          Int         // cents (e.g., 149900 = $1,499.00)
+  features       String[]
+  durationDays   Int?        // null = no expiry (lifetime/lead-based)
+  type           PackageType @default(SUBSCRIPTION)
+  isActive       Boolean     @default(true)
+  isCustom       Boolean     @default(false)
+  assignedUserId String?     @unique
+  sortOrder      Int         @default(0)
+  stripePriceId  String?     @unique
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 
-  purchases Purchase[]
+  purchases    Purchase[]
+  assignedUser User?    @relation("CustomPackage", fields: [assignedUserId], references: [id], onDelete: Cascade)
 }
 
 model Purchase {

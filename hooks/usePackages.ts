@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 
 export interface PackageData {
   id: string;
@@ -8,6 +9,8 @@ export interface PackageData {
   description: string | null;
   price: number;
   features: string[];
+  durationDays?: number | null;
+  type?: string;
 }
 
 export interface PurchaseData {
@@ -19,7 +22,9 @@ export interface PurchaseData {
 }
 
 export function usePackages() {
+  const { data: session } = useSession();
   const [packages, setPackages] = useState<PackageData[]>([]);
+  const [customPackage, setCustomPackage] = useState<PackageData | null>(null);
   const [activePurchase, setActivePurchase] = useState<PurchaseData | null>(
     null
   );
@@ -29,13 +34,19 @@ export function usePackages() {
   useEffect(() => {
     async function fetchData() {
       try {
+        const userId = session?.user?.id;
+        const pkgUrl = userId ? `/api/packages?userId=${userId}` : "/api/packages";
+
         const [pkgRes, purchaseRes] = await Promise.all([
-          fetch("/api/packages"),
+          fetch(pkgUrl),
           fetch("/api/auth/purchases"),
         ]);
 
         const pkgData = await pkgRes.json();
-        if (pkgRes.ok) setPackages(pkgData.packages);
+        if (pkgRes.ok) {
+          setPackages(pkgData.packages);
+          setCustomPackage(pkgData.customPackage || null);
+        }
 
         if (purchaseRes.ok) {
           const purchaseData = await purchaseRes.json();
@@ -47,8 +58,8 @@ export function usePackages() {
         setLoading(false);
       }
     }
-    fetchData();
-  }, []);
+    if (session !== undefined) fetchData();
+  }, [session]);
 
   const handleSubscribe = async (packageId: string) => {
     setSubscribing(packageId);
@@ -75,6 +86,7 @@ export function usePackages() {
 
   return {
     packages,
+    customPackage,
     activePurchase,
     loading,
     subscribing,

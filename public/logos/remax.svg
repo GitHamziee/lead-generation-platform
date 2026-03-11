@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 60">
+  <ellipse cx="24" cy="30" rx="20" ry="24" fill="none" stroke="#dc3545" stroke-width="3"/>
+  <text x="12" y="36" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="18" fill="#003da5">R</text>
+  <text x="52" y="40" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="30" fill="#003da5" letter-spacing="-1">RE/MAX</text>
+</svg>

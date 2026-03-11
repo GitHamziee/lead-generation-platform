@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     const trendStart = new Date(Date.UTC(year, month - 11, 1));
 
     // All purchases = paid (created after Stripe checkout)
-    const [totalRevenueData, monthPurchases, allPackages, trendData] =
+    const [totalRevenueData, monthPurchases, allPackages, trendData, totalLeadInvoices, monthLeadInvoices, leadTrendData] =
       await Promise.all([
         // All-time revenue
         prisma.purchase.findMany({
@@ -43,6 +43,7 @@ export async function GET(req: NextRequest) {
         }),
         // All packages for breakdown (include inactive so historical sales still show)
         prisma.package.findMany({
+          where: { isCustom: false },
           select: { name: true, price: true },
           orderBy: { sortOrder: "asc" },
         }),
@@ -54,13 +55,32 @@ export async function GET(req: NextRequest) {
             package: { select: { price: true } },
           },
         }),
+        // All-time lead invoice revenue (PAID only)
+        prisma.invoice.findMany({
+          where: { status: "PAID" },
+          select: { amount: true },
+        }),
+        // Selected month lead invoices (PAID only)
+        prisma.invoice.findMany({
+          where: { status: "PAID", paidAt: { gte: monthStart, lt: monthEnd } },
+          select: { amount: true },
+        }),
+        // Last 12 months lead invoice trend
+        prisma.invoice.findMany({
+          where: { status: "PAID", paidAt: { gte: trendStart, lt: monthEnd } },
+          select: { amount: true, paidAt: true },
+        }),
       ]);
 
-    // Total all-time revenue
+    // Total all-time revenue (packages)
     const totalRevenue = totalRevenueData.reduce(
       (sum, p) => sum + p.package.price,
       0
     );
+
+    // Lead invoice revenue
+    const totalLeadRevenue = totalLeadInvoices.reduce((sum, inv) => sum + inv.amount, 0);
+    const monthLeadRevenue = monthLeadInvoices.reduce((sum, inv) => sum + inv.amount, 0);
 
     // Month revenue + per-package breakdown
     const packageMap = new Map<string, { count: number; revenue: number }>();
@@ -86,11 +106,11 @@ export async function GET(req: NextRequest) {
     }));
 
     // Build 12-month trend
-    const trendMap = new Map<string, { revenue: number; sales: number }>();
+    const trendMap = new Map<string, { revenue: number; sales: number; leadRevenue: number; leadCount: number }>();
     for (let i = 11; i >= 0; i--) {
       const d = new Date(Date.UTC(year, month - i, 1));
       const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
-      trendMap.set(key, { revenue: 0, sales: 0 });
+      trendMap.set(key, { revenue: 0, sales: 0, leadRevenue: 0, leadCount: 0 });
     }
 
     for (const p of trendData) {
@@ -103,6 +123,17 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    for (const inv of leadTrendData) {
+      if (!inv.paidAt) continue;
+      const d = new Date(inv.paidAt);
+      const key = `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, "0")}`;
+      const entry = trendMap.get(key);
+      if (entry) {
+        entry.leadRevenue += inv.amount;
+        entry.leadCount++;
+      }
+    }
+
     const trend = Array.from(trendMap.entries()).map(([m, d]) => ({
       month: m,
       ...d,
@@ -112,6 +143,9 @@ export async function GET(req: NextRequest) {
       totalRevenue,
       monthRevenue,
       monthSales: monthPurchases.length,
+      totalLeadRevenue,
+      monthLeadRevenue,
+      monthLeadCount: monthLeadInvoices.length,
       selectedMonth: `${year}-${String(month + 1).padStart(2, "0")}`,
       packages,
       trend,

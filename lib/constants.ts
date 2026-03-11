@@ -256,51 +256,62 @@ export const PRICING_PLANS = [
   {
     name: "Pay Per Lead",
     price: "$375",
-    period: "one-time setup",
-    description: "Only pay for the leads you receive. No commitment, no risk.",
+    period: "lifetime",
+    description:
+      "Start with zero risk. Pay only for leads you accept — cancel anytime.",
     features: [
-      "$375 one-time setup fee",
-      "$100 per qualified lead",
-      "Lifetime access — no expiry",
-      "Pay as you go",
-      "Lead details shown after payment",
+      "$375 one-time setup (lifetime access)",
+      "$100 per accepted lead",
+      "Minimum 2 leads",
+      "Human verified leads",
+      "Live transfers",
+      "Scheduled appointments (with recording)",
+      "Premium portal access",
+      "Free follow-up",
+      "24/7 customer support",
       "Cancel anytime",
     ],
     cta: "Get Started",
     highlighted: false,
   },
   {
-    name: "Bi-Annual",
-    price: "$699",
-    period: "/6 months",
+    name: "Bundle Offer",
+    price: "$949",
+    originalPrice: "$1,375",
+    period: "one-time",
     description:
-      "Our most popular plan. High volume leads with performance-based pricing.",
+      "Best value — 10 guaranteed leads at a steep discount. Everything included.",
     features: [
-      "$699 for 6-month term",
-      "12–15 qualified leads included",
-      "15% commission per closing",
-      "Lead info available immediately",
-      "Re-activate after 6 months",
-      "Priority support",
+      "10 guaranteed leads",
+      "Human verified leads",
+      "Live transfers",
+      "Scheduled appointments (with recording)",
+      "Premium portal access",
+      "Free follow-up",
+      "24/7 customer support",
     ],
-    cta: "Most Popular",
+    cta: "Best Value",
     highlighted: true,
   },
   {
-    name: "Mega Bundle",
-    price: "$825",
-    period: "one-time",
+    name: "Referral Plan",
+    price: "$699",
+    period: "/4 months",
     description:
-      "Maximum value with guaranteed leads and the biggest savings.",
+      "High volume leads with low upfront cost and a small referral fee on closings.",
     features: [
-      "$825 one-time payment",
-      "10 guaranteed leads",
-      "40% off standard pricing",
-      "Lead info available immediately",
-      "Plan expires after 10 leads",
-      "Best value per lead",
+      "$699 for 4-month term",
+      "8–12 leads included",
+      "15% referral fee per closing",
+      "Human verified leads",
+      "Scheduled appointments (with recording)",
+      "Exclusive leads",
+      "Premium portal access",
+      "Free follow-up",
+      "Reimbursement offer",
+      "24/7 customer support",
     ],
-    cta: "Best Value",
+    cta: "Get Started",
     highlighted: false,
   },
 ];
@@ -309,17 +320,27 @@ export const PRICING_FAQ = [
   {
     question: "How does Pay Per Lead work?",
     answer:
-      "You pay a one-time $375 setup fee, then $100 for each qualified lead we deliver. There's no expiry — your account stays active for life. Lead details are shared after payment.",
+      "You pay a one-time $375 setup fee for lifetime access, then $100 for each lead you accept. All leads are human verified with live transfers and scheduled appointments. You can cancel anytime.",
   },
   {
-    question: "What's included in the Bi-Annual plan?",
+    question: "What's included in the Bundle Offer?",
     answer:
-      "For $699 you get 12–15 qualified leads over a 6-month period, plus a 15% commission on each successful closing. Lead information is available immediately. You can re-activate after the term ends.",
+      "The Bundle Offer gives you 10 guaranteed, human-verified leads for a one-time payment of $949 (originally $1,375). Every lead comes with live transfers, scheduled appointments with recordings, premium portal access, free follow-up, and 24/7 support.",
   },
   {
-    question: "How does the Mega Bundle expire?",
+    question: "How does the Referral Plan work?",
     answer:
-      "The Mega Bundle gives you 10 guaranteed leads at 40% off. Once all 10 leads have been delivered, the plan is complete. It's the best value per lead we offer.",
+      "For $699 you get 8–12 exclusive leads over a 4-month term. There's a 15% referral fee on closings. If leads don't meet our quality standards, we offer reimbursement. Includes scheduled appointments, premium portal, and 24/7 support.",
+  },
+  {
+    question: "What does 'human verified' mean?",
+    answer:
+      "Every lead is verified by a real person on our team — not just a form submission. We confirm intent, contact details, and readiness before a lead is delivered to you.",
+  },
+  {
+    question: "What are live transfers?",
+    answer:
+      "When we connect with a qualified lead, we transfer the call directly to you in real time. You speak with the lead while their interest is at its highest.",
   },
   {
     question: "Can I switch between plans?",
@@ -332,9 +353,9 @@ export const PRICING_FAQ = [
       "Most agents start receiving verified leads within 3–5 business days of signing up and setting their targeting preferences.",
   },
   {
-    question: "What areas do you cover?",
+    question: "What's the reimbursement offer on the Referral Plan?",
     answer:
-      "We deliver leads across all 50 US states with hyper-local targeting. You can specify zip codes, cities, or counties to match your farm area.",
+      "If any lead on the Referral Plan doesn't meet our quality standards, we'll reimburse or replace it. We stand behind the quality of every lead we deliver.",
   },
 ];
 

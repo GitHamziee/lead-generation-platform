@@ -44,58 +44,67 @@ async function main() {
     {
       name: "Pay Per Lead",
       description:
-        "Only pay for the leads you receive. $375 one-time setup, then $100 per lead. Lifetime access.",
+        "Start with zero risk. $375 one-time setup for lifetime access, then $100 per accepted lead. Cancel anytime.",
       price: 37500, // $375.00 setup fee
       type: "PAY_PER_LEAD" as const,
       durationDays: null, // lifetime — no expiry
       features: [
-        "$375 one-time setup fee",
-        "$100 per qualified lead",
-        "Lifetime access — no expiry",
-        "Pay as you go",
-        "Lead details shown after payment",
+        "$375 one-time setup (lifetime access)",
+        "$100 per accepted lead",
+        "Minimum 2 leads",
+        "Human verified leads",
+        "Live transfers",
+        "Scheduled appointments (with recording)",
+        "Premium portal access",
+        "Free follow-up",
+        "24/7 customer support",
         "Cancel anytime",
       ],
       sortOrder: 1,
     },
     {
-      name: "Bi-Annual",
+      name: "Bundle Offer",
       description:
-        "High volume leads with performance-based pricing. 12–15 leads over 6 months.",
-      price: 69900, // $699.00
-      durationDays: 180, // 6 months
+        "Best value — 10 guaranteed leads at a steep discount. Everything included.",
+      price: 94900, // $949.00
+      durationDays: null, // no time expiry — expires after 10 leads
       features: [
-        "$699 for 6-month term",
-        "12–15 qualified leads included",
-        "15% commission per closing",
-        "Lead info available immediately",
-        "Re-activate after 6 months",
-        "Priority support",
+        "10 guaranteed leads",
+        "Human verified leads",
+        "Live transfers",
+        "Scheduled appointments (with recording)",
+        "Premium portal access",
+        "Free follow-up",
+        "24/7 customer support",
       ],
       sortOrder: 2,
     },
     {
-      name: "Mega Bundle",
+      name: "Referral Plan",
       description:
-        "Maximum value with 10 guaranteed leads at 40% off. Best price per lead.",
-      price: 82500, // $825.00
-      durationDays: null, // no time expiry — expires after 10 leads
+        "High volume leads with low upfront cost and a 15% referral fee on closings.",
+      price: 69900, // $699.00
+      durationDays: 120, // 4 months
       features: [
-        "$825 one-time payment",
-        "10 guaranteed leads",
-        "40% off standard pricing",
-        "Lead info available immediately",
-        "Plan expires after 10 leads",
-        "Best value per lead",
+        "$699 for 4-month term",
+        "8–12 leads included",
+        "15% referral fee per closing",
+        "Human verified leads",
+        "Scheduled appointments (with recording)",
+        "Exclusive leads",
+        "Premium portal access",
+        "Free follow-up",
+        "Reimbursement offer",
+        "24/7 customer support",
       ],
       sortOrder: 3,
     },
   ];
 
-  // Deactivate old packages that are no longer in the seed list
+  // Deactivate old packages that are no longer in the seed list (skip custom packages)
   const packageNames = packages.map((p) => p.name);
   await prisma.package.updateMany({
-    where: { name: { notIn: packageNames } },
+    where: { name: { notIn: packageNames }, isCustom: false },
     data: { isActive: false },
   });
 

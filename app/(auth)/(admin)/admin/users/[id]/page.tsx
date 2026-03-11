@@ -17,6 +17,9 @@ import {
   Target,
   UserCheck,
   DollarSign,
+  Sparkles,
+  Trash2,
+  Plus,
 } from "lucide-react";
 import { US_STATE_MAP } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
@@ -71,6 +74,24 @@ export default function AdminUserDetailPage({
     setLeadCostInput,
     savingLeadCost,
     saveLeadCost,
+    customName,
+    setCustomName,
+    customPrice,
+    setCustomPrice,
+    customType,
+    setCustomType,
+    customDuration,
+    setCustomDuration,
+    customDescription,
+    setCustomDescription,
+    customFeatures,
+    setCustomFeatures,
+    savingCustom,
+    deletingCustom,
+    showCustomForm,
+    setShowCustomForm,
+    saveCustomPackage,
+    deleteCustomPackage,
   } = useAdminUserDetail(id);
 
   if (loading) {
@@ -355,6 +376,208 @@ export default function AdminUserDetailPage({
               Invoice is automatically sent when this client accepts a lead. Set to $0.00 for manual invoicing.
             </p>
           </div>
+        </div>
+      )}
+
+      {/* Custom Package — only for USER role */}
+      {user.role === "USER" && (
+        <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 overflow-hidden mb-5">
+          <div className="px-4 py-3 sm:px-6 sm:py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-4 w-4 text-slate-400 dark:text-slate-500" />
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">Custom Package</h3>
+            </div>
+            {user.customPackage && !showCustomForm && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setShowCustomForm(true)}
+                className="text-xs h-7"
+              >
+                Edit
+              </Button>
+            )}
+          </div>
+
+          {!showCustomForm && !user.customPackage ? (
+            <div className="text-center py-10">
+              <Sparkles className="h-7 w-7 mx-auto mb-2 text-slate-300 dark:text-slate-600" />
+              <p className="text-sm text-slate-400 dark:text-slate-500 mb-3">No custom package assigned</p>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => setShowCustomForm(true)}
+                className="text-xs"
+              >
+                <Plus className="h-3 w-3 mr-1" />
+                Create Custom Package
+              </Button>
+            </div>
+          ) : showCustomForm ? (
+            <div className="px-4 py-4 sm:px-6 space-y-4">
+              {/* Name */}
+              <div>
+                <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Package Name</label>
+                <input
+                  type="text"
+                  placeholder="e.g. Custom Plan for John"
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                />
+              </div>
+
+              {/* Price + Type row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Price</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 text-sm">$</span>
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.01"
+                      placeholder="0.00"
+                      value={customPrice}
+                      onChange={(e) => setCustomPrice(e.target.value)}
+                      className="w-full pl-7 pr-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Type</label>
+                  <div className="flex items-center gap-1 rounded-lg border border-slate-200 dark:border-slate-600 bg-slate-50 dark:bg-slate-800 p-1">
+                    {[
+                      { label: "Subscription", value: "SUBSCRIPTION" as const },
+                      { label: "Pay Per Lead", value: "PAY_PER_LEAD" as const },
+                    ].map((opt) => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setCustomType(opt.value)}
+                        className={`flex-1 px-2.5 py-1.5 rounded-md text-xs font-medium transition-all ${
+                          customType === opt.value
+                            ? "bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-sm ring-1 ring-slate-200 dark:ring-slate-600"
+                            : "text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Duration */}
+              <div>
+                <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Duration (days)</label>
+                <input
+                  type="number"
+                  min="0"
+                  placeholder="Leave empty for no expiry"
+                  value={customDuration}
+                  onChange={(e) => setCustomDuration(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                />
+              </div>
+
+              {/* Description */}
+              <div>
+                <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Description</label>
+                <input
+                  type="text"
+                  placeholder="Brief description"
+                  value={customDescription}
+                  onChange={(e) => setCustomDescription(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all"
+                />
+              </div>
+
+              {/* Features */}
+              <div>
+                <label className="text-xs font-medium text-slate-500 dark:text-slate-400 mb-1 block">Features (one per line)</label>
+                <textarea
+                  rows={4}
+                  placeholder={"10 guaranteed leads\nLive transfers\n24/7 support"}
+                  value={customFeatures}
+                  onChange={(e) => setCustomFeatures(e.target.value)}
+                  className="w-full px-4 py-2.5 border border-slate-200 dark:border-slate-600 rounded-lg text-sm bg-white dark:bg-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all resize-none"
+                />
+              </div>
+
+              {/* Actions */}
+              <div className="flex items-center justify-between pt-2">
+                <div className="flex items-center gap-2">
+                  {user.customPackage && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={deleteCustomPackage}
+                      disabled={deletingCustom}
+                      className="text-xs text-red-600 border-red-200 hover:bg-red-50 dark:text-red-400 dark:border-red-800 dark:hover:bg-red-900/30"
+                    >
+                      <Trash2 className="h-3 w-3 mr-1" />
+                      {deletingCustom ? "Deleting..." : "Delete"}
+                    </Button>
+                  )}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => {
+                      setShowCustomForm(false);
+                      // Reset form if no existing package
+                      if (!user.customPackage) {
+                        setCustomName("");
+                        setCustomPrice("");
+                        setCustomType("SUBSCRIPTION");
+                        setCustomDuration("");
+                        setCustomDescription("");
+                        setCustomFeatures("");
+                      }
+                    }}
+                    className="text-xs"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    size="sm"
+                    onClick={saveCustomPackage}
+                    disabled={savingCustom || !customName.trim()}
+                    className="bg-brand-600 hover:bg-brand-700 text-white text-xs"
+                  >
+                    {savingCustom ? "Saving..." : user.customPackage ? "Update Package" : "Create Package"}
+                  </Button>
+                </div>
+              </div>
+            </div>
+          ) : (
+            /* Summary view when custom package exists but form is hidden */
+            <div className="px-4 py-4 sm:px-6">
+              <div className="flex items-center justify-between mb-2">
+                <p className="text-sm font-semibold text-slate-900 dark:text-white">{user.customPackage!.name}</p>
+                <span className="text-sm font-bold text-brand-600">${(user.customPackage!.price / 100).toLocaleString("en-US", { minimumFractionDigits: 2 })}</span>
+              </div>
+              {user.customPackage!.description && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-2">{user.customPackage!.description}</p>
+              )}
+              <div className="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500">
+                <span className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                  user.customPackage!.type === "PAY_PER_LEAD"
+                    ? "bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400"
+                    : "bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                }`}>
+                  {user.customPackage!.type === "PAY_PER_LEAD" ? "Pay Per Lead" : "Subscription"}
+                </span>
+                {user.customPackage!.durationDays && (
+                  <span>{user.customPackage!.durationDays} days</span>
+                )}
+                {user.customPackage!.features.length > 0 && (
+                  <span>{user.customPackage!.features.length} features</span>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       )}
 

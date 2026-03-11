@@ -13,7 +13,15 @@
       "Bash(npm run dev)",
       "Bash(stripe --version)",
       "Bash(stripe config --list)",
-      "Bash(npx tsc --noEmit --pretty)"
+      "Bash(npx tsc --noEmit --pretty)",
+      "Bash(npx tsc --noEmit)",
+      "Bash(ls -la \"c:/Users/HamzaRafique/callcenter-site/app/\\(marketing\\)/services/\")",
+      "Bash(node -e \":*)",
+      "Bash(npx prisma generate)",
+      "Bash(npx next build)",
+      "Bash(curl -s http://localhost:3000)",
+      "Bash(npx next dev --turbopack)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)"
     ]
   }
 }

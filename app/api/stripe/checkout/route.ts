@@ -39,6 +39,14 @@ export async function POST(req: Request) {
       );
     }
 
+    // Custom packages can only be purchased by the assigned user
+    if (pkg.isCustom && pkg.assignedUserId !== userId) {
+      return NextResponse.json(
+        { error: "This package is not available for your account" },
+        { status: 403 }
+      );
+    }
+
     if (pkg.price === 0) {
       return NextResponse.json(
         { error: "Contact sales for Enterprise pricing" },

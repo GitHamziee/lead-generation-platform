@@ -42,6 +42,18 @@ export async function GET(
           },
           orderBy: { createdAt: "desc" },
         },
+        customPackage: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            features: true,
+            durationDays: true,
+            type: true,
+            isActive: true,
+          },
+        },
       },
     });
 
@@ -133,6 +145,59 @@ export async function PATCH(
         data: { leadCost: cents },
       });
       return NextResponse.json({ message: "Lead cost updated successfully" });
+    }
+
+    // --- Custom package ---
+    if (body.action === "customPackage") {
+      if (body.subAction === "delete") {
+        // Delete custom package (and associated purchases)
+        const existing = await prisma.package.findFirst({
+          where: { assignedUserId: id, isCustom: true },
+        });
+        if (!existing) {
+          return NextResponse.json({ error: "No custom package found" }, { status: 404 });
+        }
+        await prisma.purchase.deleteMany({ where: { packageId: existing.id } });
+        await prisma.package.delete({ where: { id: existing.id } });
+        return NextResponse.json({ message: "Custom package deleted" });
+      }
+
+      // Save (create or update)
+      const { name, price, description, features, type, durationDays } = body;
+      if (!name || price === undefined || price === null) {
+        return NextResponse.json({ error: "Name and price are required" }, { status: 400 });
+      }
+      const cents = Math.round(Number(price));
+      if (isNaN(cents) || cents < 0) {
+        return NextResponse.json({ error: "Invalid price" }, { status: 400 });
+      }
+
+      const packageData = {
+        name: String(name),
+        price: cents,
+        description: description || null,
+        features: Array.isArray(features) ? features : [],
+        type: type === "PAY_PER_LEAD" ? "PAY_PER_LEAD" as const : "SUBSCRIPTION" as const,
+        durationDays: durationDays ? parseInt(durationDays) : null,
+        isActive: true,
+        isCustom: true,
+        assignedUserId: id,
+      };
+
+      const existing = await prisma.package.findFirst({
+        where: { assignedUserId: id, isCustom: true },
+      });
+
+      if (existing) {
+        await prisma.package.update({
+          where: { id: existing.id },
+          data: packageData,
+        });
+      } else {
+        await prisma.package.create({ data: packageData });
+      }
+
+      return NextResponse.json({ message: "Custom package saved" });
     }
 
     // --- Role change ---

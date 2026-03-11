@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 60">
+  <text x="0" y="22" font-family="Arial, Helvetica, sans-serif" font-weight="300" font-size="14" fill="#1a1a1a" letter-spacing="4">CENTURY</text>
+  <text x="0" y="50" font-family="Arial, Helvetica, sans-serif" font-weight="900" font-size="30" fill="#bd8c2c">21</text>
+  <rect x="42" y="34" width="70" height="2.5" rx="1" fill="#bd8c2c" opacity="0.7"/>
+</svg>

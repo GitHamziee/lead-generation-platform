@@ -8,6 +8,8 @@ import {
   ChevronRight,
   BarChart3,
   Package,
+  Users,
+  Receipt,
 } from "lucide-react";
 import { useAdminAnalytics } from "@/hooks/useAdminAnalytics";
 
@@ -32,7 +34,7 @@ export default function AdminAnalyticsPage() {
     useAdminAnalytics();
 
   const maxTrendRevenue =
-    data?.trend.reduce((max, t) => Math.max(max, t.revenue), 0) || 1;
+    data?.trend.reduce((max, t) => Math.max(max, t.revenue + t.leadRevenue), 0) || 1;
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -78,15 +80,15 @@ export default function AdminAnalyticsPage() {
         </div>
       ) : data ? (
         <>
-          {/* Revenue cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 sm:gap-4 mb-6">
+          {/* Combined revenue cards */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mb-6">
             <div className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
               <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-emerald-50 dark:bg-emerald-900/30 shrink-0">
                 <DollarSign className="h-4 w-4 sm:h-5 sm:w-5 text-emerald-600" />
               </div>
               <div>
                 <p className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">
-                  {formatCents(data.totalRevenue)}
+                  {formatCents(data.totalRevenue + data.totalLeadRevenue)}
                 </p>
                 <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
                   All-Time Revenue
@@ -99,14 +101,14 @@ export default function AdminAnalyticsPage() {
               </div>
               <div>
                 <p className="text-lg sm:text-2xl font-semibold text-slate-900 dark:text-white">
-                  {formatCents(data.monthRevenue)}
+                  {formatCents(data.monthRevenue + data.monthLeadRevenue)}
                 </p>
                 <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
                   {formatMonthLabel(month)} Revenue
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
+            <div className="flex items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4 col-span-2 sm:col-span-1">
               <div className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-lg bg-violet-50 dark:bg-violet-900/30 shrink-0">
                 <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 text-violet-600" />
               </div>
@@ -118,6 +120,46 @@ export default function AdminAnalyticsPage() {
                   {formatMonthLabel(month)} Sales
                 </p>
               </div>
+            </div>
+          </div>
+
+          {/* Revenue breakdown row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mb-6">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Package className="h-3 w-3 text-blue-500" />
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Package Revenue</p>
+              </div>
+              <p className="text-sm sm:text-lg font-semibold text-slate-900 dark:text-white">
+                {formatCents(data.monthRevenue)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Receipt className="h-3 w-3 text-amber-500" />
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Lead Revenue</p>
+              </div>
+              <p className="text-sm sm:text-lg font-semibold text-slate-900 dark:text-white">
+                {formatCents(data.monthLeadRevenue)}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
+              <div className="flex items-center gap-1.5 mb-1">
+                <Users className="h-3 w-3 text-violet-500" />
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Leads Paid</p>
+              </div>
+              <p className="text-sm sm:text-lg font-semibold text-slate-900 dark:text-white">
+                {data.monthLeadCount}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-3 sm:p-4">
+              <div className="flex items-center gap-1.5 mb-1">
+                <TrendingUp className="h-3 w-3 text-emerald-500" />
+                <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">All-Time Leads</p>
+              </div>
+              <p className="text-sm sm:text-lg font-semibold text-slate-900 dark:text-white">
+                {formatCents(data.totalLeadRevenue)}
+              </p>
             </div>
           </div>
 
@@ -133,33 +175,59 @@ export default function AdminAnalyticsPage() {
               </span>
             </div>
 
-            {/* Bars */}
+            {/* Legend */}
+            <div className="flex items-center gap-4 mb-3">
+              <div className="flex items-center gap-1.5">
+                <div className="h-2.5 w-2.5 rounded-sm bg-brand-500" />
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">Packages</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="h-2.5 w-2.5 rounded-sm bg-amber-400" />
+                <span className="text-[10px] text-slate-500 dark:text-slate-400">Leads</span>
+              </div>
+            </div>
+
+            {/* Bars — stacked (package + lead) */}
             <div
               className="flex items-end gap-1 sm:gap-2"
               style={{ height: 160 }}
             >
               {data.trend.map((t) => {
-                const barH =
-                  maxTrendRevenue > 0
-                    ? Math.round((t.revenue / maxTrendRevenue) * 148)
-                    : 0;
+                const total = t.revenue + t.leadRevenue;
+                const totalH = maxTrendRevenue > 0 ? Math.round((total / maxTrendRevenue) * 148) : 0;
+                const leadH = maxTrendRevenue > 0 ? Math.round((t.leadRevenue / maxTrendRevenue) * 148) : 0;
+                const pkgH = totalH - leadH;
                 const isSelected = t.month === month;
                 return (
                   <div
                     key={t.month}
-                    className="flex-1 group"
-                    title={`${formatMonthLabel(t.month)}: ${formatCents(t.revenue)} (${t.sales} sales)`}
+                    className="flex-1 group flex flex-col justify-end"
+                    title={`${formatMonthLabel(t.month)}: ${formatCents(total)} (${t.sales} sales, ${t.leadCount} leads)`}
+                    style={{ height: 148 }}
                   >
+                    {/* Package revenue (top) */}
                     <div
                       className={`w-full rounded-t transition-all ${
                         isSelected
                           ? "bg-brand-500"
-                          : "bg-slate-200 dark:bg-slate-700 group-hover:bg-slate-300 dark:group-hover:bg-slate-600"
+                          : "bg-brand-200 dark:bg-brand-800 group-hover:bg-brand-300 dark:group-hover:bg-brand-700"
                       }`}
-                      style={{
-                        height: Math.max(barH, t.revenue > 0 ? 6 : 2),
-                      }}
+                      style={{ height: Math.max(pkgH, t.revenue > 0 ? 3 : 0) }}
                     />
+                    {/* Lead revenue (bottom) */}
+                    {t.leadRevenue > 0 && (
+                      <div
+                        className={`w-full transition-all ${
+                          isSelected
+                            ? "bg-amber-400"
+                            : "bg-amber-200 dark:bg-amber-800 group-hover:bg-amber-300 dark:group-hover:bg-amber-700"
+                        } ${t.revenue === 0 ? "rounded-t" : ""}`}
+                        style={{ height: Math.max(leadH, 3) }}
+                      />
+                    )}
+                    {total === 0 && (
+                      <div className="w-full bg-slate-200 dark:bg-slate-700" style={{ height: 2 }} />
+                    )}
                   </div>
                 );
               })}

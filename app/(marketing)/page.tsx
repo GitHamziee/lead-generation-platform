@@ -9,11 +9,11 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-      <TrustBar />
       <StatsBar />
       <HowItWorks />
       <ServicesOverview />
       <Testimonials />
+      <TrustBar />
     </>
   );
 }

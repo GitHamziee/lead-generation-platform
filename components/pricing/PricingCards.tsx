@@ -49,7 +49,7 @@ export default function PricingCards() {
 
       <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         {/* Plan cards */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-start">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:items-stretch">
           {PRICING_PLANS.map((plan, i) => {
             const dbPrice = priceMap.get(plan.name);
             const displayPrice =
@@ -59,10 +59,10 @@ export default function PricingCards() {
             const CardIcon = CARD_ICONS[i];
 
             return (
-              <AnimatedSection key={plan.name} delay={i * 0.12}>
+              <AnimatedSection key={plan.name} delay={i * 0.12} className="h-full">
                 {plan.highlighted ? (
                   /* ── Highlighted card — aurora dark style ── */
-                  <div className="relative">
+                  <div className="relative h-full">
                     {/* Glow behind card */}
                     <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-brand-500/30 via-accent-500/20 to-brand-600/30 blur-xl" />
 
@@ -87,6 +87,9 @@ export default function PricingCards() {
 
                       {/* Price */}
                       <div className="mb-8">
+                        {plan.originalPrice && (
+                          <span className="text-lg text-white/40 line-through mr-2">{plan.originalPrice}</span>
+                        )}
                         <div className="flex items-end gap-1.5">
                           <span className="text-5xl font-bold tabular-nums text-white">{displayPrice}</span>
                           {plan.period && (
@@ -137,6 +140,9 @@ export default function PricingCards() {
 
                     {/* Price */}
                     <div className="mb-8">
+                      {plan.originalPrice && (
+                        <span className="text-lg text-slate-400 line-through mr-2">{plan.originalPrice}</span>
+                      )}
                       <div className="flex items-end gap-1.5">
                         <span className="text-5xl font-bold tabular-nums text-slate-900 dark:text-white">{displayPrice}</span>
                         {plan.period && (

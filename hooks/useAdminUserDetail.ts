@@ -3,6 +3,17 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 
+export interface CustomPackage {
+  id: string;
+  name: string;
+  description: string | null;
+  price: number;
+  features: string[];
+  durationDays: number | null;
+  type: string;
+  isActive: boolean;
+}
+
 export interface UserDetail {
   id: string;
   name: string | null;
@@ -24,6 +35,7 @@ export interface UserDetail {
     createdAt: string;
     package: { name: string; price: number };
   }[];
+  customPackage: CustomPackage | null;
 }
 
 export function useAdminUserDetail(id: string) {
@@ -38,6 +50,17 @@ export function useAdminUserDetail(id: string) {
   const [leadCostInput, setLeadCostInput] = useState("");
   const [savingLeadCost, setSavingLeadCost] = useState(false);
 
+  // Custom package state
+  const [customName, setCustomName] = useState("");
+  const [customPrice, setCustomPrice] = useState("");
+  const [customType, setCustomType] = useState<"SUBSCRIPTION" | "PAY_PER_LEAD">("SUBSCRIPTION");
+  const [customDuration, setCustomDuration] = useState("");
+  const [customDescription, setCustomDescription] = useState("");
+  const [customFeatures, setCustomFeatures] = useState("");
+  const [savingCustom, setSavingCustom] = useState(false);
+  const [deletingCustom, setDeletingCustom] = useState(false);
+  const [showCustomForm, setShowCustomForm] = useState(false);
+
   useEffect(() => {
     async function fetchUser() {
       try {
@@ -50,6 +73,17 @@ export function useAdminUserDetail(id: string) {
               ? (data.user.leadCost / 100).toFixed(2)
               : ""
           );
+          // Initialize custom package form
+          if (data.user.customPackage) {
+            const cp = data.user.customPackage;
+            setCustomName(cp.name);
+            setCustomPrice((cp.price / 100).toFixed(2));
+            setCustomType(cp.type);
+            setCustomDuration(cp.durationDays?.toString() || "");
+            setCustomDescription(cp.description || "");
+            setCustomFeatures(cp.features.join("\n"));
+            setShowCustomForm(true);
+          }
         }
       } catch {
         // silently fail
@@ -181,6 +215,83 @@ export function useAdminUserDetail(id: string) {
     }
   };
 
+  const saveCustomPackage = async () => {
+    if (!customName.trim()) {
+      toast.error("Package name is required");
+      return;
+    }
+    const dollars = parseFloat(customPrice);
+    if (isNaN(dollars) || dollars < 0) {
+      toast.error("Invalid price");
+      return;
+    }
+
+    setSavingCustom(true);
+    try {
+      const features = customFeatures
+        .split("\n")
+        .map((f) => f.trim())
+        .filter(Boolean);
+
+      const res = await fetch(`/api/admin/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "customPackage",
+          name: customName.trim(),
+          price: Math.round(dollars * 100),
+          description: customDescription.trim() || null,
+          features,
+          type: customType,
+          durationDays: customDuration ? parseInt(customDuration) : null,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Custom package saved");
+        // Refetch user to get updated customPackage
+        const refetch = await fetch(`/api/admin/users/${id}`);
+        const refetchData = await refetch.json();
+        if (refetch.ok) setUser(refetchData.user);
+      } else {
+        toast.error(data.error || "Failed to save custom package");
+      }
+    } catch {
+      toast.error("An error occurred");
+    } finally {
+      setSavingCustom(false);
+    }
+  };
+
+  const deleteCustomPackage = async () => {
+    setDeletingCustom(true);
+    try {
+      const res = await fetch(`/api/admin/users/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "customPackage", subAction: "delete" }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Custom package deleted");
+        setUser((prev) => (prev ? { ...prev, customPackage: null } : prev));
+        setCustomName("");
+        setCustomPrice("");
+        setCustomType("SUBSCRIPTION");
+        setCustomDuration("");
+        setCustomDescription("");
+        setCustomFeatures("");
+        setShowCustomForm(false);
+      } else {
+        toast.error(data.error || "Failed to delete custom package");
+      }
+    } catch {
+      toast.error("An error occurred");
+    } finally {
+      setDeletingCustom(false);
+    }
+  };
+
   const activePurchase = user?.purchases.find((p) => {
     if (p.status !== "ACTIVE") return false;
     if (p.expiresAt && new Date(p.expiresAt) < new Date()) return false;
@@ -207,5 +318,24 @@ export function useAdminUserDetail(id: string) {
     setLeadCostInput,
     savingLeadCost,
     saveLeadCost,
+    // Custom package
+    customName,
+    setCustomName,
+    customPrice,
+    setCustomPrice,
+    customType,
+    setCustomType,
+    customDuration,
+    setCustomDuration,
+    customDescription,
+    setCustomDescription,
+    customFeatures,
+    setCustomFeatures,
+    savingCustom,
+    deletingCustom,
+    showCustomForm,
+    setShowCustomForm,
+    saveCustomPackage,
+    deleteCustomPackage,
   };
 }

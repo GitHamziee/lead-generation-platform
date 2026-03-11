@@ -11,6 +11,7 @@ export async function GET() {
     if (rateLimited) return rateLimited;
 
     const packages = await prisma.package.findMany({
+      where: { isCustom: false },
       select: {
         id: true,
         name: true,
