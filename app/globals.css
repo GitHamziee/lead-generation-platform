@@ -284,13 +284,22 @@
 .blob-drift-1 { animation: blob-drift-1 22s ease-in-out infinite; }
 .blob-drift-2 { animation: blob-drift-2 28s ease-in-out infinite; }
 
-/* Aurora animated gradient — used on hero campaign card */
-@keyframes aurora {
-  0%, 100% { background-position: 0% 50%; }
-  50%       { background-position: 100% 50%; }
+/* Aurora animated gradient — GPU-accelerated via translateX on pseudo-element */
+@keyframes aurora-slide {
+  0%, 100% { transform: translateX(0); }
+  50%      { transform: translateX(-50%); }
 }
 
 .aurora-card {
+  position: relative;
+  overflow: hidden;
+  background: #172554;
+}
+.aurora-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 200%;
   background: linear-gradient(
     -45deg,
     #172554,
@@ -301,8 +310,13 @@
     #1e3a8a,
     #172554
   );
-  background-size: 400% 400%;
-  animation: aurora 8s ease infinite;
+  animation: aurora-slide 8s ease infinite;
+  will-change: transform;
+  z-index: 0;
+}
+.aurora-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* Page loader animations */
@@ -320,13 +334,14 @@
   background-color: var(--color-section-dark);
 }
 
-/* Infinite scrolling marquee */
+/* Infinite marquee — two identical strips, translate first half off-screen */
 @keyframes marquee {
   0%   { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 .animate-marquee {
-  animation: marquee 20s linear infinite;
+  animation: marquee 15s linear infinite;
+  will-change: transform;
 }
 
 html {

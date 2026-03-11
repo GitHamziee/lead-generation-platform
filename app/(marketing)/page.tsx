@@ -12,8 +12,8 @@ export default function Home() {
       <StatsBar />
       <HowItWorks />
       <ServicesOverview />
-      <Testimonials />
       <TrustBar />
+      <Testimonials />
     </>
   );
 }

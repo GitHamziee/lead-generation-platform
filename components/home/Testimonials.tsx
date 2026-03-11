@@ -31,8 +31,8 @@ export default function Testimonials() {
             <AnimatedSection key={t.name} delay={i * 0.12}>
               <div className="flex flex-col h-full">
                 {/* YouTube Short Video */}
-                <div className="relative rounded-t-2xl overflow-hidden bg-black/20 border border-b-0 border-white/20">
-                  <div className="aspect-[9/16] max-h-[400px]">
+                <div className="relative rounded-t-2xl overflow-hidden bg-black/20 border border-b-0 border-white/20 flex justify-center">
+                  <div className="aspect-[9/16] max-h-[400px] w-full max-w-[225px] md:max-w-none">
                     <iframe
                       src={`${t.videoUrl}?rel=0&modestbranding=1`}
                       title={`${t.name} video review`}

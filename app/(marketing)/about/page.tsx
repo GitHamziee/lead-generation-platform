@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Badge from "@/components/shared/Badge";
 import MissionSection from "@/components/about/MissionSection";
-import TeamSection from "@/components/about/TeamSection";
 
 export const metadata: Metadata = {
   title: "About Us",
@@ -33,7 +32,6 @@ export default function AboutPage() {
         </div>
       </div>
       <MissionSection />
-      <TeamSection />
     </>
   );
 }

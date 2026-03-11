@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
 
 const LOGOS = [
@@ -14,41 +13,44 @@ const LOGOS = [
   { name: "Sotheby's", src: "/logos/sothebys.svg" },
 ];
 
-export default function TrustBar() {
-  const doubled = [...LOGOS, ...LOGOS];
-
+function LogoStrip() {
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.6, delay: 0.4 }}
-      className="w-full bg-white dark:bg-slate-950 border-y border-slate-100 dark:border-slate-800 py-8"
-    >
-      <p className="mb-6 text-center text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">
-        Trusted by top brokerages
+    <div className="flex shrink-0 items-center gap-8 md:gap-16 pr-8 md:pr-16">
+      {LOGOS.map((item) => (
+        <div
+          key={item.name}
+          className="shrink-0 h-10 w-28 md:h-10 md:w-36 relative select-none opacity-60 dark:invert"
+          title={item.name}
+        >
+          <Image
+            src={item.src}
+            alt={item.name}
+            fill
+            className="object-contain"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export default function TrustBar() {
+  return (
+    <div className="w-full bg-white dark:bg-slate-950 border-y border-slate-100 dark:border-slate-800 py-6 md:py-8">
+      <p className="mb-4 md:mb-6 text-center text-xs font-medium uppercase tracking-widest text-slate-400 dark:text-slate-500">
+        Trusted by agents in top brokerages
       </p>
       <div className="relative overflow-hidden">
         {/* Fade edges */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-20 bg-gradient-to-r from-white dark:from-slate-950" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-20 bg-gradient-to-l from-white dark:from-slate-950" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 md:w-20 bg-gradient-to-r from-white dark:from-slate-950" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 md:w-20 bg-gradient-to-l from-white dark:from-slate-950" />
 
-        <div className="flex animate-marquee items-center gap-16">
-          {doubled.map((item, i) => (
-            <div
-              key={`${item.name}-${i}`}
-              className="shrink-0 h-8 w-32 relative select-none grayscale opacity-50 dark:opacity-40 dark:invert"
-              title={item.name}
-            >
-              <Image
-                src={item.src}
-                alt={item.name}
-                fill
-                className="object-contain"
-              />
-            </div>
-          ))}
+        {/* w-max makes -50% = exactly one strip width → seamless loop */}
+        <div className="flex w-max animate-marquee">
+          <LogoStrip />
+          <LogoStrip />
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 }
