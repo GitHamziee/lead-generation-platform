@@ -63,7 +63,7 @@ function ResetPasswordContent() {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 py-12">
         <Link href="/" className="mb-8">
-          <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[60px] w-[75px] dark:brightness-0 dark:invert" />
+          <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
         </Link>
 
         <div className="w-full max-w-[400px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-8 py-8 shadow-sm text-center">
@@ -98,7 +98,7 @@ function ResetPasswordContent() {
 
       {/* Logo */}
       <Link href="/" className="mb-8">
-        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[60px] w-[75px] dark:brightness-0 dark:invert" />
+        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
       </Link>
 
       {/* Card */}

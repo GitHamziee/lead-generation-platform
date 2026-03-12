@@ -31,8 +31,8 @@ export default function Sidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-700">
       {/* Logo */}
-      <div className="flex h-16 items-center gap-2.5 px-6 border-b border-slate-100 dark:border-slate-800">
-        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[50px] w-[66px] dark:brightness-0 dark:invert" />
+      <div className="flex items-center gap-2.5 px-6 py-4 border-b border-slate-100 dark:border-slate-800">
+        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
         {/* Close button -- mobile only */}
         <button
           onClick={close}

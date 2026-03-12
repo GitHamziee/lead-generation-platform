@@ -355,7 +355,7 @@ export const PRICING_FAQ = [
   {
     question: "What's the reimbursement offer on the Referral Plan?",
     answer:
-      "If any lead on the Referral Plan doesn't meet our quality standards, we'll reimburse or replace it. We stand behind the quality of every lead we deliver.",
+      "You get full upfront payment reimbursed on the first close through the Referral Plan. Not valid for PPL or Bundle offer.",
   },
 ];
 

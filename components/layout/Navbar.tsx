@@ -48,15 +48,15 @@ export default function Navbar() {
           : "bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border-b border-slate-100 dark:border-slate-800"
       }`}
     >
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8 py-3">
         {/* Logo */}
         <Link href={session?.user ? "/dashboard" : "/"} className="flex items-center gap-2">
           <Image
             src="/logo.png"
             alt="R4Referral"
-            width={80}
-            height={60}
-            className="h-[60px] w-[75px] dark:brightness-0 dark:invert"
+            width={40}
+            height={40}
+            className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert"
             priority
           />
         </Link>

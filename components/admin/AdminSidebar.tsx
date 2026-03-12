@@ -23,8 +23,8 @@ export default function AdminSidebar() {
   const sidebarContent = (
     <div className="flex h-full flex-col bg-slate-900">
       {/* Logo */}
-      <div className="flex h-16 items-center px-6 border-b border-slate-700/50">
-        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[50px] w-[66px] brightness-0 invert" />
+      <div className="flex items-center px-6 py-4 border-b border-slate-700/50">
+        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain brightness-0 invert" />
         <button
           onClick={close}
           className="ml-auto md:hidden p-1 rounded-md text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"

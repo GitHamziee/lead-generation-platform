@@ -36,7 +36,7 @@ export default function PageLoader() {
     >
       {/* Logo */}
       <div className="mb-10 animate-[fadeUp_0.5s_ease_forwards]">
-        <Image src="/logo.png" alt="R4Referral" width={100} height={75} className="h-[75px] w-[100px] dark:brightness-0 dark:invert" />
+        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
       </div>
 
       {/* Progress bar track */}

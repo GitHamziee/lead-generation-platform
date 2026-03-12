@@ -14,9 +14,9 @@ export default function Footer() {
               <Image
                 src="/logo.png"
                 alt="R4Referral"
-                width={80}
-                height={60}
-                className="h-[60px] w-[75px] brightness-0 invert"
+                width={40}
+                height={40}
+                className="h-[40px] w-[40px] object-contain brightness-0 invert"
               />
             </Link>
             <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0">

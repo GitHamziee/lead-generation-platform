@@ -64,7 +64,7 @@ function RegisterContent() {
 
       {/* Logo */}
       <Link href="/" className="mb-8">
-        <Image src="/logo.png" alt="R4Referral" width={80} height={60} className="h-[60px] w-[75px] dark:brightness-0 dark:invert" />
+        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
       </Link>
 
       {/* Card */}
