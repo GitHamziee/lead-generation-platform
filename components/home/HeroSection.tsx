@@ -78,22 +78,64 @@ function AnimatedCounter({
   );
 }
 
-function rand(min: number, max: number, decimals = 0) {
-  const val = Math.random() * (max - min) + min;
+// Deterministic pseudo-random seeded by a number (e.g. date integer)
+function seededRand(seed: number, min: number, max: number, decimals = 0) {
+  // Simple mulberry32-style hash
+  let s = seed ^ 0xdeadbeef;
+  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+  s = Math.imul(s ^ (s >>> 16), 0x45d9f3b);
+  s ^= s >>> 16;
+  const val = ((s >>> 0) / 0xffffffff) * (max - min) + min;
   return decimals > 0 ? parseFloat(val.toFixed(decimals)) : Math.round(val);
 }
 
-const DEFAULT_STATS = { today: 34, week: 187, rate: 92.4 };
+function getTodayLeadCount(): number {
+  const now = new Date();
+  // Seed from today's date so the max is consistent all day
+  const dateSeed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
+  const dayMin = 20;
+  const dayMax = seededRand(dateSeed, 55, 65); // random ceiling: 55–65
+
+  // Progress through the day from 7 AM to 9 PM
+  const minuteOfDay = now.getHours() * 60 + now.getMinutes();
+  const workStart = 7 * 60;
+  const workEnd   = 21 * 60;
+  const progress = Math.min(1, Math.max(0, (minuteOfDay - workStart) / (workEnd - workStart)));
+
+  // Per-minute seed so the same minute always shows the same value
+  const minuteSeed = dateSeed * 1440 + Math.floor(minuteOfDay);
+  const noise = seededRand(minuteSeed, 0, 2);
+
+  return Math.round(dayMin + (dayMax - dayMin) * progress) + noise;
+}
+
+const DEFAULT_STATS = { today: 0, week: 187, rate: 92.4 };
 
 export default function HeroSection() {
   const [stats, setStats] = useState(DEFAULT_STATS);
 
   useEffect(() => {
+    const now = new Date();
+    const dateSeed = now.getFullYear() * 10000 + (now.getMonth() + 1) * 100 + now.getDate();
     setStats({
-      today: rand(18, 52),
-      week: rand(120, 310),
-      rate: rand(88, 97, 1),
+      today: getTodayLeadCount(),
+      week: seededRand(dateSeed + 1, 120, 310),
+      rate: seededRand(dateSeed + 2, 880, 970, 1) / 10,
     });
+
+    // Tick every 4–8 minutes — only update if the new value is higher
+    const scheduleNext = () => {
+      const delay = (Math.random() * 4 + 4) * 60 * 1000; // 4–8 min
+      return setTimeout(() => {
+        setStats((prev) => {
+          const next = getTodayLeadCount();
+          return { ...prev, today: Math.max(prev.today, next) };
+        });
+        timer = scheduleNext();
+      }, delay);
+    };
+    let timer = scheduleNext();
+    return () => clearTimeout(timer);
   }, []);
 
   return (

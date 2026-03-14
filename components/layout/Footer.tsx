@@ -12,11 +12,11 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-4 justify-center md:justify-start">
               <Image
-                src="/logo.png"
+                src="/logo-footer.png"
                 alt="R4Referral"
-                width={40}
-                height={40}
-                className="h-[40px] w-[40px] object-contain brightness-0 invert"
+                width={75}
+                height={60}
+                className="h-[60px] w-[75px] object-contain"
               />
             </Link>
             <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0">
