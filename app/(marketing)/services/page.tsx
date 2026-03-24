@@ -9,7 +9,7 @@ import ServiceCards from "@/components/services/ServiceCards";
 export const metadata: Metadata = {
   title: "Services",
   description:
-    "Explore our full suite of services: real estate referral generation, virtual assistants, and custom website development for real estate professionals.",
+    "Explore our full suite of services: real estate referrals, virtual assistants, and custom website development for real estate professionals.",
 };
 
 export default function ServicesPage() {

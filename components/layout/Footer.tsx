@@ -124,7 +124,7 @@ export default function Footer() {
           <p className="text-xs text-white/40">
             © {new Date().getFullYear()} R4Referral LLC. All rights reserved.
           </p>
-          <p className="text-xs text-white/30 flex items-center gap-1">
+          {/* <p className="text-xs text-white/30 flex items-center gap-1">
             Made with <Heart className="h-3 w-3 text-red-500 fill-red-500" /> by{" "}
             <a
               href="https://www.linkedin.com/in/hamziee/"
@@ -134,7 +134,7 @@ export default function Footer() {
             >
               Hamza
             </a>
-          </p>
+          </p> */}
         </div>
       </div>
     </footer>

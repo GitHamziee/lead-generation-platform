@@ -28,7 +28,7 @@ export const NAV_LINKS: NavLink[] = [
     label: "Services",
     href: "/services",
     children: [
-      { label: "Referral Generation", href: "/services/lead-generation", icon: Home, description: "AI-verified buyer & seller referrals" },
+      { label: "Real Estate Referrals", href: "/services/lead-generation", icon: Home, description: "AI-verified buyer & seller referrals" },
       { label: "Virtual Assistant", href: "/services/virtual-assistant", icon: Headphones, description: "Dedicated VAs for real estate" },
       { label: "Web Development", href: "/services/web-development", icon: Globe, description: "Full-stack development by a 15+ engineer team" },
     ],
@@ -49,7 +49,7 @@ export const SERVICES = [
   {
     icon: Home,
     slug: "lead-generation",
-    title: "Real Estate Referral Generation",
+    title: "Real Estate Referrals",
     description:
       "AI-powered, verified buyer and seller referrals delivered directly to your inbox — pre-screened for genuine intent.",
     metric: "Multi-stage verification process",
@@ -101,7 +101,7 @@ export const SERVICE_PAGE_CONTENT: Record<string, {
   faq: { question: string; answer: string }[];
 }> = {
   "lead-generation": {
-    badge: "Referral Generation",
+    badge: "Real Estate Referrals",
     headline: "Verified Referrals That ",
     highlightedText: "Actually Convert",
     subtitle:
@@ -383,7 +383,7 @@ export const TEAM_MEMBERS = [
 
 export const FOOTER_LINKS = {
   services: [
-    { label: "Referral Generation", href: "/services/lead-generation" },
+    { label: "Real Estate Referrals", href: "/services/lead-generation" },
     { label: "Virtual Assistant", href: "/services/virtual-assistant" },
     { label: "Web Development", href: "/services/web-development" },
   ],
