@@ -22,10 +22,10 @@ export default function TermsOfServicePage() {
               <div>
                 <h2 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">About R4Referral</h2>
                 <p>
-                  R4Referral provides outbound sales services designed to help B2B companies scale their
-                  pipeline. Through our trained agents, proven calling frameworks, and data-driven approach,
-                  we deliver appointment setting, referral qualification, and outbound calling campaigns that
-                  drive measurable results.
+                  R4Referral LLC is a digital real estate referral network that connects verified, high-intent
+                  buyers and sellers with licensed agents across all 50 states. Our platform delivers
+                  pre-qualified referrals directly to agents, helping them grow their business with
+                  real opportunities — not cold contacts.
                 </p>
               </div>
 
