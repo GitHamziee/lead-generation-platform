@@ -39,20 +39,6 @@ async function main() {
     console.log("Admin user already exists");
   }
 
-  // Rename existing packages (order matters to avoid unique constraint conflicts)
-  const renames = [
-    { from: "Gold", to: "_temp_gold" },   // temp name to free up "Gold"
-    { from: "Platinum", to: "Gold" },      // $699 → Gold
-    { from: "_temp_gold", to: "Platinum" }, // $949 → Platinum
-  ];
-  for (const { from, to } of renames) {
-    const existing = await prisma.package.findUnique({ where: { name: from } });
-    if (existing) {
-      await prisma.package.update({ where: { name: from }, data: { name: to } });
-      console.log(`Renamed package: ${from} → ${to}`);
-    }
-  }
-
   // Seed packages
   const packages = [
     {
@@ -77,23 +63,6 @@ async function main() {
       sortOrder: 1,
     },
     {
-      name: "Platinum",
-      description:
-        "Best value — 10 guaranteed leads at a steep discount. Everything included.",
-      price: 94900, // $949.00
-      durationDays: null, // no time expiry — expires after 10 leads
-      features: [
-        "10 guaranteed leads",
-        "Human verified leads",
-        "Live transfers",
-        "Scheduled appointments (with recording)",
-        "Premium portal access",
-        "Free follow-up",
-        "24/7 customer support",
-      ],
-      sortOrder: 2,
-    },
-    {
       name: "Gold",
       description:
         "High volume leads with low upfront cost and a 15% referral fee on closings.",
@@ -109,6 +78,23 @@ async function main() {
         "Premium portal access",
         "Free follow-up",
         "Reimbursement offer",
+        "24/7 customer support",
+      ],
+      sortOrder: 2,
+    },
+    {
+      name: "Platinum",
+      description:
+        "Best value — 10 guaranteed leads at a steep discount. Everything included.",
+      price: 94900, // $949.00
+      durationDays: null, // no time expiry — expires after 10 leads
+      features: [
+        "10 guaranteed leads",
+        "Human verified leads",
+        "Live transfers",
+        "Scheduled appointments (with recording)",
+        "Premium portal access",
+        "Free follow-up",
         "24/7 customer support",
       ],
       sortOrder: 3,

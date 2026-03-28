@@ -274,25 +274,6 @@ export const PRICING_PLANS = [
     highlighted: false,
   },
   {
-    name: "Platinum",
-    price: "$949",
-    originalPrice: "$1,375",
-    period: "one-time",
-    description:
-      "Best value — 10 guaranteed referrals at a steep discount. Everything included.",
-    features: [
-      "10 guaranteed referrals",
-      "Human verified referrals",
-      "Live transfers",
-      "Scheduled appointments (with recording)",
-      "Premium portal access",
-      "Free follow-up",
-      "24/7 customer support",
-    ],
-    cta: "Best Value",
-    highlighted: true,
-  },
-  {
     name: "Gold",
     price: "$699",
     period: "/4 months",
@@ -313,6 +294,25 @@ export const PRICING_PLANS = [
     cta: "Get Started",
     highlighted: false,
   },
+  {
+    name: "Platinum",
+    price: "$949",
+    originalPrice: "$1,375",
+    period: "one-time",
+    description:
+      "Best value — 10 guaranteed referrals at a steep discount. Everything included.",
+    features: [
+      "10 guaranteed referrals",
+      "Human verified referrals",
+      "Live transfers",
+      "Scheduled appointments (with recording)",
+      "Premium portal access",
+      "Free follow-up",
+      "24/7 customer support",
+    ],
+    cta: "Best Value",
+    highlighted: true,
+  },
 ];
 
 export const PRICING_FAQ = [
@@ -322,14 +322,14 @@ export const PRICING_FAQ = [
       "You pay a one-time $375 setup fee for lifetime access, then $100 for each referral you accept. All referrals are human verified with live transfers and scheduled appointments. You can cancel anytime.",
   },
   {
-    question: "What's included in the Platinum plan?",
-    answer:
-      "The Platinum plan gives you 10 guaranteed, human-verified referrals for a one-time payment of $949 (originally $1,375). Every referral comes with live transfers, scheduled appointments with recordings, premium portal access, free follow-up, and 24/7 support.",
-  },
-  {
     question: "How does the Gold plan work?",
     answer:
       "For $699 you get 8–12 exclusive referrals over a 4-month term. There's a 15% referral fee on closings. If referrals don't meet our quality standards, we offer reimbursement. Includes scheduled appointments, premium portal, and 24/7 support.",
+  },
+  {
+    question: "What's included in the Platinum plan?",
+    answer:
+      "The Platinum plan gives you 10 guaranteed, human-verified referrals for a one-time payment of $949 (originally $1,375). Every referral comes with live transfers, scheduled appointments with recordings, premium portal access, free follow-up, and 24/7 support.",
   },
   {
     question: "What does 'human verified' mean?",
