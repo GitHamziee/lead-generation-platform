@@ -20,8 +20,10 @@ export default function Footer() {
               />
             </Link>
             <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0">
-              A digital real estate referral network delivering verified,
-              high-intent referrals to agents across all 50 states.
+              R4Referral is a digital real estate referral network rooted in the United States and officially registered in the State of Texas.
+            </p>
+            <p className="max-w-xs text-sm text-white/60 leading-relaxed text-center md:text-left mx-auto md:mx-0 mt-3">
+              Our core business philosophy aligns seamlessly with the guiding principles of the Fair Housing Act and the Equal Opportunity Act.
             </p>
             <div className="mt-6 flex gap-3 justify-center md:justify-start">
               {[

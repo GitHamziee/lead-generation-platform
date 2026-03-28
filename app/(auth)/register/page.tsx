@@ -28,8 +28,6 @@ function RegisterContent() {
     setShowPassword,
     showConfirm,
     setShowConfirm,
-    agreed,
-    setAgreed,
     smsConsent,
     setSmsConsent,
     loading,
@@ -302,26 +300,6 @@ function RegisterContent() {
               />
             </div>
           </div>
-
-          <label className="flex items-start gap-2.5 cursor-pointer pt-0.5">
-            <input
-              type="checkbox"
-              required
-              checked={agreed}
-              onChange={(e) => setAgreed(e.target.checked)}
-              className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
-            />
-            <span className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-              I agree to the{" "}
-              <Link href="/terms-of-service" className="text-slate-700 dark:text-slate-300 font-medium hover:text-brand-600 transition-colors underline underline-offset-2 decoration-slate-300 dark:decoration-slate-600">
-                Terms of Service
-              </Link>{" "}
-              and{" "}
-              <Link href="/privacy-policy" className="text-slate-700 dark:text-slate-300 font-medium hover:text-brand-600 transition-colors underline underline-offset-2 decoration-slate-300 dark:decoration-slate-600">
-                Privacy Policy
-              </Link>
-            </span>
-          </label>
 
           <label className="flex items-start gap-2.5 cursor-pointer">
             <input

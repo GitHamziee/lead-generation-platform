@@ -6,6 +6,9 @@ import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
+const PHONE_NUMBER = "+1 (512) 678-0096";
+const EMAIL = "info@r4referral.com";
+
 const CONTACT_INFO = [
   {
     icon: Phone,
@@ -41,7 +44,8 @@ export default function ContactForm() {
     company: "",
     message: "",
   });
-  const [smsConsent, setSmsConsent] = useState(false);
+  const [marketingConsent, setMarketingConsent] = useState(false);
+  const [messagingTerms, setMessagingTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -206,35 +210,57 @@ export default function ContactForm() {
                     />
                   </div>
 
-                  <label className="flex items-start gap-2.5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      required
-                      className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
-                    />
-                    <span className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">
-                      I agree to the{" "}
-                      <Link href="/terms-of-service" className="text-slate-700 dark:text-slate-300 font-medium hover:text-brand-600 transition-colors underline underline-offset-2 decoration-slate-300 dark:decoration-slate-600">
-                        Terms &amp; Conditions
-                      </Link>{" "}
-                      and{" "}
-                      <Link href="/privacy-policy" className="text-slate-700 dark:text-slate-300 font-medium hover:text-brand-600 transition-colors underline underline-offset-2 decoration-slate-300 dark:decoration-slate-600">
-                        Privacy Policy
-                      </Link>
-                    </span>
-                  </label>
+                  {/* Marketing Consent */}
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5">
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={marketingConsent}
+                        onChange={(e) => setMarketingConsent(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
+                      />
+                      <div>
+                        <span className="block text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                          Marketing Consent
+                        </span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                          I consent to receive SMS Marketing communications from R4Referral LLC. You will receive 3 messages per month. Text HELP to {PHONE_NUMBER} for assistance. Reply STOP to unsubscribe anytime. I agree to receive communications and can opt out at any time. By submitting this form, I agree to the{" "}
+                          <Link href="/terms-of-service" className="text-brand-600 dark:text-brand-400 font-medium hover:underline">
+                            Terms and Conditions
+                          </Link>{" "}
+                          and{" "}
+                          <Link href="/privacy-policy" className="text-brand-600 dark:text-brand-400 font-medium hover:underline">
+                            Privacy Policy
+                          </Link>.
+                        </span>
+                      </div>
+                    </label>
+                  </div>
 
-                  <label className="flex items-start gap-2.5 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={smsConsent}
-                      onChange={(e) => setSmsConsent(e.target.checked)}
-                      className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
-                    />
-                    <span className="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
-                      I agree to receive marketing, promotional, and account-related text messages from R4Referral LLC at the phone number provided. Consent is not a condition of purchase. Message frequency varies. Msg &amp; data rates may apply. Reply STOP to opt out or HELP for help.
-                    </span>
-                  </label>
+                  {/* Messaging Terms */}
+                  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5">
+                    <label className="flex items-start gap-3 cursor-pointer">
+                      <input
+                        type="checkbox"
+                        required
+                        checked={messagingTerms}
+                        onChange={(e) => setMessagingTerms(e.target.checked)}
+                        className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
+                      />
+                      <div>
+                        <span className="block text-sm font-semibold text-slate-900 dark:text-white mb-1">
+                          Messaging Terms
+                        </span>
+                        <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                          You agree to receive informational messages (appointment reminders, account notifications, etc.) from R4Referral. Message frequency varies. Message and data rates may apply. For help, reply HELP or email{" "}
+                          <a href={`mailto:${EMAIL}`} className="text-brand-600 dark:text-brand-400 font-medium hover:underline">
+                            {EMAIL}
+                          </a>. You can opt out anytime by replying STOP.
+                        </span>
+                      </div>
+                    </label>
+                  </div>
 
                   <div className="flex justify-center">
                     <div className="btn-gradient-wrap rounded-md">
