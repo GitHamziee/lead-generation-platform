@@ -253,7 +253,7 @@ export default function ContactForm() {
                           Messaging Terms
                         </span>
                         <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          You agree to receive informational messages (appointment reminders, account notifications, etc.) from R4Referral. Message frequency varies. Message and data rates may apply. For help, reply HELP or email{" "}
+                          You agree to receive informational messages (appointment reminders, account notifications, etc.) from R4Referral LLC. Message frequency varies. Message and data rates may apply. For help, reply HELP or email{" "}
                           <a href={`mailto:${EMAIL}`} className="text-brand-600 dark:text-brand-400 font-medium hover:underline">
                             {EMAIL}
                           </a>. You can opt out anytime by replying STOP.
