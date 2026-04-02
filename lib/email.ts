@@ -38,6 +38,47 @@ const baseWrapper = (content: string, year = new Date().getFullYear()) => `
   </div>
 `;
 
+export async function sendContactFormEmail(data: {
+  name: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  message: string;
+  marketingConsent: boolean;
+  messagingTerms: boolean;
+}) {
+  const to = process.env.SMTP_USER!;
+  const row = (label: string, value: string) =>
+    `<tr>
+      <td style="padding:10px 12px;font-size:13px;font-weight:600;color:#64748b;background:#f8fafc;border:1px solid #e2e8f0;width:35%;">${label}</td>
+      <td style="padding:10px 12px;font-size:13px;color:#0f172a;background:#f8fafc;border:1px solid #e2e8f0;border-left:none;">${value}</td>
+    </tr>`;
+
+  await getTransporter().sendMail({
+    from: FROM(),
+    to,
+    replyTo: `${data.name} <${data.email}>`,
+    subject: `New Contact Form Submission — ${data.name}`,
+    html: baseWrapper(`
+      <h2 style="font-size:18px;font-weight:600;color:#0f172a;margin:0 0 8px;">New Contact Form Submission</h2>
+      <p style="font-size:14px;color:#64748b;margin:0 0 20px;line-height:1.6;">
+        Someone submitted the contact form on R4Referral.com.
+      </p>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
+        ${row("Name", data.name)}
+        ${row("Email", data.email)}
+        ${data.phone ? row("Phone", data.phone) : ""}
+        ${data.company ? row("Company", data.company) : ""}
+      </table>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:8px;">
+        <p style="font-size:13px;font-weight:600;color:#64748b;margin:0 0 8px;">Message</p>
+        <p style="font-size:14px;color:#0f172a;margin:0;line-height:1.7;white-space:pre-wrap;">${data.message}</p>
+      </div>
+      <p style="font-size:12px;color:#94a3b8;margin:16px 0 0;">Reply directly to this email to respond to ${data.name}.</p>
+    `),
+  });
+}
+
 export async function sendPasswordResetEmail(
   to: string,
   resetUrl: string,

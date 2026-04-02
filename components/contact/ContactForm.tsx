@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AnimatedSection from "@/components/shared/AnimatedSection";
@@ -43,10 +43,32 @@ export default function ContactForm() {
   const [marketingConsent, setMarketingConsent] = useState(false);
   const [messagingTerms, setMessagingTerms] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const formCardRef = useRef<HTMLDivElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...formData, marketingConsent, messagingTerms }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        setError(data.error || "Something went wrong. Please try again.");
+      } else {
+        setSubmitted(true);
+        formCardRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    } catch {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -101,7 +123,7 @@ export default function ContactForm() {
 
           {/* Right — form */}
           <AnimatedSection delay={0.15} className="lg:col-span-3">
-            <div className="glass-card rounded-2xl p-8 h-full">
+            <div ref={formCardRef} className="glass-card rounded-2xl p-8 h-full">
               {submitted ? (
                 <div className="flex flex-col items-center justify-center text-center py-16">
                   <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700">
@@ -246,15 +268,20 @@ export default function ContactForm() {
                     </label>
                   </div>
 
+                  {error && (
+                    <p className="text-sm text-center text-red-500">{error}</p>
+                  )}
+
                   <div className="flex justify-center">
                     <div className="btn-gradient-wrap rounded-md">
                       <Button
                         type="submit"
                         size="lg"
-                        className="btn-gradient text-white border-0 px-12"
+                        disabled={loading}
+                        className="btn-gradient text-white border-0 px-12 disabled:opacity-70"
                       >
-                        Send Message
-                        <Send className="ml-2 h-4 w-4" />
+                        {loading ? "Sending..." : "Send Message"}
+                        {!loading && <Send className="ml-2 h-4 w-4" />}
                       </Button>
                     </div>
                   </div>
