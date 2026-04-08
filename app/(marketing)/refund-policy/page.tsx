@@ -176,7 +176,7 @@ export default function RefundPolicyPage() {
                 </p>
                 <p className="mt-3">
                   Email:{" "}
-                  <a href="mailto:info@r4referral.com" className="text-brand-600 hover:underline">info@r4referral.com</a>
+                  <a href="mailto:R4referral@gmail.com" className="text-brand-600 hover:underline">R4referral@gmail.com</a>
                 </p>
               </div>
 

@@ -50,18 +50,11 @@ export default function Footer() {
                 +1 (512) 678-0096
               </a>
               <a
-                href="mailto:info@r4referral.com"
+                href="mailto:R4referral@gmail.com"
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <Mail className="h-3.5 w-3.5 shrink-0" />
-                info@r4referral.com
-              </a>
-              <a
-                href="mailto:support@r4referral.com"
-                className="flex items-center gap-2 hover:text-white transition-colors"
-              >
-                <Mail className="h-3.5 w-3.5 shrink-0" />
-                support@r4referral.com
+                R4referral@gmail.com
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="h-3.5 w-3.5 shrink-0 mt-0.5" />

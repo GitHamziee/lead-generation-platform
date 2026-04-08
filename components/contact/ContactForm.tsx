@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { Send, Phone, Mail, MapPin, Clock } from "lucide-react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
@@ -15,14 +16,8 @@ const CONTACT_INFO = [
   {
     icon: Mail,
     label: "General",
-    value: "info@r4referral.com",
-    href: "mailto:info@r4referral.com",
-  },
-  {
-    icon: Mail,
-    label: "Support",
-    value: "support@r4referral.com",
-    href: "mailto:support@r4referral.com",
+    value: "R4referral@gmail.com",
+    href: "mailto:R4referral@gmail.com",
   },
   {
     icon: MapPin,
@@ -248,7 +243,7 @@ export default function ContactForm() {
                           Marketing Consent <span className="text-xs font-normal text-slate-400">(Optional)</span>
                         </span>
                         <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          By checking this box, you agree to receive recurring automated marketing and promotional text messages from R4Referral LLC at the phone number provided. Message frequency varies (2–4 messages per month). Message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Consent is not a condition of purchase.
+                          By checking this box, you agree to receive recurring automated marketing and promotional text messages from R4Referral LLC at the phone number provided. Messages include special offers, service updates, and promotional announcements. Message frequency varies (2–4 messages per month). Message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Consent is not a condition of purchase.
                         </span>
                       </div>
                     </label>
@@ -292,8 +287,10 @@ export default function ContactForm() {
                     </div>
                   </div>
 
-                  <p className="text-xs text-center text-slate-400 dark:text-slate-500">
-                    We typically respond within 1 business day.
+                  <p className="text-xs text-center text-slate-500 dark:text-slate-400">
+                    <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
+                    {" | "}
+                    <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms of Service</Link>
                   </p>
                 </form>
               )}

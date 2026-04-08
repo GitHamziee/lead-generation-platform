@@ -81,8 +81,7 @@ function RegisterContent() {
           {/* Row 1: Full Name */}
           <div>
             <label className={labelClass}>
-              Full Name <span className="text-red-500">*</span>
-            </label>
+              Full Name            </label>
             <input
               type="text"
               required
@@ -98,8 +97,7 @@ function RegisterContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>
-                Phone <span className="text-red-500">*</span>
-              </label>
+                Phone              </label>
               <input
                 type="tel"
                 required
@@ -112,8 +110,7 @@ function RegisterContent() {
             </div>
             <div>
               <label className={labelClass}>
-                Email <span className="text-red-500">*</span>
-              </label>
+                Email              </label>
               <input
                 type="email"
                 required
@@ -130,8 +127,7 @@ function RegisterContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>
-                Password <span className="text-red-500">*</span>
-              </label>
+                Password              </label>
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
@@ -154,8 +150,7 @@ function RegisterContent() {
             </div>
             <div>
               <label className={labelClass}>
-                Confirm Password <span className="text-red-500">*</span>
-              </label>
+                Confirm Password              </label>
               <div className="relative">
                 <input
                   type={showConfirm ? "text" : "password"}
@@ -218,8 +213,7 @@ function RegisterContent() {
           {/* Row 5: Target Areas */}
           <div>
             <label className={labelClass}>
-              Target Areas <span className="text-red-500">*</span>
-            </label>
+              Target Areas            </label>
             <input
               type="text"
               required
@@ -234,8 +228,7 @@ function RegisterContent() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className={labelClass}>
-                State <span className="text-red-500">*</span>
-              </label>
+                State              </label>
               <div className="relative" ref={stateRef}>
                 <button
                   type="button"
