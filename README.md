@@ -86,6 +86,11 @@ New → Pending (assigned to client) → Accepted → Invoiced → Paid
 - **Fully responsive** — Mobile-optimized layouts across all portals (card views, dropdown filters)
 
 ---
+## Some Screenshot :
+<img width="1921" height="4648" alt="screencapture-r4referral-2026-04-08-16_36_08" src="https://github.com/user-attachments/assets/949b5c6e-facb-4f16-94cb-5414db8cd63b" />
+<img width="1916" height="875" alt="image" src="https://github.com/user-attachments/assets/16978065-fd44-4cba-8e57-593b669a8d26" />
+<img width="1915" height="875" alt="image" src="https://github.com/user-attachments/assets/74928c51-472b-4837-9e31-09280abfc1e4" />
+<img width="1915" height="872" alt="image" src="https://github.com/user-attachments/assets/935ca854-413b-4534-9a4c-1dab87e61518" />
 
 ## Project Structure
 
@@ -97,6 +102,9 @@ app/
 │   └── (admin)/        # Admin portal pages
 ├── api/                # REST API routes
 components/             # Reusable UI components
+
+ 
+
 hooks/                  # Custom hooks (data fetching + state management)
 lib/                    # Auth config, DB client, utilities, validation
 prisma/                 # Database schema and seed script
