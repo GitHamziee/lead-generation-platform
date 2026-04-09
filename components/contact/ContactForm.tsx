@@ -152,7 +152,7 @@ export default function ContactForm() {
                   <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                        Full Name *
+                        Full Name
                       </label>
                       <input
                         type="text"
@@ -167,7 +167,7 @@ export default function ContactForm() {
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                        Email *
+                        Email
                       </label>
                       <input
                         type="email"
@@ -215,7 +215,7 @@ export default function ContactForm() {
 
                   <div>
                     <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">
-                      Message *
+                      Message
                     </label>
                     <textarea
                       required
