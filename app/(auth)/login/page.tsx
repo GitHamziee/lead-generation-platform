@@ -159,10 +159,9 @@ function LoginContent() {
           </Button>
 
           <p className="text-xs text-center text-slate-500 dark:text-slate-400">
-            By signing in, you agree to our{" "}
             <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
-            {" "}and{" "}
-            <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms &amp; Conditions</Link>.
+            {" | "}
+            <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms of Service</Link>
           </p>
         </form>
 
