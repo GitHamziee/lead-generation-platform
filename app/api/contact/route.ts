@@ -13,12 +13,12 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, phone, company, message, marketingConsent, messagingTerms } =
+    const { name, email, phone, company, message, smsConsent } =
       await req.json();
 
-    if (!name?.trim() || !email?.trim() || !message?.trim()) {
+    if (!email?.trim()) {
       return NextResponse.json(
-        { error: "Name, email, and message are required." },
+        { error: "Email is required." },
         { status: 400 }
       );
     }
@@ -28,7 +28,7 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    await sendContactFormEmail({ name, email, phone, company, message, marketingConsent, messagingTerms });
+    await sendContactFormEmail({ name, email, phone, company, message, smsConsent });
 
     return NextResponse.json({ message: "Message sent successfully." });
   } catch (error) {

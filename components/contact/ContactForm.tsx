@@ -41,8 +41,7 @@ export default function ContactForm() {
     company: "",
     message: "",
   });
-  const [marketingConsent, setMarketingConsent] = useState(false);
-  const [messagingTerms, setMessagingTerms] = useState(false);
+  const [smsConsent, setSmsConsent] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -56,7 +55,7 @@ export default function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...formData, marketingConsent, messagingTerms }),
+        body: JSON.stringify({ ...formData, smsConsent }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -156,7 +155,6 @@ export default function ContactForm() {
                       </label>
                       <input
                         type="text"
-                        required
                         value={formData.name}
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
@@ -218,7 +216,6 @@ export default function ContactForm() {
                       Message
                     </label>
                     <textarea
-                      required
                       rows={5}
                       value={formData.message}
                       onChange={(e) =>
@@ -229,43 +226,21 @@ export default function ContactForm() {
                     />
                   </div>
 
-                  {/* Marketing Consent */}
+                  {/* SMS Consent */}
                   <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5">
                     <label className="flex items-start gap-3 cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={marketingConsent}
-                        onChange={(e) => setMarketingConsent(e.target.checked)}
+                        checked={smsConsent}
+                        onChange={(e) => setSmsConsent(e.target.checked)}
                         className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
                       />
-                      <div>
-                        <span className="block text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                          Marketing Consent <span className="text-xs font-normal text-slate-400">(Optional)</span>
-                        </span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          By checking this box, you agree to receive recurring automated marketing and promotional text messages from R4Referral LLC at the phone number provided. Messages include special offers, service updates, and promotional announcements. Message frequency varies (2–4 messages per month). Message and data rates may apply. Reply STOP to opt out. Reply HELP for help. Consent is not a condition of purchase.
-                        </span>
-                      </div>
-                    </label>
-                  </div>
-
-                  {/* Messaging Terms */}
-                  <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-5">
-                    <label className="flex items-start gap-3 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={messagingTerms}
-                        onChange={(e) => setMessagingTerms(e.target.checked)}
-                        className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
-                      />
-                      <div>
-                        <span className="block text-sm font-semibold text-slate-900 dark:text-white mb-1">
-                          Messaging Terms <span className="text-xs font-normal text-slate-400">(Optional)</span>
-                        </span>
-                        <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                          By checking this box, you agree to receive non-marketing text messages from R4Referral LLC related to account notifications, service updates, and appointment reminders. Message frequency varies (up to 2 messages per month). Message and data rates may apply. Reply STOP to opt out. Reply HELP for help.
-                        </span>
-                      </div>
+                      <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                        By checking this box, I agree to receive SMS messages from R4Referral LLC at the phone number provided, including referral updates, appointment reminders, service notifications, and occasional promotional offers. Message frequency may vary. Message and data rates may apply. Reply STOP to opt out at any time or HELP for assistance. Consent is not a condition of purchase. See our{" "}
+                        <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
+                        {" "}and{" "}
+                        <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms &amp; Conditions</Link>.
+                      </span>
                     </label>
                   </div>
 

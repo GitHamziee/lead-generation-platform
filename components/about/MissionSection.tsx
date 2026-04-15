@@ -42,7 +42,7 @@ export default function MissionSection() {
             </h2>
             <p className="mt-5 text-slate-600 dark:text-slate-400 leading-relaxed">
               Too many agents waste time chasing unqualified referrals from outdated
-              sources. We built R4Referral to change that — a referral network
+              sources. We built R4Referral LLC to change that — a referral network
               powered by AI verification and human validation that delivers
               referrals from people who are genuinely ready to buy or sell.
             </p>

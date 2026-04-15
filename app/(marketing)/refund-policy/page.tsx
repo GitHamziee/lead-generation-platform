@@ -3,7 +3,7 @@ import PageHeader from "@/components/shared/PageHeader";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
-  description: "R4Referral's Refund Policy — effective for 60 days from the date of your Referral Agreement execution.",
+  description: "R4Referral LLC's Refund Policy — effective for 60 days from the date of your Referral Agreement execution.",
 };
 
 export default function RefundPolicyPage() {

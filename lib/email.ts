@@ -44,8 +44,7 @@ export async function sendContactFormEmail(data: {
   phone?: string;
   company?: string;
   message: string;
-  marketingConsent: boolean;
-  messagingTerms: boolean;
+  smsConsent: boolean;
 }) {
   const to = process.env.SMTP_USER!;
   const row = (label: string, value: string) =>
@@ -69,6 +68,7 @@ export async function sendContactFormEmail(data: {
         ${row("Email", data.email)}
         ${data.phone ? row("Phone", data.phone) : ""}
         ${data.company ? row("Company", data.company) : ""}
+        ${row("SMS Consent", data.smsConsent ? "Yes" : "No")}
       </table>
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:8px;">
         <p style="font-size:13px;font-weight:600;color:#64748b;margin:0 0 8px;">Message</p>

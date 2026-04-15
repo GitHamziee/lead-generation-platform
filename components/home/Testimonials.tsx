@@ -24,7 +24,7 @@ export default function Testimonials() {
             Hear It From <span className="text-accent-300">Our Clients</span>
           </h2>
           <p className="mt-4 text-brand-100 max-w-xl mx-auto">
-            Real stories from agents who've grown their business with R4Referral.
+            Real stories from agents who've grown their business with R4Referral LLC.
           </p>
         </AnimatedSection>
 
@@ -80,7 +80,7 @@ export default function Testimonials() {
 
 const REVIEWS = [
   {
-    quote: "I'd tried a couple other referral services before and honestly wasn't expecting much. But the first referral I got from R4Referral actually picked up the phone — and we closed in under a month. That doesn't happen with leads from Zillow.",
+    quote: "I'd tried a couple other referral services before and honestly wasn't expecting much. But the first referral I got from R4Referral LLC actually picked up the phone — and we closed in under a month. That doesn't happen with leads from Zillow.",
     name: "Marcus T.",
     title: "Licensed Realtor",
     company: "eXp Realty",
@@ -88,7 +88,7 @@ const REVIEWS = [
     initials: "MT",
   },
   {
-    quote: "I was burning through my mornings just chasing people who never responded. With R4Referral, the referrals come in already warmed up. They know what they want. I spend way less time qualifying and a lot more time closing.",
+    quote: "I was burning through my mornings just chasing people who never responded. With R4Referral LLC, the referrals come in already warmed up. They know what they want. I spend way less time qualifying and a lot more time closing.",
     name: "Sarah K.",
     title: "Broker Associate",
     company: "Keller Williams",

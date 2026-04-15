@@ -210,7 +210,7 @@ export default function ServiceCards() {
                   Why We&apos;re Different
                 </Badge>
                 <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white leading-snug max-w-2xl mx-auto">
-                  At R4Referral, we build partnerships that{" "}
+                  At R4Referral LLC, we build partnerships that{" "}
                   <span className="text-accent-300">elevate your business</span>.
                 </h2>
               </div>

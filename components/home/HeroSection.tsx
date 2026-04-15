@@ -194,7 +194,7 @@ export default function HeroSection() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-6 max-w-xl text-lg text-slate-600 dark:text-slate-400 leading-relaxed"
             >
-              R4Referral is a digital real estate referral network that delivers
+              R4Referral LLC is a digital real estate referral network that delivers
               verified, high-intent buyer and seller referrals directly to agents
               across all 50 states.
             </motion.p>
@@ -248,7 +248,7 @@ export default function HeroSection() {
                 </div>
                 <div>
                   <p className="text-sm font-semibold text-white">Referral Dashboard</p>
-                  <p className="text-xs text-white/50">R4Referral Network</p>
+                  <p className="text-xs text-white/50">R4Referral LLC Network</p>
                 </div>
                 <div className="ml-auto flex items-center gap-1.5">
                   <span className="relative flex h-2 w-2">

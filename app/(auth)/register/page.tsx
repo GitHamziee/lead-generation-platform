@@ -28,6 +28,8 @@ function RegisterContent() {
     setShowPassword,
     showConfirm,
     setShowConfirm,
+    smsConsent,
+    setSmsConsent,
     loading,
     error,
     passwordError,
@@ -299,6 +301,24 @@ function RegisterContent() {
             </div>
           </div>
 
+          {/* SMS Consent */}
+          <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={smsConsent}
+                onChange={(e) => setSmsConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-slate-300 dark:border-slate-600 text-brand-600 focus:ring-brand-500/20 flex-shrink-0"
+              />
+              <span className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                By checking this box, I agree to receive SMS messages from R4Referral LLC at the phone number provided, including lead notifications, appointment reminders, account updates, and occasional promotional offers. Message frequency may vary. Message and data rates may apply. Reply STOP to opt out at any time or HELP for assistance. Consent is not a condition of purchase. See our{" "}
+                <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
+                {" "}and{" "}
+                <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms &amp; Conditions</Link>.
+              </span>
+            </label>
+          </div>
+
           <Button
             type="submit"
             disabled={loading}
@@ -315,6 +335,13 @@ function RegisterContent() {
               </span>
             )}
           </Button>
+
+          <p className="text-xs text-center text-slate-500 dark:text-slate-400">
+            By creating an account, you agree to our{" "}
+            <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
+            {" "}and{" "}
+            <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms &amp; Conditions</Link>.
+          </p>
         </form>
 
         <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">

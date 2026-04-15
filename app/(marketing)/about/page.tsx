@@ -5,7 +5,7 @@ import MissionSection from "@/components/about/MissionSection";
 export const metadata: Metadata = {
   title: "About Us",
   description:
-    "Learn about R4Referral — a digital real estate referral network delivering verified referrals to agents nationwide.",
+    "Learn about R4Referral LLC — a digital real estate referral network delivering verified referrals to agents nationwide.",
 };
 
 export default function AboutPage() {
@@ -18,14 +18,14 @@ export default function AboutPage() {
 
         <div className="relative mx-auto max-w-4xl px-4">
           <div className="flex justify-center mb-4">
-            <Badge>About R4Referral</Badge>
+            <Badge>About R4Referral LLC</Badge>
           </div>
           <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl">
             The Team Behind Your{" "}
             <span className="gradient-text">Next Deal</span>
           </h1>
           <p className="mt-4 text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            R4Referral is a digital real estate referral network built to
+            R4Referral LLC is a digital real estate referral network built to
             connect agents with verified, high-intent buyers and sellers
             across all 50 states.
           </p>

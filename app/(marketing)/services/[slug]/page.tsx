@@ -96,7 +96,7 @@ export default async function ServicePage({
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-white">{service.title}</p>
-                    <p className="text-xs text-white/50">R4Referral</p>
+                    <p className="text-xs text-white/50">R4Referral LLC</p>
                   </div>
                 </div>
 

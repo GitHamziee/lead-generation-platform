@@ -233,7 +233,7 @@ export const TESTIMONIALS = [
   },
   {
     quote:
-      "I was spending like 2 hours a day just following up with dead referrals. Switched to R4Referral and the difference is night and day — these people actually want to talk to you. Saved me so much time.",
+      "I was spending like 2 hours a day just following up with dead referrals. Switched to R4Referral LLC and the difference is night and day — these people actually want to talk to you. Saved me so much time.",
     name: "Sarah K.",
     title: "Broker Associate",
     company: "Keller Williams",
