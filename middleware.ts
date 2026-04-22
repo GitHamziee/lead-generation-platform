@@ -12,6 +12,12 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL(dest, req.url));
   }
 
+  // /admin-login is the un-gated staff entry — don't let the /admin startsWith()
+  // checks below treat it as a protected admin route.
+  if (pathname === "/admin-login") {
+    return NextResponse.next();
+  }
+
   // Protected routes: require auth
   const protectedPaths = ["/dashboard", "/settings", "/packages", "/admin", "/leads", "/my-leads"];
   const isProtected = protectedPaths.some((p) => pathname.startsWith(p));
