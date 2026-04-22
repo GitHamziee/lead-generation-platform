@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Badge from "@/components/shared/Badge";
 import ContactForm from "@/components/contact/ContactForm";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
   title: "Contact Us",
@@ -8,7 +9,9 @@ export const metadata: Metadata = {
     "Get in touch with R4Referral LLC. Start receiving verified real estate referrals tailored to your market.",
 };
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const { contactEmail } = await getSiteSettings();
+
   return (
     <>
       <div className="relative overflow-hidden bg-white dark:bg-slate-950 pt-24 pb-12 text-center">
@@ -30,7 +33,7 @@ export default function ContactPage() {
           </p>
         </div>
       </div>
-      <ContactForm />
+      <ContactForm contactEmail={contactEmail} />
     </>
   );
 }

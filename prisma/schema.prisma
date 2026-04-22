@@ -202,6 +202,12 @@ model Invoice {
   @@index([createdAt])
 }
 
+model SiteSettings {
+  id        String   @id @default("singleton")
+  hidePages Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
 model StripeLog {
   id        String   @id @default(cuid())
   event     String   // "checkout.create", "checkout.completed", "payment_failed", etc.

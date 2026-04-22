@@ -14,6 +14,7 @@ const PAGE_TITLES: Record<string, string> = {
   "/admin/packages": "Package Management",
   "/admin/subscriptions": "Subscriptions",
   "/admin/analytics": "Analytics",
+  "/admin/settings": "Additional Settings",
 };
 
 export default function AdminTopBar() {

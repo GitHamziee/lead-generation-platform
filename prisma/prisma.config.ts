@@ -24,10 +24,8 @@ function loadEnv() {
 loadEnv();
 
 export default defineConfig({
-  datasources: {
-    db: {
-      provider: "postgresql",
-      url: process.env.DATABASE_URL || "",
-    },
+  schema: resolve(__dirname, "schema.prisma"),
+  datasource: {
+    url: process.env.DATABASE_URL || "",
   },
 });

@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/shared/PageHeader";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
   title: "Refund Policy",
   description: "R4Referral LLC's Refund Policy — effective for 60 days from the date of your Referral Agreement execution.",
 };
 
-export default function RefundPolicyPage() {
+export default async function RefundPolicyPage() {
+  const { contactEmail } = await getSiteSettings();
   return (
     <>
       <PageHeader
@@ -176,7 +178,7 @@ export default function RefundPolicyPage() {
                 </p>
                 <p className="mt-3">
                   Email:{" "}
-                  <a href="mailto:R4referral@gmail.com" className="text-brand-600 hover:underline">R4referral@gmail.com</a>
+                  <a href={`mailto:${contactEmail}`} className="text-brand-600 hover:underline">{contactEmail}</a>
                 </p>
               </div>
 

@@ -18,10 +18,8 @@ try {
 } catch {}
 
 module.exports = defineConfig({
-  datasources: {
-    db: {
-      provider: "postgresql",
-      url: process.env.DATABASE_URL || "",
-    },
+  schema: resolve(__dirname, "schema.prisma"),
+  datasource: {
+    url: process.env.DATABASE_URL || "",
   },
 });

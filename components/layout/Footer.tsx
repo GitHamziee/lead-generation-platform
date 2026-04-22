@@ -2,8 +2,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { Linkedin, Instagram, Facebook, Mail, Phone, MapPin, Heart } from "lucide-react";
 import { FOOTER_LINKS } from "@/lib/constants";
+import { getSiteSettings } from "@/lib/site-settings";
 
-export default function Footer() {
+export default async function Footer() {
+  const { contactEmail } = await getSiteSettings();
   return (
     <footer className="border-t border-white/10 bg-section-dark">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
@@ -50,11 +52,11 @@ export default function Footer() {
                 +1 (512) 678-0096
               </a>
               <a
-                href="mailto:R4referral@gmail.com"
+                href={`mailto:${contactEmail}`}
                 className="flex items-center gap-2 hover:text-white transition-colors"
               >
                 <Mail className="h-3.5 w-3.5 shrink-0" />
-                R4referral@gmail.com
+                {contactEmail}
               </a>
               <div className="flex items-start gap-2">
                 <MapPin className="h-3.5 w-3.5 shrink-0 mt-0.5" />

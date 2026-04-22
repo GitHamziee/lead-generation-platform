@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3, Headset } from "lucide-react";
+import { Users, Package, LogOut, X, ArrowLeft, FileText, CreditCard, BarChart3, Headset, Settings } from "lucide-react";
 import { useSidebar } from "@/components/portal/SidebarContext";
 
 const NAV_ITEMS = [
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { label: "Packages", href: "/admin/packages", icon: Package },
   { label: "Subscriptions", href: "/admin/subscriptions", icon: CreditCard },
   { label: "Analytics", href: "/admin/analytics", icon: BarChart3 },
+  { label: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
 export default function AdminSidebar() {

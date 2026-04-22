@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 import PageHeader from "@/components/shared/PageHeader";
+import { getSiteSettings } from "@/lib/site-settings";
 
 export const metadata: Metadata = {
   title: "Terms and Conditions",
   description: "R4Referral LLC's Terms and Conditions — the rules governing your use of our platform and services.",
 };
 
-export default function TermsOfServicePage() {
+export default async function TermsOfServicePage() {
+  const { contactEmail } = await getSiteSettings();
   return (
     <>
       <PageHeader
@@ -104,7 +106,7 @@ export default function TermsOfServicePage() {
                 </p>
                 <p className="mt-2">
                   <strong className="text-slate-800 dark:text-slate-200">Email:</strong>{" "}
-                  <a href="mailto:r4referral@gmail.com" className="text-brand-600 hover:underline">r4referral@gmail.com</a>
+                  <a href={`mailto:${contactEmail}`} className="text-brand-600 hover:underline">{contactEmail}</a>
                 </p>
                 <p className="mt-2">
                   <strong className="text-slate-800 dark:text-slate-200">Phone:</strong>{" "}

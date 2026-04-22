@@ -6,34 +6,37 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import AnimatedSection from "@/components/shared/AnimatedSection";
 
-const CONTACT_INFO = [
-  {
-    icon: Phone,
-    label: "Phone",
-    value: "+1 (512) 678-0096",
-    href: "tel:+15126780096",
-  },
-  {
-    icon: Mail,
-    label: "General",
-    value: "R4referral@gmail.com",
-    href: "mailto:R4referral@gmail.com",
-  },
-  {
-    icon: MapPin,
-    label: "Office",
-    value: "5900 Balcones Dr, Ste 100, Austin, TX 78731",
-    href: "#",
-  },
-  {
-    icon: Clock,
-    label: "Hours",
-    value: "Mon–Fri, 9am–6pm EST",
-    href: "#",
-  },
-];
+function buildContactInfo(contactEmail: string) {
+  return [
+    {
+      icon: Phone,
+      label: "Phone",
+      value: "+1 (512) 678-0096",
+      href: "tel:+15126780096",
+    },
+    {
+      icon: Mail,
+      label: "General",
+      value: contactEmail,
+      href: `mailto:${contactEmail}`,
+    },
+    {
+      icon: MapPin,
+      label: "Office",
+      value: "5900 Balcones Dr, Ste 100, Austin, TX 78731",
+      href: "#",
+    },
+    {
+      icon: Clock,
+      label: "Hours",
+      value: "Mon–Fri, 9am–6pm EST",
+      href: "#",
+    },
+  ];
+}
 
-export default function ContactForm() {
+export default function ContactForm({ contactEmail }: { contactEmail: string }) {
+  const CONTACT_INFO = buildContactInfo(contactEmail);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
