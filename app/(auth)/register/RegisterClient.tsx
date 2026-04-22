@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Eye, EyeOff, ArrowRight, ArrowLeft, ChevronDown, Search } from "lucide-react";
+import { Eye, EyeOff, ArrowRight, ArrowLeft, ChevronDown, Search, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useRegister } from "@/hooks/useRegister";
 import { US_STATES, US_STATE_MAP } from "@/lib/constants";
@@ -40,32 +40,44 @@ export default function RegisterClient() {
   const selectedStateLabel = US_STATE_MAP.get(formData.state);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center px-4 py-12">
+    <div className="relative min-h-screen overflow-hidden bg-white dark:bg-slate-950 flex flex-col items-center justify-center px-4 py-16">
+      {/* Decorative background */}
+      <div className="grid-pattern absolute inset-0" />
+      <div className="absolute top-1/4 -left-40 h-[28rem] w-[28rem] rounded-full bg-brand-100/60 dark:bg-brand-900/30 blur-3xl" />
+      <div className="absolute bottom-1/4 -right-32 h-[24rem] w-[24rem] rounded-full bg-accent-100/40 dark:bg-accent-900/25 blur-3xl" />
+
       {/* Back to home */}
       <Link
         href="/"
-        className="absolute top-5 left-5 flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+        className="absolute top-5 left-5 z-10 flex items-center gap-1.5 text-sm text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
       >
         <ArrowLeft className="h-3.5 w-3.5" />
         Back to home
       </Link>
 
       {/* Logo */}
-      <Link href="/" className="mb-8">
-        <Image src="/logo.png" alt="R4Referral" width={40} height={40} className="h-[40px] w-[40px] object-contain dark:brightness-0 dark:invert" />
+      <Link href="/" className="relative mb-6">
+        <Image src="/logo.png" alt="R4Referral" width={44} height={44} className="h-[44px] w-[44px] object-contain dark:brightness-0 dark:invert" />
       </Link>
 
       {/* Card */}
-      <div className="w-full max-w-[520px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-8 py-8 shadow-sm">
+      <div className="relative w-full max-w-[520px]">
+        {/* Gradient glow behind card */}
+        <div className="absolute -inset-1 rounded-3xl bg-gradient-to-b from-brand-500/20 via-accent-500/10 to-brand-600/20 blur-xl" />
 
-        <div className="mb-7">
-          <h1 className="text-xl font-semibold text-slate-900 dark:text-white tracking-tight">
-            Create your account
-          </h1>
-          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            Get access to your campaign portal in minutes.
-          </p>
-        </div>
+        <div className="glass-card relative rounded-2xl px-8 py-9">
+          <div className="mb-7 text-center">
+            <div className="mb-4 inline-flex items-center gap-1.5 rounded-full border border-brand-200 dark:border-brand-800 bg-brand-50 dark:bg-brand-900/30 px-3 py-1 text-xs font-medium text-brand-700 dark:text-brand-300">
+              <Sparkles className="h-3 w-3" />
+              Get started
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">
+              Create your <span className="gradient-text">R4Referral</span> account
+            </h1>
+            <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+              Get access to your campaign portal in minutes.
+            </p>
+          </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           {error && <p className="text-sm text-red-500">{error}</p>}
@@ -291,42 +303,47 @@ export default function RegisterClient() {
             </div>
           </div>
 
-          <Button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold h-10 mt-1"
-          >
-            {loading ? (
-              <span className="flex items-center gap-2">
-                <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                Creating account...
-              </span>
-            ) : (
-              <span className="flex items-center gap-2">
-                Create Account <ArrowRight className="h-4 w-4" />
-              </span>
-            )}
-          </Button>
+          <div className="pt-1">
+            <div className="btn-gradient-wrap w-full rounded-md">
+              <Button
+                type="submit"
+                disabled={loading}
+                className="btn-gradient w-full text-white border-0 text-sm font-semibold h-11 disabled:opacity-70"
+              >
+                {loading ? (
+                  <span className="flex items-center gap-2">
+                    <span className="h-4 w-4 rounded-full border-2 border-white/30 border-t-white animate-spin" />
+                    Creating account...
+                  </span>
+                ) : (
+                  <span className="flex items-center gap-2">
+                    Create Account <ArrowRight className="h-4 w-4" />
+                  </span>
+                )}
+              </Button>
+            </div>
+          </div>
 
-          <p className="text-xs text-center text-slate-500 dark:text-slate-400">
+          <p className="text-xs text-center text-slate-500 dark:text-slate-400 pt-1">
             <Link href="/privacy-policy" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Privacy Policy</Link>
             {" | "}
             <Link href="/terms-of-service" className="underline hover:text-slate-700 dark:hover:text-slate-300 transition-colors">Terms of Service</Link>
           </p>
         </form>
 
-        <div className="mt-6 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            Already have an account?{" "}
-            <Link href={loginHref} className="font-medium text-brand-600 hover:text-brand-700 transition-colors">
-              Sign in
-            </Link>
-          </p>
+          <div className="mt-7 pt-6 border-t border-slate-100 dark:border-slate-800 text-center">
+            <p className="text-sm text-slate-500 dark:text-slate-400">
+              Already have an account?{" "}
+              <Link href={loginHref} className="font-semibold text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 transition-colors">
+                Sign in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
 
       {/* Footer */}
-      <p className="mt-8 text-xs text-slate-400 dark:text-slate-500">
+      <p className="relative mt-8 text-xs text-slate-400 dark:text-slate-500">
         © {new Date().getFullYear()} R4Referral LLC ·{" "}
         <Link href="/privacy-policy" className="hover:text-slate-600 dark:hover:text-slate-300 transition-colors">Privacy</Link>
         {" "}·{" "}
