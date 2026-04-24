@@ -74,6 +74,20 @@ export default function PricingCards({ showCTA = false }: { showCTA?: boolean })
                         </span>
                       </div>
 
+                      {/* Exclusive Leads Only — animated ribbon */}
+                      <div
+                        className="mb-6 flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white shadow-lg shadow-accent-500/20"
+                        style={{
+                          background:
+                            "linear-gradient(90deg, #2563eb 0%, #7c3aed 33%, #9333ea 50%, #7c3aed 67%, #2563eb 100%)",
+                          backgroundSize: "200% 100%",
+                          animation: "btn-gradient-shift 3s ease-in-out infinite",
+                        }}
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        Exclusive Leads Only
+                      </div>
+
                       {/* Icon + name */}
                       <div className="mb-6">
                         <div className="flex items-center gap-3 mb-3">
@@ -129,6 +143,20 @@ export default function PricingCards({ showCTA = false }: { showCTA?: boolean })
                 ) : (
                   /* ── Regular card — glass style ── */
                   <div className="glass-card relative rounded-2xl p-8 flex flex-col h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-brand-600/5 hover:border-brand-200 group">
+                    {/* Exclusive Leads Only — animated ribbon */}
+                    <div
+                      className="mb-6 flex items-center justify-center gap-2 rounded-lg px-3 py-2 text-[11px] font-bold uppercase tracking-wider text-white shadow-lg shadow-brand-600/20"
+                      style={{
+                        background:
+                          "linear-gradient(90deg, #2563eb 0%, #7c3aed 33%, #9333ea 50%, #7c3aed 67%, #2563eb 100%)",
+                        backgroundSize: "200% 100%",
+                        animation: "btn-gradient-shift 3s ease-in-out infinite",
+                      }}
+                    >
+                      <Sparkles className="h-3.5 w-3.5" />
+                      Exclusive Leads Only
+                    </div>
+
                     {/* Icon + name */}
                     <div className="mb-6">
                       <div className="flex items-center gap-3 mb-3">
