@@ -88,6 +88,7 @@ export async function POST(req: Request) {
         ],
         metadata: requestMetadata,
         customer_email: session.user.email || undefined,
+        allow_promotion_codes: true,
         success_url: `${baseUrl}/dashboard?payment=success`,
         cancel_url: `${baseUrl}/packages?payment=cancelled`,
       },
