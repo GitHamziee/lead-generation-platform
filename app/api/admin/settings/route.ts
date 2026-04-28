@@ -53,7 +53,7 @@ export async function PATCH(req: NextRequest) {
       select: { hidePages: true, updatedAt: true },
     });
 
-    revalidateTag(SITE_SETTINGS_TAG);
+    revalidateTag(SITE_SETTINGS_TAG, "default");
 
     return NextResponse.json({
       settings: {
